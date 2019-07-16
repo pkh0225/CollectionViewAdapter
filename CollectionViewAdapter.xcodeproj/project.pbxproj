@@ -20,6 +20,7 @@
 		5219673F22DD60BF00ABC0EF /* TestCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5219673D22DD60BF00ABC0EF /* TestCollectionReusableView.xib */; };
 		5219674222DD684900ABC0EF /* TestFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219674022DD684900ABC0EF /* TestFooterCollectionReusableView.swift */; };
 		5219674322DD684900ABC0EF /* TestFooterCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5219674122DD684900ABC0EF /* TestFooterCollectionReusableView.xib */; };
+		5219674522DD697B00ABC0EF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5219674422DD697B00ABC0EF /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		5219673D22DD60BF00ABC0EF /* TestCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestCollectionReusableView.xib; sourceTree = "<group>"; };
 		5219674022DD684900ABC0EF /* TestFooterCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		5219674122DD684900ABC0EF /* TestFooterCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestFooterCollectionReusableView.xib; sourceTree = "<group>"; };
+		5219674422DD697B00ABC0EF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		5219671122DD564000ABC0EF = {
 			isa = PBXGroup;
 			children = (
+				5219674422DD697B00ABC0EF /* README.md */,
 				5219671C22DD564000ABC0EF /* CollectionViewAdapter */,
 				5219671B22DD564000ABC0EF /* Products */,
 			);
@@ -157,6 +160,7 @@
 				5219674322DD684900ABC0EF /* TestFooterCollectionReusableView.xib in Resources */,
 				5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */,
 				5219672522DD564100ABC0EF /* Assets.xcassets in Resources */,
+				5219674522DD697B00ABC0EF /* README.md in Resources */,
 				5219673B22DD5F6900ABC0EF /* TestCollectionViewCell.xib in Resources */,
 				5219672322DD564000ABC0EF /* Main.storyboard in Resources */,
 				5219673F22DD60BF00ABC0EF /* TestCollectionReusableView.xib in Resources */,
