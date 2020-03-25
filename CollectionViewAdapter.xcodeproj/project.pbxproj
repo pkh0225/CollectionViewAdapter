@@ -12,7 +12,7 @@
 		5219672322DD564000ABC0EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672122DD564000ABC0EF /* Main.storyboard */; };
 		5219672522DD564100ABC0EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5219672422DD564100ABC0EF /* Assets.xcassets */; };
 		5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672622DD564100ABC0EF /* LaunchScreen.storyboard */; };
-		5219673222DD56D000ABC0EF /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219673022DD56D000ABC0EF /* CollectionViewAdapter.swift */; };
+		5219673222DD56D000ABC0EF /* UICollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219673022DD56D000ABC0EF /* UICollectionViewAdapter.swift */; };
 		5219673322DD56D000ABC0EF /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219673122DD56D000ABC0EF /* UICollectionViewExtension.swift */; };
 		5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */; };
 		5219673B22DD5F6900ABC0EF /* TestCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5219673922DD5F6900ABC0EF /* TestCollectionViewCell.xib */; };
@@ -31,7 +31,7 @@
 		5219672422DD564100ABC0EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5219672722DD564100ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5219672922DD564100ABC0EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5219673022DD56D000ABC0EF /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
+		5219673022DD56D000ABC0EF /* UICollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdapter.swift; sourceTree = "<group>"; };
 		5219673122DD56D000ABC0EF /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
 		5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCell.swift; sourceTree = "<group>"; };
 		5219673922DD5F6900ABC0EF /* TestCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 		5219672F22DD56D000ABC0EF /* CollectionViewAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				5219673022DD56D000ABC0EF /* CollectionViewAdapter.swift */,
+				5219673022DD56D000ABC0EF /* UICollectionViewAdapter.swift */,
 				5219673122DD56D000ABC0EF /* UICollectionViewExtension.swift */,
 			);
 			path = CollectionViewAdapter;
@@ -177,7 +177,7 @@
 				5219673E22DD60BF00ABC0EF /* TestCollectionReusableView.swift in Sources */,
 				5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */,
 				5219673322DD56D000ABC0EF /* UICollectionViewExtension.swift in Sources */,
-				5219673222DD56D000ABC0EF /* CollectionViewAdapter.swift in Sources */,
+				5219673222DD56D000ABC0EF /* UICollectionViewAdapter.swift in Sources */,
 				5219674222DD684900ABC0EF /* TestFooterCollectionReusableView.swift in Sources */,
 				5219672022DD564000ABC0EF /* ViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,

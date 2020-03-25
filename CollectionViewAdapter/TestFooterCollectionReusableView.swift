@@ -8,8 +8,8 @@
 
 import UIKit
 
-class TestFooterCollectionReusableView: UICollectionReusableView, AdapterReusableVieProtocol {
-    var buttonClosure: OnButtonClosure?
+class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
+    var actionClosure: OnActionClosure?
     
     @IBOutlet weak var label: UILabel!
 

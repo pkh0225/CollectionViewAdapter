@@ -8,8 +8,8 @@
 
 import UIKit
 
-class TestCollectionReusableView: UICollectionReusableView, AdapterReusableVieProtocol {
-    var buttonClosure: OnButtonClosure?
+class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
+    var actionClosure: OnActionClosure?
     
     @IBOutlet weak var label: UILabel!
 
@@ -24,9 +24,7 @@ class TestCollectionReusableView: UICollectionReusableView, AdapterReusableViePr
         
     }
     @IBAction func onButton(_ sender: UIButton) {
-        sender.tag_name = "1234"
-        sender.tag_value = "abcd"
         
-        buttonClosure?(sender)
+        actionClosure?("textButton", "data")
     }
 }

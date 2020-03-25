@@ -8,8 +8,8 @@
 
 import UIKit
 
-class TestCollectionViewCell: UICollectionViewCell, AdapterReusableVieProtocol {
-    var buttonClosure: OnButtonClosure?
+class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
+    var actionClosure: OnActionClosure?
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button1: UIButton!
@@ -18,22 +18,28 @@ class TestCollectionViewCell: UICollectionViewCell, AdapterReusableVieProtocol {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        button1.tag_name = "button1"
-        button2.tag_name = "button2"
     }
 
     func configure(_ data: Any?) {
         guard let data = data as? String else { return }
         label.text = data
-        button1.tag_value = data
-        button2.tag_value = "\(self.indexPath.section) : \(self.indexPath.row)"
+       
     }
     
     @IBAction func onButton1(_ sender: UIButton) {
-        buttonClosure?(sender)
+        actionClosure?("button1", label.text)
     }
     
     @IBAction func onButton2(_ sender: UIButton) {
-        buttonClosure?(sender)
+        actionClosure?("button2", "\(self.indexPath.section) : \(self.indexPath.row)")
+    }
+    
+    // UICollectionViewAdapterCellProtocol Function
+    func willDisplay() {
+        print("willDisplay")
+    }
+    // UICollectionViewAdapterCellProtocol Function
+    func didEndDisplaying() {
+        print("didEndDisplaying")
     }
 }
