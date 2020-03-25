@@ -106,6 +106,11 @@ class UICollectionViewAdapterData {
         }
         return -1
     }
+    
+    func addEmptySection(height: CGFloat) {
+        let emptySectoin = SectionInfo(emptyHeight: 50)
+        self.sectionList.append(emptySectoin)
+    }
 }
 
 
