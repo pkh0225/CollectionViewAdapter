@@ -13,26 +13,33 @@ CollectionView adpter
 
 ### sample data set
 ```
-        var testData = AdapterData()
-        for i in 0...10 {
-            let sectionInfo = SectionInfo()
-            testData.append(sectionInfo)
-            sectionInfo.header = CellInfo(contentObj: "@@ header @@ \(i)", sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 150) }, cellType: TestCollectionReusableView.self) { btn in
-                guard let name = btn?.tag_name, let value = btn?.tag_value else { return }
-                print("header btn ---- \(name) : \(value)")
-            }
-            sectionInfo.footer = CellInfo(contentObj: " --- footer --- \(i)", cellType: TestFooterCollectionReusableView.self)
-            for j in 0...5 {
-                let cellInfo = CellInfo(contentObj: "cell \(j)",
-                    sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 50) },
-                    cellType: TestCollectionViewCell.self) { btn in
-                        guard let name = btn?.tag_name, let value = btn?.tag_value else { return }
-                        print("cell btn ---- \(name) : \(value)")
+        DispatchQueue.global().async {
+            
+            var testData = UICollectionViewAdapterData()
+            for i in 0...10 {
+                let sectionInfo = UICollectionViewAdapterData.SectionInfo()
+                testData.sectionList.append(sectionInfo)
+                sectionInfo.header = UICollectionViewAdapterData.CellInfo(contentObj: "@@ header @@ \(i)",
+                                             sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 150) },
+                                                cellType: TestCollectionReusableView.self) { (name, object) in
+                                                    guard let object = object else { return }
+                                                    print("header btn ---- \(name) : \(object)")
+                                                }
+                sectionInfo.footer = UICollectionViewAdapterData.CellInfo(contentObj: " --- footer --- \(i)", cellType: TestFooterCollectionReusableView.self)
+                for j in 0...5 {
+                    let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: "cell \(j)",
+                                           sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 50) },
+                                              cellType: TestCollectionViewCell.self) { (name, object) in
+                                                    guard let object = object else { return }
+                                                    print("cell btn ---- \(name) : \(object)")
+                                             }
+                    sectionInfo.cells.append( cellInfo )
                 }
-                sectionInfo.cells.append( cellInfo )
+            }
+            
+            DispatchQueue.main.async {
+                self.collectoinView.adapterData = testData
+                self.collectoinView.reloadData()
             }
         }
-        
-        collectoinView.data = testData
-        collectoinView.reloadData()
 ```
