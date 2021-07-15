@@ -9,7 +9,9 @@
 import UIKit
 
 class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
-    var actionClosure: OnActionClosure?
+    static var itemCount: Int = 1
+
+    var actionClosure: ActionClosure?
     
     @IBOutlet weak var label: UILabel!
 
@@ -24,7 +26,10 @@ class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdap
         
     }
     @IBAction func onButton(_ sender: UIButton) {
-        
         actionClosure?("textButton", "data")
+    }
+
+    static func getSize(_ data: Any?, width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: 50)
     }
 }

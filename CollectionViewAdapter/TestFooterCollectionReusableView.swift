@@ -9,7 +9,9 @@
 import UIKit
 
 class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
-    var actionClosure: OnActionClosure?
+    static var itemCount: Int = 0
+
+    var actionClosure: ActionClosure?
     
     @IBOutlet weak var label: UILabel!
 
@@ -21,6 +23,9 @@ class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionVi
     func configure(_ data: Any?) {
         guard let data = data as? String else { return }
         label.text = data
-        
+    }
+
+    static func getSize(_ data: Any?, width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: 50)
     }
 }

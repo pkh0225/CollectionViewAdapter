@@ -9,7 +9,9 @@
 import UIKit
 
 class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
-    var actionClosure: OnActionClosure?
+    static var itemCount: Int = 1
+
+    var actionClosure: ActionClosure?
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button1: UIButton!
@@ -41,5 +43,9 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     // UICollectionViewAdapterCellProtocol Function
     func didEndDisplaying() {
         print("didEndDisplaying")
+    }
+
+    static func getSize(_ data: Any?, width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: 50)
     }
 }
