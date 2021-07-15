@@ -62,7 +62,7 @@ fileprivate class EmptyCollectionCell: UICollectionViewCell, UICollectionViewAda
 
     class func getSize(_ data: Any? = nil, width: CGFloat) -> CGSize {
         guard let data = data as? CGFloat else { return .zero }
-        return CGSize(width: UISCREEN_WIDTH, height: data)
+        return CGSize(width: width, height: data)
     }
 }
 
