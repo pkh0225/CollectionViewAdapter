@@ -42,6 +42,9 @@ let UISCREEN_HEIGHT = UIScreen.main.bounds.height
 typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
 
 fileprivate class EmptyCollectionCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
+    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
+    }
+
     static var itemCount: Int = 1
 
     var actionClosure: ActionClosure?
@@ -54,10 +57,6 @@ fileprivate class EmptyCollectionCell: UICollectionViewCell, UICollectionViewAda
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-
-    func configure(_ data: Any?) {
-
     }
 
     class func getSize(_ data: Any? = nil, width: CGFloat) -> CGSize {
@@ -76,13 +75,15 @@ class UICollectionViewAdapterData {
 
         var kind: CellKind = .cell
         var contentObj: Any?
+        var subData: Any?
         var type: UICollectionViewAdapterCellProtocol.Type
         var sizeClosure: (() -> CGSize)?
         var actionClosure: ActionClosure?
 
-        init(kind: CellKind = .cell, contentObj: Any?, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
+        init(kind: CellKind = .cell, contentObj: Any?, subData:Any? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
             self.kind = kind
             self.contentObj = contentObj
+            self.subData = subData
             self.sizeClosure = sizeClosure
             self.type = cellType
             self.actionClosure = actionClosure
@@ -112,10 +113,7 @@ class UICollectionViewAdapterData {
             let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: emptyHeight,  cellType: EmptyCollectionCell.self)
             self.cells.append(cellInfo)
         }
-
-
     }
-
 
     var sectionList = [SectionInfo]()
 
@@ -150,17 +148,18 @@ protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     static var itemCount: Int { get }
     var actionClosure: ActionClosure? { get set }
 
-    static func getSize(_ data: Any?, width: CGFloat) -> CGSize
-    func configure(_ data: Any?)
-    func willDisplay()
-    func didEndDisplaying()
+    static func getSize(_ data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
+    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
+    func didSelect(collectionView: UICollectionView, indexPath: IndexPath)
 }
 extension UICollectionViewAdapterCellProtocol {
-    static func getSize(_ data: Any? = nil, width: CGFloat) -> CGSize {
-        return self.fromNibSize()
+    static func getSize(_ data: Any? = nil, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+        return self.fromXibSize()
     }
-    func willDisplay(){}
-    func didEndDisplaying(){}
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath){}
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath){}
+    func didSelect(collectionView: UICollectionView, indexPath: IndexPath){}
 }
 
 typealias ScrollViewCallback         = (_ scrollView: UIScrollView) -> Void
@@ -168,7 +167,7 @@ typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ c
 typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
 
 class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    static let CHECK_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 2
+    static let CHECK_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 3
     weak var cView: UICollectionView? {
         didSet {
             cView?.delegate = self
@@ -235,14 +234,14 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let data = self.data else { return 0 }
-        return data.sectionList[section].cells.count
+        return data.sectionList[safe: section]?.cells.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         func defaultReturn() -> UICollectionViewCell { return collectionView.dequeueReusableCell(UICollectionViewCell.self, for: indexPath) }
 
         guard let data = self.data else { return defaultReturn() }
-        let cellInfo = data.sectionList[indexPath.section].cells[indexPath.row]
+        guard let cellInfo = data.sectionList[safe: indexPath.section]?.cells[safe: indexPath.row] else { return defaultReturn() }
         guard let cellType = cellInfo.type as? UICollectionViewCell.Type else { return defaultReturn() }
         defer {
             checkMoreData(collectionView)
@@ -251,7 +250,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(cellType, for: indexPath)
         if let cell = cell as? UICollectionViewAdapterCellProtocol {
             cell.actionClosure = cellInfo.actionClosure
-            cell.configure(cellInfo.contentObj)
+            cell.configure(cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
         }
         return cell
     }
@@ -260,11 +259,11 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         func defaultReturn() -> UICollectionReusableView { return collectionView.dequeueReusableHeader(UICollectionReusableView.self, for: indexPath) }
         guard let data = self.data else { return defaultReturn() }
 
-        guard let cellInfo: UICollectionViewAdapterData.CellInfo = (kind == UICollectionView.elementKindSectionHeader) ? data.sectionList[indexPath.section].header : data.sectionList[indexPath.section].footer else { return defaultReturn() }
+        guard let cellInfo: UICollectionViewAdapterData.CellInfo = (kind == UICollectionView.elementKindSectionHeader) ? data.sectionList[safe: indexPath.section]?.header : data.sectionList[safe: indexPath.section]?.footer else { return defaultReturn() }
         let view = (kind == UICollectionView.elementKindSectionHeader) ? collectionView.dequeueReusableHeader(cellInfo.type, for: indexPath) : collectionView.dequeueReusableFooter(cellInfo.type, for: indexPath)
         if let view = view as? UICollectionViewAdapterCellProtocol {
             view.actionClosure = cellInfo.actionClosure
-            view.configure(cellInfo.contentObj)
+            view.configure(cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
         }
         return view
     }
@@ -272,7 +271,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let data = self.data else { return .zero }
 
-        let cellInfo = data.sectionList[indexPath.section].cells[indexPath.row]
+        guard let cellInfo = data.sectionList[safe: indexPath.section]?.cells[safe: indexPath.row] else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
@@ -283,30 +282,30 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
             let allCellWidth = collectionView.frame.size.width - sectionInset.left - sectionInset.right - (itemSpace * (CGFloat(cellInfo.type.itemCount) - 1) )
             width = floorUI( allCellWidth / CGFloat(cellInfo.type.itemCount) )
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard let data = self.data else { return .zero }
-        guard let cellInfo = data.sectionList[section].header else { return .zero }
+        guard let cellInfo = data.sectionList[safe: section]?.header else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(item: 0, section: section))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         guard let data = self.data else { return .zero }
-        guard let cellInfo = data.sectionList[section].footer else { return .zero }
+        guard let cellInfo = data.sectionList[safe: section]?.footer else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width)
+        return cellInfo.type.getSize(cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(item: 0, section: section))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard let data = self.data else { return .zero }
-        let sectionInfo = data.sectionList[section]
+        guard let sectionInfo = data.sectionList[safe: section] else { return .zero }
         if sectionInfo.sectionInset != SectionInsetNotSupport {
             return sectionInfo.sectionInset
         }
@@ -320,7 +319,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         guard let data = data else { return 0 }
-        let sectionInfo = data.sectionList[section]
+        guard let sectionInfo = data.sectionList[safe: section] else { return 0 }
         if sectionInfo.minimumLineSpacing != -9999 {
             return sectionInfo.minimumLineSpacing
         }
@@ -334,7 +333,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         guard let data = data else { return 0 }
-        let sectionInfo = data.sectionList[section]
+        guard let sectionInfo = data.sectionList[safe: section] else { return 0 }
         if sectionInfo.minimumInteritemSpacing != -9999 {
             return sectionInfo.minimumInteritemSpacing
         }
@@ -375,13 +374,19 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         })
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
+            cell.didSelect(collectionView: collectionView, indexPath: indexPath)
+        }
+    }
+
     func willDisPlayView(view: UICollectionReusableView, at indexPath: IndexPath) {
-        guard  let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
-        viewType.willDisplay()
+        guard let cView = cView, let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
+        viewType.willDisplay(collectionView: cView, indexPath: indexPath)
     }
     func didEndDisplayingView(view: UICollectionReusableView, at indexPath: IndexPath) {
-        guard let viewType = view as? UICollectionViewAdapterCellProtocol else { return }
-        viewType.didEndDisplaying()
+        guard let cView = cView, let viewType = view as? UICollectionViewAdapterCellProtocol else {  return }
+        viewType.didEndDisplaying(collectionView: cView, indexPath: indexPath)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -476,26 +481,45 @@ extension UICollectionView {
 }
 
 
-fileprivate var CacheViewNibs = NSCache<NSString, UIView>()
+fileprivate var CacheViewXibs = NSCache<NSString, UIView>()
 extension UIView {
 
-    class func fromNib(cache: Bool = false) -> Self {
-        return fromNib(cache: cache, as: self)
+    class func fromXib(cache: Bool = false) -> Self {
+        return fromXib(cache: cache, as: self)
     }
 
-    private class func fromNib<T>(cache: Bool = false, as type: T.Type) -> T {
-        if cache, let view = CacheViewNibs.object(forKey: self.className as NSString) {
+    private class func fromXib<T>(cache: Bool = false, as type: T.Type) -> T {
+        if cache, let view = CacheViewXibs.object(forKey: self.className as NSString) {
             return view as! T
         }
         let view: UIView = Bundle.main.loadNibNamed(self.className, owner: nil, options: nil)!.first as! UIView
         if cache {
-            CacheViewNibs.setObject(view, forKey: self.className as NSString)
+            CacheViewXibs.setObject(view, forKey: self.className as NSString)
         }
         return view as! T
     }
 
-    class func fromNibSize() -> CGSize {
-        return fromNib(cache: true).frame.size
+    class func fromXibSize() -> CGSize {
+        return fromXib(cache: true).frame.size
     }
 }
 
+extension Array {
+    subscript(safe index: Int?) -> Element? {
+        guard let index = index else { return nil }
+        if indices.contains(index) {
+            return self[index]
+        }
+        else {
+            return nil
+        }
+    }
+}
+
+extension Array where Element: Equatable {
+    mutating func remove(object: Element) {
+        if let index = firstIndex(of: object) {
+            remove(at: index)
+        }
+    }
+}

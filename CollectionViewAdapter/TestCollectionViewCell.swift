@@ -22,7 +22,7 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
         super.awakeFromNib()
     }
 
-    func configure(_ data: Any?) {
+    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? String else { return }
         label.text = data
        
