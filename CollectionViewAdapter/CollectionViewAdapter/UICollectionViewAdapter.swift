@@ -80,7 +80,7 @@ class UICollectionViewAdapterData {
         var sizeClosure: (() -> CGSize)?
         var actionClosure: ActionClosure?
 
-        init(kind: CellKind = .cell, contentObj: Any?, subData:Any? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
+        required init(kind: CellKind = .cell, contentObj: Any?, subData:Any? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewAdapterCellProtocol.Type, actionClosure: ActionClosure? = nil) {
             self.kind = kind
             self.contentObj = contentObj
             self.subData = subData
@@ -150,6 +150,7 @@ protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
 
     static func getSize(_ data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
     func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath)
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath)
 }
@@ -179,6 +180,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     var didEndDeceleratingCallback: [ScrollViewCallback] = []
     var willDisplayCellCallback: [CollectionViewDisplayClosure] = []
     var didEndDisplayCellCallback: [CollectionViewDisplayClosure] = []
+    var didEndScrollingAnimationCallback: [ScrollViewCallback] = []
     var willDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
     var didEndDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
 
@@ -410,6 +412,13 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
             callback(scrollView)
         })
     }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+//        print("scrollViewDidEndScrollingAnimation")
+        self.didEndScrollingAnimationCallback.forEach({ callback in
+            callback(scrollView)
+        })
+    }
 }
 
 extension UICollectionView {
@@ -459,6 +468,9 @@ extension UICollectionView {
     }
     func didEndDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
         adapter.didEndDisplaySupplementaryViewCallback.append(callback)
+    }
+    func didEndScrollingAnimation(_ callback: @escaping ScrollViewCallback) {
+        adapter.didEndScrollingAnimationCallback.append(callback)
     }
 
     var adapterHasNext: Bool {
