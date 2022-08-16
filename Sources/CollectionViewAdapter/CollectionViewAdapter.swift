@@ -9,33 +9,6 @@
 import Foundation
 import UIKit
 
-/// 0.5 단위 버림 처림
-/// 0.5 작으면 0
-/// 0.5 보다 크면 0.5
-/// - Returns: 0.5 단위 버림 처리
-@inline(__always) public func floorUI(_ value: CGFloat) -> CGFloat {
-    let roundValue = round(value)
-    let floorValue = floor(value)
-    if roundValue == floorValue {
-        return CGFloat(roundValue)
-    }
-    return CGFloat(roundValue - 0.5)
-}
-
-/// 0.5 단위 올림 처리
-/// 0.5 작으면 0.5
-/// 0.5 보다 크면 1
-/// - Returns: 0.5 단위 올림 처리
-@inline(__always) public func ceilUI(_ value: CGFloat) -> CGFloat {
-    let roundValue = round(value)
-    let ceilValue = ceil(value)
-    if roundValue == ceilValue {
-        return CGFloat(roundValue)
-    }
-    return CGFloat(roundValue + 0.5)
-}
-
-
 let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
 let UISCREEN_WIDTH = UIScreen.main.bounds.width
 let UISCREEN_HEIGHT = UIScreen.main.bounds.height
@@ -282,7 +255,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
             let sectionInset = self.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAt: indexPath.section)
             let itemSpace = self.collectionView(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAt: indexPath.section)
             let allCellWidth = collectionView.frame.size.width - sectionInset.left - sectionInset.right - (itemSpace * (CGFloat(cellInfo.type.itemCount) - 1) )
-            width = floorUI( allCellWidth / CGFloat(cellInfo.type.itemCount) )
+            width = allCellWidth / CGFloat(cellInfo.type.itemCount)
         }
         return cellInfo.type.getSize(cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
     }
