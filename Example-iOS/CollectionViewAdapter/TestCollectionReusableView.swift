@@ -45,28 +45,28 @@ class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdap
     }
 }
 
-//extension TestCollectionReusableView: UICollectionViewAdapterStickyProtocol {
-//    var stickyContainerView: UIView {
-//        return self
-//    }
-//
-//    var isSticky: Bool {
-//        return true
-//    }
-//
-//    var reloadData: (() -> Void)? {
-//        return nil
-//    }
-//
-//    var isOnlySection: Bool {
-//        return false
-//    }
-//
-//    func onSticky(state: Bool) {
-//
-//    }
-//
-//    func setData(data: Any?) {
-//
-//    }
-//}
+extension TestCollectionReusableView: UICollectionViewAdapterStickyProtocol {
+    var stickyContainerView: UIView {
+        return containerView
+    }
+
+    var isSticky: Bool {
+        return true
+    }
+
+    var reloadData: (() -> Void)? {
+        return nil
+    }
+
+    var isOnlySection: Bool {
+        return false
+    }
+
+    func onSticky(state: Bool) {
+
+    }
+
+    func setData(data: Any?) {
+
+    }
+}

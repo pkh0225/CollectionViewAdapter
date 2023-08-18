@@ -30,7 +30,9 @@ class StickyViewController {
         var indexPath: IndexPath
         weak var originalView: UICollectionViewAdapterStickyProtocol?
         weak var originalContainerView: UIView?
+        weak var originalSpuerView: UIView?
         weak var stickyView: UIView?
+        var originalContainerViewInset: UIEdgeInsets = .zero
         private var reloadDataClouser: (() -> Void)?
         /// 자기 Section에서만 Sticky 유지
         var onlySection: Bool = false
@@ -46,24 +48,20 @@ class StickyViewController {
         var isSticked: Bool = false {
             didSet {
                 guard isSticked != oldValue else { return }
-                guard let stickyView, let originalContainerView, let originalView else { return }
+                guard let stickyView, let originalContainerView, let originalView, let originalSpuerView else { return }
                 if isSticked {
                     stickyView.isHidden = false
-                    if let inView = originalContainerView.subviews.first {
-                        stickyView.addSubViewAutoLayout(inView)
-                        stickyView.sendSubviewToBack(inView)
-                        stickyView.setNeedsLayout()
-                        originalView.onSticky(state: true)
-                    }
+                    stickyView.addSubViewAutoLayout(originalContainerView)
+                    stickyView.sendSubviewToBack(originalContainerView)
+                    stickyView.setNeedsLayout()
+                    originalView.onSticky(state: true)
                 }
                 else {
                     stickyView.isHidden = true
-                    if let inView = stickyView.subviews.first {
-                        originalContainerView.addSubViewAutoLayout(inView)
-                        originalContainerView.sendSubviewToBack(inView)
-                        originalContainerView.setNeedsLayout()
+                        originalSpuerView.addSubViewAutoLayout(originalContainerView, edgeInsets: originalContainerViewInset)
+                        originalSpuerView.sendSubviewToBack(originalContainerView)
+                        originalSpuerView.setNeedsLayout()
                         originalView.onSticky(state: false)
-                    }
                 }
             }
         }
@@ -71,7 +69,9 @@ class StickyViewController {
         init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
             self.indexPath = indexPath
             self.originalView = view
+            self.originalContainerViewInset = UIEdgeInsets(top: view.stickyContainerView.ec.top, left: view.stickyContainerView.ec.leading, bottom: view.stickyContainerView.ec.bottom, right: view.stickyContainerView.ec.trailing)
             self.originalContainerView = view.stickyContainerView
+            self.originalSpuerView = view.stickyContainerView.superview
             self.onlySection = view.isOnlySection
             self.reloadDataClouser = view.reloadData
         }
@@ -112,14 +112,10 @@ class StickyViewController {
     func reset() {
         sectionYDic.removeAll()
 
-        for (idx, item) in stickyItems.enumerated() {
-            guard let stickyView = item.stickyView else { continue }
+        for item in stickyItems {
+            guard let stickyView = item.stickyView, let originalContainerView = item.originalContainerView else { continue }
             stickyView.isHidden = true
-            if let inView = stickyView.subviews.first {
-                if let stickyItem = stickyItems[safe: idx] {
-                    stickyItem.originalContainerView?.addSubViewAutoLayout(inView)
-                }
-            }
+            item.originalSpuerView?.addSubViewAutoLayout(originalContainerView, edgeInsets: item.originalContainerViewInset)
             stickyView.removeFromSuperview()
         }
 
@@ -157,15 +153,15 @@ class StickyViewController {
     }
 
     private func addStickyView(collectionView: UICollectionView, addItem: StickyViewItem) {
-        guard let superView = collectionView.superview, let inView = addItem.originalContainerView?.subviews.first else { return }
+        guard let superView = collectionView.superview, let inView = addItem.originalContainerView else { return }
         let stickyView = UIView(frame: CGRect(x: collectionView.frame.origin.x, y: collectionView.frame.origin.y, width: collectionView.frame.size.width, height: inView.frame.size.height) )
         addItem.stickyView = stickyView
         superView.addSubview(stickyView)
 
         stickyView.translatesAutoresizingMaskIntoConstraints = false
         let views = ["stickyView": stickyView]
-        let metrics: Dictionary = ["y": collectionView.frame.origin.y, "h": inView.frame.size.height]
-        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stickyView]|",
+        let metrics: Dictionary = ["y": collectionView.frame.origin.y, "h": inView.frame.size.height, "l": addItem.originalContainerViewInset.left, "r": addItem.originalContainerViewInset.right]
+        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(l)-[stickyView]-(r)-|",
                                                                 options: NSLayoutConstraint.FormatOptions(rawValue: 0),
                                                                 metrics: metrics,
                                                                 views: views as [String: Any]))

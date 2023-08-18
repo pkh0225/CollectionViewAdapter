@@ -54,31 +54,31 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     }
 }
 
-extension TestCollectionViewCell: UICollectionViewAdapterStickyProtocol {
-    var stickyContainerView: UIView {
-        return self.contentView
-    }
-
-    var isSticky: Bool {
-        if indexPath.row == 1  {
-            return true
-        }
-        return false
-    }
-
-    var reloadData: (() -> Void)? {
-        return nil
-    }
-
-    var isOnlySection: Bool {
-        return false
-    }
-
-    func onSticky(state: Bool) {
-
-    }
-
-    func setData(data: Any?) {
-
-    }
-}
+//extension TestCollectionViewCell: UICollectionViewAdapterStickyProtocol {
+//    var stickyContainerView: UIView {
+//        return self.containerView
+//    }
+//
+//    var isSticky: Bool {
+//        if indexPath.row == 1  {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    var reloadData: (() -> Void)? {
+//        return nil
+//    }
+//
+//    var isOnlySection: Bool {
+//        return false
+//    }
+//
+//    func onSticky(state: Bool) {
+//
+//    }
+//
+//    func setData(data: Any?) {
+//
+//    }
+//}

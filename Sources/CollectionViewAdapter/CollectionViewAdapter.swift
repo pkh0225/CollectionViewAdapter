@@ -330,7 +330,6 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         func defaultReturn() -> UICollectionViewCell { return collectionView.dequeueReusableCell(UICollectionViewCell.self, for: indexPath) }
-        guard let data else { return defaultReturn() }
         guard let cellInfo = self.getCellInfo(indexPath) else { return defaultReturn() }
         guard let cellType = cellInfo.type as? UICollectionViewCell.Type else { return defaultReturn() }
         defer {
