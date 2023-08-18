@@ -58,10 +58,10 @@ class StickyViewController {
                 }
                 else {
                     stickyView.isHidden = true
-                        originalSpuerView.addSubViewAutoLayout(originalContainerView, edgeInsets: originalContainerViewInset)
-                        originalSpuerView.sendSubviewToBack(originalContainerView)
-                        originalSpuerView.setNeedsLayout()
-                        originalView.onSticky(state: false)
+                    originalSpuerView.addSubViewAutoLayout(originalContainerView, edgeInsets: originalContainerViewInset)
+                    originalSpuerView.sendSubviewToBack(originalContainerView)
+                    originalSpuerView.setNeedsLayout()
+                    originalView.onSticky(state: false)
                 }
             }
         }
