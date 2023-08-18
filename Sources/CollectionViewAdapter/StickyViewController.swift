@@ -199,7 +199,6 @@ class StickyViewController {
             else {
                 if let nextItem = stickyItems[safe: idx + 1] {
                     endY = nextItem.stickyStartY - stickyView.frame.size.height
-                    print("\(nextItem.indexPath)")
                 }
             }
 
