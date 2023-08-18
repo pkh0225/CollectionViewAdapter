@@ -21,7 +21,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "CollectionViewAdapter",
-            dependencies: []),
+            dependencies: [
+                .product(name: "EasyConstraints", package: "EasyConstraints")
+            ]),
         .testTarget(
             name: "CollectionViewAdapterTests",
             dependencies: ["CollectionViewAdapter"]),
