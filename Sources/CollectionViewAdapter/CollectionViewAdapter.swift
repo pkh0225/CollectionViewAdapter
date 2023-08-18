@@ -352,6 +352,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
 
         if let cell = cell as? UICollectionViewAdapterCellProtocol {
+            cell.actionClosure = cellInfo.actionClosure
             cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo.actionClosure)
         }
 

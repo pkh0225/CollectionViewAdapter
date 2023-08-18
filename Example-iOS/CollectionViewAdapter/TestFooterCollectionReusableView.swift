@@ -21,7 +21,6 @@ class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionVi
     }
 
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
-        self.actionClosure = actionClosure
         guard let data = data as? String else { return }
         label.text = data
     }
