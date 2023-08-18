@@ -9,7 +9,7 @@
 import UIKit
 
 class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
-    static var itemCount: Int = 0
+    static var SpanSize: Int = 0
 
     var actionClosure: ActionClosure?
     
@@ -20,12 +20,22 @@ class TestFooterCollectionReusableView: UICollectionReusableView, UICollectionVi
         // Initialization code
     }
 
-    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
+        self.actionClosure = actionClosure
         guard let data = data as? String else { return }
         label.text = data
     }
 
-    static func getSize(_ data: Any?, width: CGFloat) -> CGSize {
+    // UICollectionViewAdapterCellProtocol Function
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
+//        print("footer willDisplay : \(indexPath)")
+    }
+    // UICollectionViewAdapterCellProtocol Function
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {
+//        print("footer didEndDisplaying : \(indexPath)")
+    }
+
+    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return CGSize(width: width, height: 50)
     }
 }

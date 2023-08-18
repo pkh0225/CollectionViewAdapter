@@ -9,10 +9,10 @@
 import UIKit
 
 class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
-    static var itemCount: Int = 1
+    static var SpanSize: Int = 1
 
     var actionClosure: ActionClosure?
-    
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -22,8 +22,9 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
         super.awakeFromNib()
     }
 
-    func configure(_ data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
         guard let data = data as? String else { return }
+        self.actionClosure = actionClosure
         label.text = data
        
     }
@@ -33,19 +34,52 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     }
     
     @IBAction func onButton2(_ sender: UIButton) {
-        actionClosure?("button2", "\(self.indexPath.section) : \(self.indexPath.row)")
-    }
-    
-    // UICollectionViewAdapterCellProtocol Function
-    func willDisplay() {
-        print("willDisplay")
-    }
-    // UICollectionViewAdapterCellProtocol Function
-    func didEndDisplaying() {
-        print("didEndDisplaying")
+        actionClosure?("button2", label.text)
     }
 
-    static func getSize(_ data: Any?, width: CGFloat) -> CGSize {
+    // UICollectionViewAdapterCellProtocol Function
+    func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {
+        actionClosure?("didSelect", label.text)
+    }
+    // UICollectionViewAdapterCellProtocol Function
+    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
+//        print("cell willDisplay : \(indexPath)")
+    }
+    // UICollectionViewAdapterCellProtocol Function
+    func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {
+//        print("cell didEndDisplaying : \(indexPath)")
+    }
+
+    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return CGSize(width: width, height: 50)
+    }
+}
+
+extension TestCollectionViewCell: UICollectionViewAdapterStickyProtocol {
+    var stickyContainerView: UIView {
+        return self.contentView
+    }
+
+    var isSticky: Bool {
+        if indexPath.row == 1  {
+            return true
+        }
+        return false
+    }
+
+    var reloadData: (() -> Void)? {
+        return nil
+    }
+
+    var isOnlySection: Bool {
+        return false
+    }
+
+    func onSticky(state: Bool) {
+
+    }
+
+    func setData(data: Any?) {
+
     }
 }
