@@ -9,7 +9,7 @@
 import UIKit
 import EasyConstraints
 
-protocol UICollectionViewAdapterStickyProtocol: UIView {
+public protocol UICollectionViewAdapterStickyProtocol: UIView {
     /// sticky 될 뷰
     var stickyContainerView: UIView { get }
     /// stick 여부
@@ -25,17 +25,17 @@ protocol UICollectionViewAdapterStickyProtocol: UIView {
 }
 
 // MARK: - StickyViewController
-class StickyViewController {
-    class StickyViewItem {
-        var indexPath: IndexPath
-        weak var originalView: UICollectionViewAdapterStickyProtocol?
-        weak var originalContainerView: UIView?
-        weak var originalSpuerView: UIView?
-        weak var stickyView: UIView?
-        var originalContainerViewInset: UIEdgeInsets = .zero
+public class StickyViewController {
+    public class StickyViewItem {
+        public var indexPath: IndexPath
+        public weak var originalView: UICollectionViewAdapterStickyProtocol?
+        public weak var originalContainerView: UIView?
+        public weak var originalSpuerView: UIView?
+        public weak var stickyView: UIView?
+        public var originalContainerViewInset: UIEdgeInsets = .zero
         private var reloadDataClouser: (() -> Void)?
         /// 자기 Section에서만 Sticky 유지
-        var onlySection: Bool = false
+        public var onlySection: Bool = false
         var stickyStartY: CGFloat {
             get {
                 var y = originalView?.frame.origin.y ?? 0
@@ -45,7 +45,7 @@ class StickyViewController {
                 return y
             }
         }
-        var isSticked: Bool = false {
+        public var isSticked: Bool = false {
             didSet {
                 guard isSticked != oldValue else { return }
                 guard let stickyView, let originalContainerView, let originalView, let originalSpuerView else { return }
@@ -66,7 +66,7 @@ class StickyViewController {
             }
         }
 
-        init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
+        public init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
             self.indexPath = indexPath
             self.originalView = view
             self.originalContainerViewInset = UIEdgeInsets(top: view.stickyContainerView.ec.top, left: view.stickyContainerView.ec.leading, bottom: view.stickyContainerView.ec.bottom, right: view.stickyContainerView.ec.trailing)
@@ -76,40 +76,40 @@ class StickyViewController {
             self.reloadDataClouser = view.reloadData
         }
 
-        func setData(data: Any?) {
+        public func setData(data: Any?) {
             originalView?.setData(data: data)
         }
 
-        func reloadData() {
+        public func reloadData() {
             self.reloadDataClouser?()
         }
     }
-    weak var collectionView: UICollectionView?
-    var stickyItems = [StickyViewItem]() {
+    public weak var collectionView: UICollectionView?
+    public var stickyItems = [StickyViewItem]() {
         didSet {
 
         }
     }
-    var currentStickItem: StickyViewItem? {
+    public var currentStickItem: StickyViewItem? {
         get {
             return stickyItems.filter { $0.isSticked }.first
         }
     }
     var sectionYDic = [Int: CGFloat]()
-    var gapClosure: (() -> CGFloat)?
+    public var gapClosure: (() -> CGFloat)?
 
-    init(collectionView: UICollectionView, item: StickyViewItem) {
+    public init(collectionView: UICollectionView, item: StickyViewItem) {
         self.collectionView = collectionView
         self.stickyItems = [item]
         self.addStickyView(collectionView: collectionView, addItem: item)
     }
 
-    init(collectionView: UICollectionView, gapClosure: @escaping () -> CGFloat) {
+    public init(collectionView: UICollectionView, gapClosure: @escaping () -> CGFloat) {
         self.collectionView = collectionView
         self.gapClosure = gapClosure
     }
 
-    func reset() {
+    public func reset() {
         sectionYDic.removeAll()
 
         for item in stickyItems {
@@ -122,14 +122,14 @@ class StickyViewController {
         stickyItems.removeAll()
     }
 
-    func getStickItem(section: Int) -> StickyViewItem? {
+    public func getStickItem(section: Int) -> StickyViewItem? {
         if stickyItems.count == 1 {
             return stickyItems.first
         }
         return stickyItems.filter { $0.indexPath.section == section }.first
     }
 
-    func addStickyItem(collectionView: UICollectionView, addItem: StickyViewItem) {
+    public func addStickyItem(collectionView: UICollectionView, addItem: StickyViewItem) {
         var chekc = true
         for item in stickyItems {
             if item.indexPath == addItem.indexPath {
@@ -174,7 +174,7 @@ class StickyViewController {
 
     }
 
-    func scrollViewDidScroll(_ collectionView: UICollectionView) {
+    public func scrollViewDidScroll(_ collectionView: UICollectionView) {
         guard stickyItems.count > 0 else { return }
 
         var paddingValue: CGFloat = 0

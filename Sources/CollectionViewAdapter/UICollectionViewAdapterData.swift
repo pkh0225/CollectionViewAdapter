@@ -9,22 +9,22 @@
 import UIKit
 
 // MARK: - UICollectionViewAdapterData
-class UICollectionViewAdapterData {
-    class CellInfo {
-        enum CellKind {
+public class UICollectionViewAdapterData {
+    public class CellInfo {
+        public enum CellKind {
             case header
             case footer
             case cell
         }
 
-        var kind: CellKind = .cell
-        var contentObj: Any?
-        var subData: [String: Any?]?
-        var type: UICollectionReusableView.Type
-        var sizeClosure: (() -> CGSize)?
-        var actionClosure: ActionClosure?
+        public var kind: CellKind = .cell
+        public var contentObj: Any?
+        public var subData: [String: Any?]?
+        public var type: UICollectionReusableView.Type
+        public var sizeClosure: (() -> CGSize)?
+        public var actionClosure: ActionClosure?
 
-        init(kind: CellKind = .cell, contentObj: Any?, subData: [String: Any?]? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionReusableView.Type, actionClosure: ActionClosure? = nil) {
+        public init(kind: CellKind = .cell, contentObj: Any?, subData: [String: Any?]? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionReusableView.Type, actionClosure: ActionClosure? = nil) {
             self.kind = kind
             self.contentObj = contentObj
             self.subData = subData
@@ -34,21 +34,21 @@ class UICollectionViewAdapterData {
         }
     }
 
-    class SectionInfo {
-        var header: CellInfo? {
+    public class SectionInfo {
+        public var header: CellInfo? {
             didSet {
                 header?.kind = .header
             }
         }
-        var footer: CellInfo? {
+        public var footer: CellInfo? {
             didSet {
                 footer?.kind = .footer
             }
         }
-        var cells = [CellInfo]()
+        public var cells = [CellInfo]()
 
-        var backgroundColor: UIColor? // UIColor.random
-        var sectionInset: UIEdgeInsets = SectionInsetNotSupport {
+        public var backgroundColor: UIColor? // UIColor.random
+        public var sectionInset: UIEdgeInsets = SectionInsetNotSupport {
             didSet {
                 guard sectionInset != oldValue else { return }
                 if sectionInset.top == -9999 {
@@ -65,11 +65,11 @@ class UICollectionViewAdapterData {
                 }
             }
         }
-        var minimumLineSpacing: CGFloat = -9999
-        var minimumInteritemSpacing: CGFloat = -9999
-        var dataType: String = ""
-        var indexPath = IndexPath(row: 0, section: 0)
+        public var minimumLineSpacing: CGFloat = -9999
+        public var minimumInteritemSpacing: CGFloat = -9999
+        public var dataType: String = ""
+        public var indexPath = IndexPath(row: 0, section: 0)
     }
 
-    var sectionList = [SectionInfo]()
+    public var sectionList = [SectionInfo]()
 }

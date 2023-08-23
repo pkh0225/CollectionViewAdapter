@@ -8,22 +8,22 @@
 
 import UIKit
 
-let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
-let UISCREEN_WIDTH = UIScreen.main.bounds.width
-let UISCREEN_HEIGHT = UIScreen.main.bounds.height
+public let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
+public let UISCREEN_WIDTH = UIScreen.main.bounds.width
+public let UISCREEN_HEIGHT = UIScreen.main.bounds.height
 
 public typealias VoidClosure = () -> Void
-typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
-typealias ScrollViewCallback = (_ scrollView: UIScrollView) -> Void
-typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ cell: UICollectionViewCell,_ indexPath: IndexPath) -> Void
-typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
+public typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
+public typealias ScrollViewCallback = (_ scrollView: UIScrollView) -> Void
+public typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ cell: UICollectionViewCell,_ indexPath: IndexPath) -> Void
+public typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
 
 private var isPageAnimating: Bool = false // page animation인지 검사
 
 
 
 
-protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
+public protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  0 : SectionInset 무시하고 width full 크기
     ///  1 : SectionInset 적용된 한개 크기
     ///  2 이상 : SectionInset 과 minimumInteritemSpacing 적용된 개수 만큼 크기
@@ -56,7 +56,7 @@ extension UICollectionViewAdapterCellProtocol {
 fileprivate var CacheViewXibs = NSCache<NSString, UIView>()
 extension UIView {
 
-    class func fromXib(cache: Bool = false) -> Self {
+    public class func fromXib(cache: Bool = false) -> Self {
         return fromXib(cache: cache, as: self)
     }
 
@@ -71,7 +71,7 @@ extension UIView {
         return view as! T
     }
 
-    class func fromXibSize() -> CGSize {
+    public class func fromXibSize() -> CGSize {
         return fromXib(cache: true).frame.size
     }
 }

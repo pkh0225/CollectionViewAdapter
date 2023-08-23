@@ -10,17 +10,17 @@ import UIKit
 
 private var isPageAnimating: Bool = false // page animation인지 검사
 
-enum InfiniteScrollDirection {
+public enum InfiniteScrollDirection {
     case none
     case horizontal
     case vertical
 }
 
 // MARK: - UICollectionViewAdapter
-class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var isDebugMode: Bool = false
-    static let CHECK_Y_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 4
-    static let CHECK_X_MORE_SIZE: CGFloat = UISCREEN_WIDTH * 2
+public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    public var isDebugMode: Bool = false
+    public static let CHECK_Y_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 4
+    public static let CHECK_X_MORE_SIZE: CGFloat = UISCREEN_WIDTH * 2
 
     private var checkBeforeHeight: CGFloat = 0.0
     private var checkBeforeHeightIndex: Int = -1
@@ -32,7 +32,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    var stickyVC: StickyViewController?
+    public var stickyVC: StickyViewController?
     var didScrollCallback: [ScrollViewCallback] = []
     var willDisplayCellCallback: [CollectionViewDisplayClosure] = []
     var didEndDisplayCellCallback: [CollectionViewDisplayClosure] = []
@@ -66,10 +66,6 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     /// 무한 스크롤 방향
     /// Section 0번째만 사용  adpterData를 넣기 전에 셋팅해야함
     var infiniteScrollDirection: InfiniteScrollDirection = .none
-    /// Endless more data mode( default : false )
-    /// true : reloadData
-    /// false : insetData
-    var isEndlessMoreDataReloadMode = true
     /// index가 바뀌자 마자 호출
     fileprivate var pageIndexClosure: ((_ collectoinView: UICollectionView, _ pageIndex: Int) -> Void)? {
         didSet {
@@ -286,7 +282,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let data else { return 0 }
         checkBeforeHeight = -1
         checkBeforeHeightIndex = -1
@@ -316,7 +312,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return data.sectionList.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let data else { return 0 }
         if infiniteScrollDirection != .none {
             guard let sectionInfo = data.sectionList[safe: 0] else { return 0 }
@@ -328,7 +324,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     }
 
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         func defaultReturn() -> UICollectionViewCell { return collectionView.dequeueReusableCell(UICollectionViewCell.self, for: indexPath) }
         guard let cellInfo = self.getCellInfo(indexPath) else { return defaultReturn() }
         guard let cellType = cellInfo.type as? UICollectionViewCell.Type else { return defaultReturn() }
@@ -358,7 +354,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         func defaultReturn() -> UICollectionReusableView { return collectionView.dequeueReusableHeader(UICollectionReusableView.self, for: indexPath) }
 
         guard let data else { return defaultReturn() }
@@ -396,7 +392,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return view
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let data else { return .zero }
         var checkCellInfo: UICollectionViewAdapterData.CellInfo?
         if infiniteScrollDirection != .none {
@@ -460,7 +456,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return size
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.header else { return .zero }
         guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
@@ -470,7 +466,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.footer else { return .zero }
         guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
@@ -480,7 +476,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard let data, let sectionInfo = data.sectionList[safe: section] else { return .zero }
         if sectionInfo.sectionInset != SectionInsetNotSupport {
             return sectionInfo.sectionInset
@@ -491,7 +487,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return .zero
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         guard let data, let sectionInfo = data.sectionList[safe: section] else { return 0 }
         if sectionInfo.minimumLineSpacing != -9999 {
             return sectionInfo.minimumLineSpacing
@@ -502,7 +498,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         guard let data, let sectionInfo = data.sectionList[safe: section] else { return 0 }
         if sectionInfo.minimumInteritemSpacing != -9999 {
             return sectionInfo.minimumInteritemSpacing
@@ -514,7 +510,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         return 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         for callback in self.willDisplayCellCallback {
             callback(collectionView, cell, indexPath)
         }
@@ -529,7 +525,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? UICollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
         }
@@ -538,7 +534,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         for callback in self.willDisplaySupplementaryViewCallback {
             callback(collectionView, view, elementKind, indexPath)
         }
@@ -553,7 +549,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if let cell = view as? UICollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
         }
@@ -562,25 +558,25 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
             cell.didSelect(collectionView: collectionView, indexPath: indexPath)
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
             cell.didHighlight(collectionView: collectionView, indexPath: indexPath)
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
             cell.didUnhighlight(collectionView: collectionView, indexPath: indexPath)
         }
     }
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        print("scrollView.contentOffset.x = \(scrollView.contentOffset.x)")
         guard scrollView.contentSize != .zero else { return }
         guard let scrollView = scrollView as? UICollectionView else { return }
@@ -622,7 +618,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.willBeginDraggingCallback?(scrollView)
         if isAutoRolling {
 //            print("scrollViewWillBeginDragging")
@@ -632,14 +628,14 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //        print("scrollViewDidEndDragging willDecelerate = \(decelerate)")
         if !decelerate {
             scrollViewDidEndDecelerating(scrollView)
         }
     }
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 //        print("scrollViewDidEndDecelerating")
         for callback in self.didEndDeceleratingCallback {
             callback(scrollView)
@@ -658,7 +654,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 //        print("scrollViewDidEndScrollingAnimation")
         DispatchQueue.main.async {
             isPageAnimating = false
@@ -669,7 +665,7 @@ class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     // pageSize
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         self.willEndDraggingCallback?(scrollView, velocity, targetContentOffset)
         guard let scrollView = scrollView as? UICollectionView else { return }
         guard pageSize > 0 else { return }
@@ -878,7 +874,7 @@ private extension UICollectionViewAdapter {
     }
 }
 
-class DisplayLinkInfo {
+public class DisplayLinkInfo {
     var displayLink: CADisplayLink?
     var postion: CGPoint = .zero
     var duration: TimeInterval = 0
@@ -899,7 +895,7 @@ extension UICollectionView {
         static var displayLinkInfo: UInt8 = 0
     }
 
-    var flowLayout: UICollectionViewFlowLayout? {
+    public var flowLayout: UICollectionViewFlowLayout? {
         get {
             return collectionViewLayout as? UICollectionViewFlowLayout
         }
@@ -909,7 +905,7 @@ extension UICollectionView {
         }
     }
 
-    var displayLinkInfo: DisplayLinkInfo? {
+    public var displayLinkInfo: DisplayLinkInfo? {
         get {
             if let obj = objc_getAssociatedObject(self, &AssociatedKeys.displayLinkInfo) as? DisplayLinkInfo {
                 return obj
@@ -927,7 +923,7 @@ extension UICollectionView {
         }
     }
 
-    var adapter: UICollectionViewAdapter {
+    public var adapter: UICollectionViewAdapter {
         get {
             if let obj = objc_getAssociatedObject(self, &AssociatedKeys.collectionViewAdapter) as? UICollectionViewAdapter {
                 return obj
@@ -943,7 +939,7 @@ extension UICollectionView {
         }
     }
 
-    var adapterData: UICollectionViewAdapterData? {
+    public var adapterData: UICollectionViewAdapterData? {
         get {
             return self.adapter.data
         }
@@ -984,7 +980,7 @@ extension UICollectionView {
         }
     }
 
-    var unitWidthDic: [Int: CGFloat] {
+    public var unitWidthDic: [Int: CGFloat] {
         get {
             if let obj = objc_getAssociatedObject(self, &AssociatedKeys.unitWidthDIc) as? [Int: CGFloat] {
                 return obj
@@ -998,7 +994,7 @@ extension UICollectionView {
         }
     }
 
-    func getCacheWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
+    public func getCacheWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
         if let width = unitWidthDic[spanSize] {
             return width
         }
@@ -1018,7 +1014,7 @@ extension UICollectionView {
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidthhttps://app.zeplin.io/project/5ed063ed0c643ab302fdadad/dashboard?seid=5fc74865abb9b5078f438cec
-    func getSpanSizeCacheWidth(spanSize: Int, indexPath: IndexPath) -> CGFloat {
+    public func getSpanSizeCacheWidth(spanSize: Int, indexPath: IndexPath) -> CGFloat {
         guard spanSize > 0 else { return self.frame.size.width }
 
         let sectionInset: UIEdgeInsets = getSectionInset(section: indexPath.section)
@@ -1036,14 +1032,14 @@ extension UICollectionView {
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidth
-    func getSpanSizeWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
+    public func getSpanSizeWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
         let spanSizef: CGFloat = CGFloat(spanSize)
         let full: CGFloat = self.frame.size.width - sectionInset.left - sectionInset.right
         let space: CGFloat = minimumColumnSpacing * (spanSizef - 1)
         return (full - space) / spanSizef
     }
 
-    func getMinimumInteritemSpacing(section: Int) -> CGFloat {
+    public func getMinimumInteritemSpacing(section: Int) -> CGFloat {
         let delegate = delegate as? UICollectionViewDelegateFlowLayout
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             return delegate?.collectionView?(self, layout: self.collectionViewLayout, minimumInteritemSpacingForSectionAt: section) ?? layout.minimumInteritemSpacing
@@ -1051,7 +1047,7 @@ extension UICollectionView {
         return 0
     }
 
-    func getMinimumLineSpacing(section: Int) -> CGFloat {
+    public func getMinimumLineSpacing(section: Int) -> CGFloat {
         let delegate = delegate as? UICollectionViewDelegateFlowLayout
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             return delegate?.collectionView?(self, layout: self.collectionViewLayout, minimumLineSpacingForSectionAt: section) ?? layout.minimumLineSpacing
@@ -1059,7 +1055,7 @@ extension UICollectionView {
         return 0
     }
 
-    func getSectionInset(section: Int) -> UIEdgeInsets {
+    public func getSectionInset(section: Int) -> UIEdgeInsets {
         let delegate = delegate as? UICollectionViewDelegateFlowLayout
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             return delegate?.collectionView?(self, layout: self.collectionViewLayout, insetForSectionAt: section) ?? layout.sectionInset
@@ -1067,35 +1063,35 @@ extension UICollectionView {
         return .zero
     }
 
-    func didScrollCallback(_ callback: @escaping ScrollViewCallback) {
+    public func didScrollCallback(_ callback: @escaping ScrollViewCallback) {
         adapter.didScrollCallback.append(callback)
     }
-    func didEndDeceleratingCallback(_ callback: @escaping ScrollViewCallback) {
+    public func didEndDeceleratingCallback(_ callback: @escaping ScrollViewCallback) {
         adapter.didEndDeceleratingCallback.append(callback)
     }
-    func willEndDraggingCallback(_ callback: @escaping (UIScrollView, CGPoint, UnsafeMutablePointer<CGPoint>) -> Void) {
+    public func willEndDraggingCallback(_ callback: @escaping (UIScrollView, CGPoint, UnsafeMutablePointer<CGPoint>) -> Void) {
         adapter.willEndDraggingCallback = callback
     }
-    func willBeginDraggingCallback(_ callback: @escaping ScrollViewCallback) {
+    public func willBeginDraggingCallback(_ callback: @escaping ScrollViewCallback) {
         adapter.willBeginDraggingCallback = callback
     }
-    func willDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
+    public func willDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
         adapter.willDisplayCellCallback.append(callback)
     }
-    func didEndDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
+    public func didEndDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
         adapter.didEndDisplayCellCallback.append(callback)
     }
-    func willDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
+    public func willDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
         adapter.willDisplaySupplementaryViewCallback.append(callback)
     }
-    func didEndDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
+    public func didEndDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
         adapter.didEndDisplaySupplementaryViewCallback.append(callback)
     }
-    func autoRollingCallback(_ callback: @escaping (CGPoint) -> Void) {
+    public func autoRollingCallback(_ callback: @escaping (CGPoint) -> Void) {
         adapter.autoRollingCallback = callback
     }
 
-    var adapterHasNext: Bool {
+    public var adapterHasNext: Bool {
         get {
             return self.adapter.hasNext
         }
@@ -1104,7 +1100,7 @@ extension UICollectionView {
         }
     }
 
-    var adapterRequestNextClosure: (() -> Void)? {
+    public var adapterRequestNextClosure: (() -> Void)? {
         get {
             return self.adapter.requestNextClosure
         }
@@ -1114,7 +1110,7 @@ extension UICollectionView {
     }
     /// 무한 스크롤
     /// Section 0번째만 사용  adpterData를 넣기 전에 셋팅해야함
-    var infiniteScrollDirection: InfiniteScrollDirection {
+    public var infiniteScrollDirection: InfiniteScrollDirection {
         get {
             return self.adapter.infiniteScrollDirection
         }
@@ -1122,19 +1118,8 @@ extension UICollectionView {
             self.adapter.infiniteScrollDirection = newValue
         }
     }
-    /// Endless more data mode( default : false )
-    /// true : reloadData
-    /// false : insetData
-    var isEndlessMoreDataReloadMode: Bool {
-        get {
-            return self.adapter.isEndlessMoreDataReloadMode
-        }
-        set {
-            self.adapter.isEndlessMoreDataReloadMode = newValue
-        }
-    }
 
-    var pageIndexClosure: ((_ collectoinView: UICollectionView, _ pageIndex: Int) -> Void)? {
+    public var pageIndexClosure: ((_ collectoinView: UICollectionView, _ pageIndex: Int) -> Void)? {
         get {
             return self.adapter.pageIndexClosure
         }
@@ -1142,7 +1127,7 @@ extension UICollectionView {
             self.adapter.pageIndexClosure = newValue
         }
     }
-    var pageIndexAfterClosure: ((_ collectoinView: UICollectionView, _ pageIndex: Int) -> Void)? {
+    public var pageIndexAfterClosure: ((_ collectoinView: UICollectionView, _ pageIndex: Int) -> Void)? {
         get {
             return self.adapter.pageIndexAfterClosure
         }
@@ -1150,7 +1135,7 @@ extension UICollectionView {
             self.adapter.pageIndexAfterClosure = newValue
         }
     }
-    var isAutoRolling: Bool {
+    public var isAutoRolling: Bool {
         get {
             return self.adapter.isAutoRolling
         }
@@ -1158,7 +1143,7 @@ extension UICollectionView {
             self.adapter.isAutoRolling = newValue
         }
     }
-    var nowPage: Int {
+    public var nowPage: Int {
         get {
             return self.adapter.nowPage
         }
@@ -1167,7 +1152,7 @@ extension UICollectionView {
         }
     }
 
-    var pageSize: CGFloat {
+    public var pageSize: CGFloat {
         get {
             return self.adapter.pageSize
         }
@@ -1176,7 +1161,7 @@ extension UICollectionView {
         }
     }
 
-    var alignCenter: Bool {
+    public var alignCenter: Bool {
         get {
             return self.adapter.alignCenter
         }
@@ -1195,7 +1180,7 @@ extension UICollectionView {
         }
     }
     /// StickyView Function
-    func scrollTopStickyView(section: Int, animated: Bool) {
+    public func scrollTopStickyView(section: Int, animated: Bool) {
             guard let stickyItem = self.adapter.stickyVC?.getStickItem(section: section) else { return }
             var gapY: CGFloat = 0
             if let gapClousure = self.adapter.stickyVC?.gapClosure {
@@ -1207,7 +1192,7 @@ extension UICollectionView {
     }
 
     /// StickyView Function
-    func scrollTopStickyViewForEmpty(section: Int, animated: Bool) {
+    public func scrollTopStickyViewForEmpty(section: Int, animated: Bool) {
         DispatchQueue.main.async {
             guard let stickyItem = self.adapter.stickyVC?.getStickItem(section: section) else { return }
 
@@ -1217,7 +1202,7 @@ extension UICollectionView {
 
     }
     // StickyView Function
-    func scrollTopSectionForStickyView(section: Int, animated: Bool = true) {
+    public func scrollTopSectionForStickyView(section: Int, animated: Bool = true) {
         DispatchQueue.main.async {
             if let att = self.layoutAttributesForItem(at: IndexPath(row: 0, section: section)) {
                 var y: CGFloat = att.frame.origin.y
@@ -1231,7 +1216,7 @@ extension UICollectionView {
     }
 
     /// StickyView Function
-    func scrollTopSectionHeaderForStickyView(section: Int) {
+    public func scrollTopSectionHeaderForStickyView(section: Int) {
         DispatchQueue.main.async {
             if let att = self.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section)) {
                 var y: CGFloat = att.frame.origin.y
@@ -1244,17 +1229,17 @@ extension UICollectionView {
         }
     }
 
-    func getStickItem(section: Int) -> StickyViewController.StickyViewItem? {
+    public func getStickItem(section: Int) -> StickyViewController.StickyViewItem? {
         return adapter.stickyVC?.getStickItem(section: section)
     }
 
     // StickyView Function
-    func stickyViewReset() {
+    public func stickyViewReset() {
         guard let stickyVC = adapter.stickyVC else { return }
         stickyVC.reset()
     }
 
-    func getIndexPathOfScrollY(_ x: CGFloat, _ y: CGFloat) -> IndexPath? {
+    public func getIndexPathOfScrollY(_ x: CGFloat, _ y: CGFloat) -> IndexPath? {
         if let indexPath = indexPathForItem(at: CGPoint(x: x, y: y)) {
            return indexPath
         }
@@ -1271,7 +1256,7 @@ extension UICollectionView {
         return nil
     }
 
-    func onPagePrev() {
+    public func onPagePrev() {
         guard self.bounds.width > 0 else { return }
         guard isPageAnimating == false else { return }
         guard let maxCount = adapterData?.sectionList[safe: 0]?.cells.count else { return }
@@ -1300,7 +1285,7 @@ extension UICollectionView {
         }
     }
 
-    func onPageNext() {
+    public func onPageNext() {
         guard self.bounds.width > 0 else { return }
         guard isPageAnimating == false else { return }
         guard let maxCount = adapterData?.sectionList[safe: 0]?.cells.count else { return }
@@ -1330,7 +1315,7 @@ extension UICollectionView {
     }
 
     /// scrollToPostion(position: duration: delay: completion:) function animation stop
-    func scrollToPostionEnd() {
+    public func scrollToPostionEnd() {
         guard let displayLinkInfo = self.displayLinkInfo else { return }
         displayLinkInfo.displayLink?.isPaused = true
         displayLinkInfo.displayLink?.invalidate()
@@ -1346,7 +1331,7 @@ extension UICollectionView {
     ///   - duration: duration
     ///   - delay: delay
     ///   - completion: completion
-    func scrollToPostion(position: CGPoint, duration: TimeInterval, delay: TimeInterval, completion: VoidClosure? = nil) {
+    public func scrollToPostion(position: CGPoint, duration: TimeInterval, delay: TimeInterval, completion: VoidClosure? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             guard self.contentSize.width > self.frame.size.width else { return }
             guard duration > 0, self.contentOffset != position else {
@@ -1368,7 +1353,7 @@ extension UICollectionView {
         }
     }
 
-    @objc func displayLinkRun(displayLink: CADisplayLink) {
+    @objc public func displayLinkRun(displayLink: CADisplayLink) {
         guard let displayLinkInfo = self.displayLinkInfo else { return }
         guard isVisible else {
             displayLinkInfo.displayLink?.isPaused = true
@@ -1423,7 +1408,7 @@ extension UICollectionView {
     }
 
     /// infinite 일때 첫 로딩시 센터가 틀어질때 width가 결정이 된 후 호출 하면 센터를 맞춰줌
-    func centerIfNeeded() {
+    public func centerIfNeeded() {
         self.adapter.centerIfNeeded(self)
     }
 }
