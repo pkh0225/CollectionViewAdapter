@@ -69,6 +69,10 @@ public class UICollectionViewAdapterData {
         public var minimumInteritemSpacing: CGFloat = -9999
         public var dataType: String = ""
         public var indexPath = IndexPath(row: 0, section: 0)
+
+        public init() {
+
+        }
     }
 
     public var sectionList = [SectionInfo]()
