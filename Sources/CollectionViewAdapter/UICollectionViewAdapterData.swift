@@ -72,4 +72,9 @@ public class UICollectionViewAdapterData {
     }
 
     public var sectionList = [SectionInfo]()
+
+
+    public init() {
+
+    }
 }
