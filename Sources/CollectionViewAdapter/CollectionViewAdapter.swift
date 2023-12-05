@@ -738,10 +738,10 @@ private extension UICollectionViewAdapter {
         else if infiniteScrollDirection == .vertical {
             let maxHeight = ceil((collectionView.contentSize.height - sectionInset.top - sectionInset.bottom - (minimumLineSpacing * 2)) / 3)
             if currentOffset.y < maxHeight + sectionInset.top {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y + minimumLineSpacing)
+                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y + maxHeight + minimumLineSpacing)
             }
             else if currentOffset.y > (maxHeight * 2) + sectionInset.top + minimumLineSpacing {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y - minimumLineSpacing)
+                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y - maxHeight - minimumLineSpacing)
                 collectionView.reloadData()
             }
             let index: CGFloat = (currentOffset.y + (pageHeight / 2.0) ) / pageHeight
