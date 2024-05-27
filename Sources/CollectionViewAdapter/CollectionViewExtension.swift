@@ -316,6 +316,7 @@ extension UICollectionView {
 extension UICollectionReusableView {
     private struct AssociatedKeys {
         static var indexPath: UInt8 = 0
+        static var collectionView: UInt8 = 0
     }
     public var indexPath: IndexPath {
         get {
@@ -326,6 +327,13 @@ extension UICollectionReusableView {
 
         }
         set { objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    public weak var parentCollectionView: UICollectionView? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView
+        }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_RETAIN) }
     }
 }
 

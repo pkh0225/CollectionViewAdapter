@@ -53,6 +53,8 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     var hasNext: Bool = false
     var requestNextClosure: (() -> Void)?
 
+    fileprivate var isUsedCacheSize: Bool = false
+    fileprivate var cacheSize = [Int: [Int: CGSize]]()
     fileprivate var infiniteIndexIndexOffset: Int = 0
     fileprivate var nowPage: Int = 0
     fileprivate var infinitePageIndex: Int = -1
@@ -347,6 +349,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         }
 
         if let cell = cell as? UICollectionViewAdapterCellProtocol {
+            cell.parentCollectionView = collectionView
             cell.actionClosure = cellInfo.actionClosure
             cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo.actionClosure)
         }
@@ -408,6 +411,10 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         guard let cellInfo = checkCellInfo else { return .zero }
         guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
 
+        if self.isUsedCacheSize, let size = self.cacheSize[indexPath.section]?[indexPath.row] {
+            return size
+        }
+
         var size: CGSize = .zero
         if let sizeClosure = cellInfo.sizeClosure {
             size = sizeClosure()
@@ -452,7 +459,15 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
 
             }
         }
-
+        if self.isUsedCacheSize {
+            if var sectionDic = self.cacheSize[indexPath.section] {
+                sectionDic[indexPath.row] = size
+                self.cacheSize[indexPath.section] = sectionDic
+            }
+            else {
+                self.cacheSize[indexPath.section] = [indexPath.row: size]
+            }
+        }
         return size
     }
 
@@ -1168,6 +1183,36 @@ extension UICollectionView {
         set {
             self.adapter.alignCenter = newValue
         }
+    }
+
+    public var isUsedCacheSize: Bool {
+        get {
+            return self.adapter.isUsedCacheSize
+        }
+        set {
+            self.adapter.isUsedCacheSize = newValue
+        }
+    }
+    public var cacheSize: [Int: [Int: CGSize]] {
+        get {
+            return self.adapter.cacheSize
+        }
+        set {
+            self.adapter.cacheSize = newValue
+        }
+    }
+
+    public func cacheRemoveAfterRreloadSection(_ section: Int) {
+        self.adapter.cacheSize.removeValue(forKey: section)
+        self.reloadSections(IndexSet(integer: section))
+    }
+
+    public func cacheRemoveAfterReloadItem(at indexPath: IndexPath) {
+        if var sectionDic = self.adapter.cacheSize[indexPath.section] {
+            sectionDic.removeValue(forKey: indexPath.row)
+            self.adapter.cacheSize[indexPath.section] = sectionDic
+        }
+        self.reloadItems(at: [indexPath])
     }
 
     public func setTabTouchContentOffset(_ contentOffset: CGPoint, animated: Bool) {

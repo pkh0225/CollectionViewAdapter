@@ -30,10 +30,13 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     
     @IBAction func onButton1(_ sender: UIButton) {
         actionClosure?("button1", label.text)
+        self.parentCollectionView?.cacheRemoveAfterRreloadSection(self.indexPath.section)
     }
     
     @IBAction func onButton2(_ sender: UIButton) {
         actionClosure?("button2", label.text)
+        self.parentCollectionView?.cacheRemoveAfterReloadItem(at: self.indexPath)
+        self.parentCollectionView?.reloadItems(at: [self.indexPath])
     }
 
     // UICollectionViewAdapterCellProtocol Function
@@ -50,6 +53,7 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+        print("getSize: \(indexPath)")
         return CGSize(width: width, height: 50)
     }
 }

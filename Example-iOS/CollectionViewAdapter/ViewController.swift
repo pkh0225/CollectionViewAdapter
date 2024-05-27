@@ -43,6 +43,7 @@ class ViewController: UIViewController {
             }
 
             self.collectoinView.adapterData = testData
+            self.collectoinView.isUsedCacheSize = true
             self.collectoinView.reloadData()
 
         }
