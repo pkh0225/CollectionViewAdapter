@@ -30,7 +30,7 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     
     @IBAction func onButton1(_ sender: UIButton) {
         actionClosure?("button1", label.text)
-        self.parentCollectionView?.cacheRemoveAfterRreloadSection(self.indexPath.section)
+        self.parentCollectionView?.cacheRemoveAfterReloadSection(self.indexPath.section)
     }
     
     @IBAction func onButton2(_ sender: UIButton) {
@@ -42,6 +42,7 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     // UICollectionViewAdapterCellProtocol Function
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {
         actionClosure?("didSelect", label.text)
+        self.parentCollectionView?.cacheRemoveAfterReloadData()
     }
     // UICollectionViewAdapterCellProtocol Function
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {

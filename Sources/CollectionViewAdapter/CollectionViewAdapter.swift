@@ -1202,7 +1202,12 @@ extension UICollectionView {
         }
     }
 
-    public func cacheRemoveAfterRreloadSection(_ section: Int) {
+    public func cacheRemoveAfterReloadData() {
+        self.adapter.cacheSize.removeAll()
+        self.reloadData()
+    }
+
+    public func cacheRemoveAfterReloadSection(_ section: Int) {
         self.adapter.cacheSize.removeValue(forKey: section)
         self.reloadSections(IndexSet(integer: section))
     }
