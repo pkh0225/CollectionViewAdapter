@@ -1207,17 +1207,21 @@ extension UICollectionView {
         self.reloadData()
     }
 
-    public func cacheRemoveAfterReloadSection(_ section: Int) {
-        self.adapter.cacheSize.removeValue(forKey: section)
-        self.reloadSections(IndexSet(integer: section))
+    public func cacheRemoveAfterReloadSections(_ sections: IndexSet) {
+        for s in sections {
+            self.adapter.cacheSize.removeValue(forKey: s)
+        }
+        self.reloadSections(sections)
     }
 
-    public func cacheRemoveAfterReloadItem(at indexPath: IndexPath) {
-        if var sectionDic = self.adapter.cacheSize[indexPath.section] {
-            sectionDic.removeValue(forKey: indexPath.row)
-            self.adapter.cacheSize[indexPath.section] = sectionDic
+    public func cacheRemoveAfterReloadItems(at indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if var sectionDic = self.adapter.cacheSize[indexPath.section] {
+                sectionDic.removeValue(forKey: indexPath.row)
+                self.adapter.cacheSize[indexPath.section] = sectionDic
+            }
         }
-        self.reloadItems(at: [indexPath])
+        self.reloadItems(at: indexPaths)
     }
 
     public func setTabTouchContentOffset(_ contentOffset: CGPoint, animated: Bool) {

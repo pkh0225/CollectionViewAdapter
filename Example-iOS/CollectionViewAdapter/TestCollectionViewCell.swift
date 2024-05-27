@@ -30,13 +30,12 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     
     @IBAction func onButton1(_ sender: UIButton) {
         actionClosure?("button1", label.text)
-        self.parentCollectionView?.cacheRemoveAfterReloadSection(self.indexPath.section)
+        self.parentCollectionView?.cacheRemoveAfterReloadSections(IndexSet(integer: self.indexPath.section))
     }
     
     @IBAction func onButton2(_ sender: UIButton) {
         actionClosure?("button2", label.text)
-        self.parentCollectionView?.cacheRemoveAfterReloadItem(at: self.indexPath)
-        self.parentCollectionView?.reloadItems(at: [self.indexPath])
+        self.parentCollectionView?.cacheRemoveAfterReloadItems(at: [self.indexPath])
     }
 
     // UICollectionViewAdapterCellProtocol Function
