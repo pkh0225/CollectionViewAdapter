@@ -53,7 +53,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     var hasNext: Bool = false
     var requestNextClosure: (() -> Void)?
 
-    fileprivate var isUsedCacheSize: Bool = false
+    fileprivate var isUsedCacheSize: Bool = true
     fileprivate var cacheSize = [Int: [Int: CGSize]]()
     fileprivate var infiniteIndexIndexOffset: Int = 0
     fileprivate var nowPage: Int = 0
