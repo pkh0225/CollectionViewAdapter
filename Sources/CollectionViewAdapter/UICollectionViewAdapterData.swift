@@ -34,6 +34,16 @@ public class UICollectionViewAdapterData {
         }
     }
 
+    @available(iOS 14, *)
+    public class ListCellInfo: CellInfo {
+        public var accessories: [UICellAccessory]?
+
+        public init(kind: CellKind = .cell, contentObj: Any?, subData: [String: Any?]? = nil, accessories: [UICellAccessory]? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionViewListCell.Type, actionClosure: ActionClosure? = nil) {
+            super.init(kind: kind, contentObj: contentObj, subData: subData, sizeClosure: sizeClosure, cellType: cellType, actionClosure: actionClosure)
+            self.accessories = accessories
+        }
+    }
+
     public class SectionInfo {
         public var header: CellInfo? {
             didSet {

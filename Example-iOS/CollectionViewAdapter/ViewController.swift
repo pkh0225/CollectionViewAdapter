@@ -41,6 +41,29 @@ class ViewController: UIViewController {
                 }
                 sectionInfo.cells.append( cellInfo )
             }
+            if #available(iOS 14, *) {
+                let listCellInfo = UICollectionViewAdapterData.ListCellInfo(contentObj: "cell (\(i) : \(sectionInfo.cells.count))",
+                                                                            accessories: [
+                                                                                .delete(displayed: .always,
+                                                                                        options: .init(isHidden: false,
+                                                                                                       reservedLayoutWidth: .standard,
+                                                                                                       tintColor: .white,
+                                                                                                       backgroundColor: .red),
+                                                                                        actionHandler: { [weak self] in
+                                                                                            guard let self else { return }
+                                                                                            print("delete button tapped")
+                                                                                            self.collectoinView.performBatchUpdates {
+                                                                                                sectionInfo.cells.remove(at: sectionInfo.cells.count - 1)
+                                                                                                self.collectoinView.deleteItems(at: [IndexPath(row: sectionInfo.cells.count, section: i)])
+                                                                                            }
+                                                                                        })],
+                                                                            cellType: TestCollectionViewListCell.self) { [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+                    self.alert(title: "", message: "\(object) : \(name)")
+                }
+                sectionInfo.cells.append( listCellInfo )
+            }
 
             self.collectoinView.adapterData = testData
             self.collectoinView.isUsedCacheSize = true
