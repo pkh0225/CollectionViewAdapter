@@ -41,19 +41,6 @@ public protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath)
 }
 
-@available(iOS 14, *)
-public protocol UICollectionViewAdapterListCellProtocol: UICollectionViewAdapterCellProtocol {
-    func setAccessories(_ accessories: [UICellAccessory]?)
-}
-
-@available(iOS 14, *)
-public extension UICollectionViewAdapterListCellProtocol where Self: UICollectionViewListCell {
-    func setAccessories(_ accessories: [UICellAccessory]?) {
-        guard let accessories else { return }
-        self.accessories = accessories
-    }
-}
-
 public extension UICollectionViewAdapterCellProtocol {
     static func getSize(_ data: Any? = nil, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return self.fromXibSize()
