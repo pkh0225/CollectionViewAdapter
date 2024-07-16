@@ -354,6 +354,13 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo.actionClosure)
         }
 
+        if #available(iOS 14, *) {
+            if let cell = cell as? UICollectionViewAdapterListCellProtocol,
+               let listCellInfo = self.getCellInfo(indexPath) as? UICollectionViewAdapterData.ListCellInfo {
+                cell.setAccessories(listCellInfo.accessories)
+            }
+        }
+
         return cell
     }
 
