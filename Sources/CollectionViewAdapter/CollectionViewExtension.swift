@@ -338,33 +338,12 @@ extension UICollectionReusableView {
 }
 
 extension NSObject {
-
     private struct AssociatedKeys {
         static var className: UInt8 = 0
-        static var iVarName: UInt8 = 0
-        static var iVarValue: UInt8 = 0
         static var observerAble: UInt8 = 0
     }
 
-    public var tag_name: String? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.iVarName) as? String
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.iVarName, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-
-    public var tag_value: Any? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.iVarValue)
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.iVarValue, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-
-    public var className: String {
+    var className: String {
         if let name = objc_getAssociatedObject(self, &AssociatedKeys.className) as? String {
             return name
         }
@@ -375,7 +354,7 @@ extension NSObject {
         }
     }
 
-    public class var className: String {
+    class var className: String {
         if let name = objc_getAssociatedObject(self, &AssociatedKeys.className) as? String {
             return name
         }
@@ -386,7 +365,7 @@ extension NSObject {
         }
     }
 
-    public var observerAble: (key: String, closure: (_ value: String) -> Void)? {
+    var observerAble: (key: String, closure: (_ value: String) -> Void)? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.observerAble) as? (key: String, closure: (String) -> Void)
         }
