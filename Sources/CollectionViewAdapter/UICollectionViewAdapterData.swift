@@ -9,8 +9,8 @@
 import UIKit
 
 // MARK: - UICollectionViewAdapterData
-public class UICollectionViewAdapterData {
-    public class CellInfo {
+public class UICollectionViewAdapterData: NSObject {
+    public class CellInfo: NSObject {
         public enum CellKind {
             case header
             case footer
@@ -34,7 +34,7 @@ public class UICollectionViewAdapterData {
         }
     }
 
-    public class SectionInfo {
+    public class SectionInfo: NSObject {
         public var header: CellInfo? {
             didSet {
                 header?.kind = .header
@@ -69,16 +69,7 @@ public class UICollectionViewAdapterData {
         public var minimumInteritemSpacing: CGFloat = -9999
         public var dataType: String = ""
         public var indexPath = IndexPath(row: 0, section: 0)
-
-        public init() {
-
-        }
     }
 
     public var sectionList = [SectionInfo]()
-
-
-    public init() {
-
-    }
 }

@@ -25,7 +25,7 @@ public protocol UICollectionViewAdapterStickyProtocol: UIView {
 }
 
 // MARK: - StickyViewController
-public class StickyViewController {
+public class StickyViewController: NSObject {
     public class StickyViewItem {
         public var indexPath: IndexPath
         public weak var originalView: UICollectionViewAdapterStickyProtocol?
@@ -99,6 +99,7 @@ public class StickyViewController {
     public var gapClosure: (() -> CGFloat)?
 
     public init(collectionView: UICollectionView, item: StickyViewItem) {
+        super.init()
         self.collectionView = collectionView
         self.stickyItems = [item]
         self.addStickyView(collectionView: collectionView, addItem: item)
