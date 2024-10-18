@@ -9,7 +9,11 @@
 import Foundation
 import UIKit
 
-private var cacheNibs = NSCache<NSString, UINib>()
+private var cacheNibs = {
+    let cache = NSCache<NSString, UINib>()
+    cache.countLimit = 300
+    return cache
+}()
 
 extension UICollectionView {
     private struct AssociatedKeys {
@@ -192,7 +196,6 @@ extension UICollectionView {
         }
 
         let nib = UINib(nibName: className, bundle: bundle)
-        cacheNibs.countLimit = 100
         cacheNibs.setObject(nib, forKey: className as NSString)
         return nib
     }
