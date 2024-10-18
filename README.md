@@ -7,8 +7,8 @@ CollectionView adpter
 ## NO Cell Register
 
 <br>
+<img alt="timetable" src="https://github.com/pkh0225/CollectionViewAdapter/blob/master/ScreenShot.png" width="333">
 
-![SampleTestApp](https://github.com/pkh0225/CollectionViewAdapter/blob/master/ScreenShot.png)
 ### ↑↑ please refer test sample project 👾👾
 
 
