@@ -31,7 +31,6 @@ public protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     var actionClosure: ActionClosure? { get set }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
-    func setup()
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?)
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath)
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
@@ -45,7 +44,6 @@ public extension UICollectionViewAdapterCellProtocol {
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return self.fromXibSize()
     }
-    func setup(){}
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {}
@@ -53,7 +51,12 @@ public extension UICollectionViewAdapterCellProtocol {
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath) {}
 }
 
-fileprivate var CacheViewXibs = NSCache<NSString, UIView>()
+fileprivate var CacheViewXibs = {
+    let cache = NSCache<NSString, UIView>()
+    cache.countLimit = 200
+    return cache
+}()
+
 public extension UIView {
 
     class func fromXib(cache: Bool = false) -> Self {
