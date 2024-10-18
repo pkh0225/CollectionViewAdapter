@@ -14,7 +14,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        if #available(iOS 14.0, *) {
+            // cell auto size test
+            self.collectoinView.setAutoSizeCellLayout()
+        }
+
         let testData = UICollectionViewAdapterData()
         for i in 0...10 {
             let sectionInfo = UICollectionViewAdapterData.SectionInfo()
@@ -33,7 +38,17 @@ class ViewController: UIViewController {
                 self.alert(title: "", message: "\(object) : \(name)")
             }
             for j in 0...3 {
-                let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: "cell (\(i) : \(j))",
+                let contentObj: String
+                if #available(iOS 14.0, *) {
+                    // cell auto size test
+                    contentObj = "cell (\(i) : \(j))\n12351235\n1235512345"
+                }
+                else {
+                    // cell fix size
+                    contentObj = "cell (\(i) : \(j))"
+                }
+
+                let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: contentObj,
                                                                     cellType: TestCollectionViewCell.self) { [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
@@ -56,6 +71,6 @@ class ViewController: UIViewController {
         })
         self.present(alert, animated: true, completion: nil)
     }
-    
+
 }
 

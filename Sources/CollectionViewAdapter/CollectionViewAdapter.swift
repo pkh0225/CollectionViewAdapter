@@ -1202,6 +1202,26 @@ extension UICollectionView {
         }
     }
 
+    @available(iOS 14.0, *)
+    public func setAutoSizeCellLayout() {
+        self.collectionViewLayout = createAutoSizeCellLayout()
+    }
+    
+    @available(iOS 14.0, *)
+    private func createAutoSizeCellLayout() -> UICollectionViewCompositionalLayout {
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+
+            var config = UICollectionLayoutListConfiguration(appearance: .grouped)
+            config.showsSeparators = false
+            config.headerMode = .supplementary
+            config.footerMode = .supplementary
+            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
+
+            return section
+        }
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+    }
+
     public func cacheRemoveAfterReloadData() {
         self.adapter.cacheSize.removeAll()
         self.reloadData()
