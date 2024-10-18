@@ -126,13 +126,7 @@ public class StickyViewController: NSObject {
 
 
         for item in stickyItems.reversed() {
-            let section: Int
-            if let index = afterIndexPath?.section {
-                section = index
-            }
-            else {
-                section = -1
-            }
+            let section: Int = afterIndexPath?.section ?? -1
             guard let stickyView = item.stickyView, let originalContainerView = item.stickableView, item.indexPath.section > section else { continue }
             stickyView.isHidden = true
             item.stickableViewSuperView?.addSubViewAutoLayout(originalContainerView, edgeInsets: item.stickableViewInset)
