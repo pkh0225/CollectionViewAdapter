@@ -33,11 +33,11 @@ class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdap
 
     // UICollectionViewAdapterCellProtocol Function
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
-//        print("header willDisplay : \(indexPath)")
+        print("header willDisplay : \(indexPath)")
     }
     // UICollectionViewAdapterCellProtocol Function
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {
-//        print("header willDisplay : \(indexPath)")
+        print("header willDisplay : \(indexPath)")
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {

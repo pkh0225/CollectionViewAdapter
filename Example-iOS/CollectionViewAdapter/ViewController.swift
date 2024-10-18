@@ -52,7 +52,7 @@ class ViewController: UIViewController {
                                                                     cellType: TestCollectionViewCell.self) { [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
-                    self.alert(title: "", message: "\(object) : \(name)")
+                    self.alert(title: name, message: "\(object)")
                 }
                 sectionInfo.cells.append( cellInfo )
             }

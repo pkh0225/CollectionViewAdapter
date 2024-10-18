@@ -574,7 +574,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
+        if let cell = collectionView.cellForItem(at: indexPath) as? (UICollectionViewAdapterCellProtocol & UICollectionViewCell) {
             cell.didSelect(collectionView: collectionView, indexPath: indexPath)
         }
     }
@@ -1281,7 +1281,7 @@ extension UICollectionView {
             if let att = self.layoutAttributesForItem(at: IndexPath(row: 0, section: section)) {
                 var y: CGFloat = att.frame.origin.y
                 if let stickyItem = self.adapter.stickyVC?.getStickItem(section: section) {
-                    y -= stickyItem.originalContainerView?.frame.size.height ?? 0
+                    y -= stickyItem.stickableView?.frame.size.height ?? 0
                 }
 
                 self.setContentOffset(CGPoint(x: 0, y: y), animated: animated)
@@ -1295,7 +1295,7 @@ extension UICollectionView {
             if let att = self.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section)) {
                 var y: CGFloat = att.frame.origin.y
                 if let stickyItem = self.adapter.stickyVC?.getStickItem(section: section), stickyItem.indexPath.section < section {
-                    y -= stickyItem.originalContainerView?.frame.size.height ?? 0
+                    y -= stickyItem.stickableView?.frame.size.height ?? 0
                 }
 
                 self.setContentOffset(CGPoint(x: 0, y: y + 1), animated: true)
