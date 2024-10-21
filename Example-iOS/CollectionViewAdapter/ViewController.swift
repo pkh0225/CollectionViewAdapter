@@ -22,21 +22,25 @@ class ViewController: UIViewController {
 
         let testData = UICollectionViewAdapterData()
         for i in 0...10 {
-            let sectionInfo = UICollectionViewAdapterData.SectionInfo()
+            let sectionInfo = UICollectionAdapterSectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = UICollectionViewAdapterData.CellInfo(contentObj: "@@ header @@ \(i)",
-                                                                      cellType: TestCollectionReusableView.self) { [weak self] (name, object) in
-                guard let self else { return }
-                guard let object = object else { return }
+            sectionInfo.header = UICollectionAdapterCellInfo(cellType: TestCollectionReusableView.self)
+                .setContentObj("@@ header @@ \(i)")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
 
-                self.alert(title: "", message: "\(object) : \(name)")
-            }
-            sectionInfo.footer = UICollectionViewAdapterData.CellInfo(contentObj: " --- footer --- \(i)",
-                                                                      cellType: TestFooterCollectionReusableView.self) { [weak self] (name, object) in
-                guard let self else { return }
-                guard let object = object else { return }
-                self.alert(title: "", message: "\(object) : \(name)")
-            }
+                    self.alert(title: "", message: "\(object) : \(name)")
+                })
+
+            sectionInfo.footer = UICollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
+                .setContentObj(" --- footer --- \(i)")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+                    self.alert(title: "", message: "\(object) : \(name)")
+                })
+
             for j in 0...3 {
                 let contentObj: String
                 if #available(iOS 14.0, *) {
@@ -48,13 +52,15 @@ class ViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: contentObj,
-                                                                    cellType: TestCollectionViewCell.self) { [weak self] (name, object) in
-                    guard let self else { return }
-                    guard let object = object else { return }
-                    self.alert(title: name, message: "\(object)")
-                }
-                sectionInfo.cells.append( cellInfo )
+                let cellInfo = UICollectionAdapterCellInfo(cellType: TestCollectionViewCell.self)
+                    .setContentObj(contentObj)
+                    .setActionClosure({ [weak self] (name, object) in
+                        guard let self else { return }
+                        guard let object = object else { return }
+                        self.alert(title: name, message: "\(object)")
+                    })
+
+                sectionInfo.cells.append(cellInfo)
             }
 
             self.collectoinView.adapterData = testData

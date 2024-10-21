@@ -252,28 +252,28 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
 
         for (si, sectionInfo) in data.sectionList.enumerated() {
             if let header = sectionInfo.header {
-                if let _ = header.type as? UICollectionViewAdapterStickyProtocol.Type {
-                    collectionView.registerHeader(Class: header.type, withReuseIdentifier: "Header_\(header.type)_\(si)")
+                if let _ = header.cellType as? UICollectionViewAdapterStickyProtocol.Type {
+                    collectionView.registerHeader(Class: header.cellType, withReuseIdentifier: "Header_\(header.cellType)_\(si)")
                 }
                 else {
-                    collectionView.registerHeader(header.type)
+                    collectionView.registerHeader(header.cellType)
                 }
 
             }
             if let footer = sectionInfo.footer {
-                if let _ = footer.type as? UICollectionViewAdapterStickyProtocol.Type {
-                    collectionView.registerFooter(Class: footer.type, withReuseIdentifier: "Footer_\(footer.type)_\(si)")
+                if let _ = footer.cellType as? UICollectionViewAdapterStickyProtocol.Type {
+                    collectionView.registerFooter(Class: footer.cellType, withReuseIdentifier: "Footer_\(footer.cellType)_\(si)")
                 }
                 else {
-                    collectionView.registerFooter(footer.type)
+                    collectionView.registerFooter(footer.cellType)
                 }
 
             }
             if sectionInfo.cells.count > 0 {
                 for (ci, cell) in sectionInfo.cells.enumerated() {
-                    if let cellType = cell.type as? UICollectionViewCell.Type {
-                        if let _ = cell.type as? UICollectionViewAdapterStickyProtocol.Type {
-                            collectionView.register(Class: cellType, withReuseIdentifier: "Cell_\(cell.type)_\(si)_\(ci)")
+                    if let cellType = cell.cellType as? UICollectionViewCell.Type {
+                        if let _ = cell.cellType as? UICollectionViewAdapterStickyProtocol.Type {
+                            collectionView.register(Class: cellType, withReuseIdentifier: "Cell_\(cell.cellType)_\(si)_\(ci)")
                         }
                         else {
                             collectionView.register(cellType)
@@ -329,7 +329,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         func defaultReturn() -> UICollectionViewCell { return collectionView.dequeueReusableCell(UICollectionViewCell.self, for: indexPath) }
         guard let cellInfo = self.getCellInfo(indexPath) else { return defaultReturn() }
-        guard let cellType = cellInfo.type as? UICollectionViewCell.Type else { return defaultReturn() }
+        guard let cellType = cellInfo.cellType as? UICollectionViewCell.Type else { return defaultReturn() }
         defer {
             checkMoreData(collectionView)
         }
@@ -368,7 +368,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         else {
             cellInfo = data.sectionList[safe: indexPath.section]?.footer
         }
-        guard let cellType = cellInfo?.type as? UICollectionReusableView.Type else { return defaultReturn() }
+        guard let cellType = cellInfo?.cellType as? UICollectionReusableView.Type else { return defaultReturn() }
 
         let view: UICollectionReusableView!
         if let _ = cellType as? UICollectionViewAdapterStickyProtocol.Type {
@@ -409,7 +409,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             }
         }
         guard let cellInfo = checkCellInfo else { return .zero }
-        guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
+        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
 
         if self.isUsedCacheSize, let size = self.cacheSize[indexPath.section]?[indexPath.row] {
             return size
@@ -474,7 +474,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.header else { return .zero }
-        guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
+        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
@@ -484,7 +484,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.footer else { return .zero }
-        guard let cellType = cellInfo.type as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
+        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }

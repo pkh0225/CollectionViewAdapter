@@ -75,7 +75,10 @@ public class StickyViewController: NSObject {
         init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
             self.indexPath = indexPath
             self.stickyProtocolView = view
-            self.stickableViewInset = UIEdgeInsets(top: view.stickyContainerView.ec.top, left: view.stickyContainerView.ec.leading, bottom: view.stickyContainerView.ec.bottom, right: view.stickyContainerView.ec.trailing)
+            self.stickableViewInset = UIEdgeInsets(top: view.stickyContainerView.ec.top,
+                                                   left: view.stickyContainerView.ec.leading,
+                                                   bottom: view.stickyContainerView.ec.bottom,
+                                                   right: view.stickyContainerView.ec.trailing)
             self.stickableView = view.stickyContainerView
             self.stickableViewSuperView = view.stickyContainerView.superview
             self.onlySection = view.isOnlySection

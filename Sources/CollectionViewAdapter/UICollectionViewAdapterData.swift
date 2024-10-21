@@ -8,6 +8,10 @@
 
 import UIKit
 
+public typealias UICollectionAdapterSectionInfo = UICollectionViewAdapterData.SectionInfo
+public typealias UICollectionAdapterCellInfo = UICollectionViewAdapterData.CellInfo
+
+
 // MARK: - UICollectionViewAdapterData
 public class UICollectionViewAdapterData: NSObject {
     public class CellInfo: NSObject {
@@ -20,17 +24,12 @@ public class UICollectionViewAdapterData: NSObject {
         public var kind: CellKind = .cell
         public var contentObj: Any?
         public var subData: [String: Any?]?
-        public var type: UICollectionReusableView.Type
+        public var cellType: UICollectionReusableView.Type
         public var sizeClosure: (() -> CGSize)?
         public var actionClosure: ActionClosure?
 
-        public init(kind: CellKind = .cell, contentObj: Any?, subData: [String: Any?]? = nil, sizeClosure: (() -> CGSize)? = nil, cellType: UICollectionReusableView.Type, actionClosure: ActionClosure? = nil) {
-            self.kind = kind
-            self.contentObj = contentObj
-            self.subData = subData
-            self.sizeClosure = sizeClosure
-            self.type = cellType
-            self.actionClosure = actionClosure
+        public init(cellType: UICollectionReusableView.Type) {
+            self.cellType = cellType
         }
     }
 
@@ -69,7 +68,93 @@ public class UICollectionViewAdapterData: NSObject {
         public var minimumInteritemSpacing: CGFloat = -9999
         public var dataType: String = ""
         public var indexPath = IndexPath(row: 0, section: 0)
+
+        public override init() {}
+
+        public init(cells: [CellInfo]) {
+            self.cells = cells
+        }
     }
 
     public var sectionList = [SectionInfo]()
+}
+
+
+extension UICollectionViewAdapterData.CellInfo {
+    public func setContentObj(_ contentObj: Any?) -> Self {
+        self.contentObj = contentObj
+        return self
+    }
+
+    public func setKind(_ kind: CellKind) -> Self {
+        self.kind = kind
+        return self
+    }
+
+    public func setSubData(_ subData: [String: Any?]?) -> Self {
+        self.subData = subData
+        return self
+    }
+
+    public func setCellType(_ cellType: UICollectionReusableView.Type) -> Self {
+        self.cellType = cellType
+        return self
+    }
+
+    public func setSizeClosure(_ sizeClosure: (() -> CGSize)? = nil) -> Self {
+        self.sizeClosure = sizeClosure
+        return self
+    }
+
+    public func setActionClosure(_ actionClosure: ActionClosure? = nil) -> Self {
+        self.actionClosure = actionClosure
+        return self
+    }
+}
+
+extension UICollectionViewAdapterData.SectionInfo {
+    public func setHeader(_ cellInfo: UICollectionViewAdapterData.CellInfo) -> Self {
+        self.header = cellInfo
+        return self
+    }
+
+    public func setFooter(_ cellInfo: UICollectionViewAdapterData.CellInfo) -> Self {
+        self.footer = cellInfo
+        return self
+    }
+
+    public func setCells(_ cells: [UICollectionViewAdapterData.CellInfo]) -> Self {
+        self.cells = cells
+        return self
+    }
+
+    public func setBackgroundColor(_ color: UIColor) -> Self {
+        self.backgroundColor = color
+        return self
+    }
+
+    public func setSectionInset(_ inset: UIEdgeInsets) -> Self {
+        self.sectionInset = inset
+        return self
+    }
+
+    public func setMinimumLineSpacing(_ spacing: CGFloat) -> Self {
+        self.minimumLineSpacing = spacing
+        return self
+    }
+
+    public func setMinimumInteritemSpacing(_ spacing: CGFloat) -> Self {
+        self.minimumInteritemSpacing = spacing
+        return self
+    }
+
+    public func setDataType(_ type: String) -> Self {
+        self.dataType = type
+        return self
+    }
+
+    public func setIndexPath(_ indexPath: IndexPath) -> Self {
+        self.indexPath = indexPath
+        return self
+    }
 }
