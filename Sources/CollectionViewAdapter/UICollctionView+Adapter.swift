@@ -609,19 +609,4 @@ extension UICollectionView {
         }
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
-
-    private func createAutoSizeCellLayout1() -> UICollectionViewCompositionalLayout {
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-
-            var config = UICollectionLayoutListConfiguration(appearance: .plain)
-            config.showsSeparators = false
-            config.headerMode = .supplementary
-            config.footerMode = .supplementary
-            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
-
-            return section
-        }
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
-    }
-
 }
