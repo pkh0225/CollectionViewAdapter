@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
+class TestHeadCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1
 
     var actionClosure: ActionClosure?
@@ -33,11 +33,11 @@ class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdap
 
     // UICollectionViewAdapterCellProtocol Function
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
-        print("header willDisplay : \(indexPath)")
+//        print("header willDisplay : \(indexPath)")
     }
     // UICollectionViewAdapterCellProtocol Function
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {
-        print("header willDisplay : \(indexPath)")
+//        print("header willDisplay : \(indexPath)")
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
@@ -45,7 +45,7 @@ class TestCollectionReusableView: UICollectionReusableView, UICollectionViewAdap
     }
 }
 
-extension TestCollectionReusableView: UICollectionViewAdapterStickyProtocol {
+extension TestHeadCollectionReusableView: UICollectionViewAdapterStickyProtocol {
     var stickyContainerView: UIView {
         return containerView
     }

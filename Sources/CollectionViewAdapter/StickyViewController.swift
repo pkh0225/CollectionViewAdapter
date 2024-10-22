@@ -57,6 +57,7 @@ public class StickyViewController: NSObject {
                 guard let stickyView, let stickableView, let stickyProtocolView, let stickableViewSuperView else { return }
                 if isSticked {
                     stickyView.isHidden = false
+                    stickyView.frame.size.height = stickableView.frame.height
                     stickyView.addSubViewAutoLayout(stickableView)
                     stickyView.sendSubviewToBack(stickableView)
                     stickyView.setNeedsLayout()
@@ -177,20 +178,28 @@ public class StickyViewController: NSObject {
                                                 width: collectionView.frame.size.width,
                                                 height: inView.frame.size.height))
         addItem.stickyView = stickyView
+        stickyView.frame = CGRect(x: addItem.stickableViewInset.left,
+                                  y: collectionView.frame.origin.y,
+                                  width: collectionView.frame.size.width - addItem.stickableViewInset.right,
+                                  height: inView.frame.size.height)
+        stickyView.autoresizingMask = [.flexibleWidth]
         superView.addSubview(stickyView)
 
-        stickyView.translatesAutoresizingMaskIntoConstraints = false
-        let views = ["stickyView": stickyView]
-        let metrics: Dictionary = ["y": collectionView.frame.origin.y, "h": inView.frame.size.height, "l": addItem.stickableViewInset.left, "r": addItem.stickableViewInset.right]
-        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(l)-[stickyView]-(r)-|",
-                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-                                                                metrics: metrics,
-                                                                views: views as [String: Any]))
-
-        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(y)-[stickyView(h)]",
-                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-                                                                metrics: metrics,
-                                                                views: views as [String: Any]))
+//        stickyView.translatesAutoresizingMaskIntoConstraints = false
+//        let views = ["stickyView": stickyView]
+//        let metrics: Dictionary = ["y": collectionView.frame.origin.y,
+//                                   "h": inView.frame.size.height,
+//                                   "l": addItem.stickableViewInset.left,
+//                                   "r": addItem.stickableViewInset.right]
+//        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(l)-[stickyView]-(r)-|",
+//                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
+//                                                                metrics: metrics,
+//                                                                views: views as [String: Any]))
+//
+//        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(y)-[stickyView(h)]",
+//                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
+//                                                                metrics: metrics,
+//                                                                views: views as [String: Any]))
         stickyView.isHidden = true
 
     }
@@ -220,13 +229,15 @@ public class StickyViewController: NSObject {
             }
 
             if contentOffsetY >= item.stickyStartY, contentOffsetY <= endY {
-                stickyView.ec.top = paddingValue + collectionView.frame.origin.y
+//                stickyView.ec.top = paddingValue + collectionView.frame.origin.y
+                stickyView.frame.origin.y = paddingValue + collectionView.frame.origin.y
                 item.isSticked = true
             }
             else {
                 let checkY = endY + stickyView.frame.size.height
                 if contentOffsetY > endY, contentOffsetY < checkY {
-                    stickyView.ec.top = endY - contentOffsetY + collectionView.frame.origin.y + paddingValue
+//                    stickyView.ec.top = endY - contentOffsetY + collectionView.frame.origin.y + paddingValue
+                    stickyView.frame.origin.y = endY - contentOffsetY + collectionView.frame.origin.y + paddingValue
                     item.isSticked = true
                 }
                 else {

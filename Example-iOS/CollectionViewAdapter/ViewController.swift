@@ -10,22 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var collectoinView: UICollectionView!
-    
+    @IBOutlet weak var collectionView: UICollectionView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if #available(iOS 14.0, *) {
-            // cell auto size test
-            self.collectoinView.setAutoSizeCellLayout()
+            // cell auto size test header footer 적용되지 않음
+            self.collectionView.setAutoSizeCellLayout(apperance: .grouped)
         }
 
         let testData = UICollectionViewAdapterData()
         for i in 0...10 {
             let sectionInfo = UICollectionAdapterSectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = UICollectionAdapterCellInfo(cellType: TestCollectionReusableView.self)
-                .setContentObj("@@ header @@ \(i)")
+            sectionInfo.header = UICollectionAdapterCellInfo(cellType: TestHeadCollectionReusableView.self)
+                .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
@@ -34,13 +34,13 @@ class ViewController: UIViewController {
                 })
 
             sectionInfo.footer = UICollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
-                .setContentObj(" --- footer --- \(i)")
+                .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
                     self.alert(title: "", message: "\(object) : \(name)")
                 })
-
+//
             for j in 0...3 {
                 let contentObj: String
                 if #available(iOS 14.0, *) {
@@ -63,9 +63,9 @@ class ViewController: UIViewController {
                 sectionInfo.cells.append(cellInfo)
             }
 
-            self.collectoinView.adapterData = testData
-            self.collectoinView.isUsedCacheSize = true
-            self.collectoinView.reloadData()
+            self.collectionView.adapterData = testData
+            self.collectionView.isUsedCacheSize = true
+            self.collectionView.reloadData()
 
         }
     }

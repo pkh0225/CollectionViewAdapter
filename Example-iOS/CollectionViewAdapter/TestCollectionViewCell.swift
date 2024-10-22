@@ -45,11 +45,11 @@ class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellP
     }
     // UICollectionViewAdapterCellProtocol Function
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
-        print("cell willDisplay : \(indexPath)")
+//        print("cell willDisplay : \(indexPath)")
     }
     // UICollectionViewAdapterCellProtocol Function
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {
-        print("cell didEndDisplaying : \(indexPath)")
+//        print("cell didEndDisplaying : \(indexPath)")
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
