@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestCollectionViewCell: UICollectionViewCell, UICollectionViewAdapterCellProtocol {
+class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1
 
     var actionClosure: ActionClosure?

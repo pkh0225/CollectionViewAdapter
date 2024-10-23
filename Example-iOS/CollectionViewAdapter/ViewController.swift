@@ -17,14 +17,14 @@ class ViewController: UIViewController {
 
         if #available(iOS 14.0, *) {
             // cell auto size test header footer 적용되지 않음
-            self.collectionView.setAutoSizeCellLayout(apperance: .grouped)
+            self.collectionView.setAutoSizeListCellLayout(apperance: .grouped)
         }
 
-        let testData = UICollectionViewAdapterData()
+        let testData = CollectionViewAdapterData()
         for i in 0...10 {
-            let sectionInfo = UICollectionAdapterSectionInfo()
+            let sectionInfo = CollectionAdapterSectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = UICollectionAdapterCellInfo(cellType: TestHeadCollectionReusableView.self)
+            sectionInfo.header = CollectionAdapterCellInfo(cellType: TestHeadCollectionReusableView.self)
                 .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
                     self.alert(title: "", message: "\(object) : \(name)")
                 })
 
-            sectionInfo.footer = UICollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
+            sectionInfo.footer = CollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
                 .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = UICollectionAdapterCellInfo(cellType: TestCollectionViewCell.self)
+                let cellInfo = CollectionAdapterCellInfo(cellType: TestCollectionViewCell.self)
                     .setContentObj(contentObj)
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }

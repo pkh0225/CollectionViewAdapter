@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		205850D72A8DEF340085A8B0 /* UICollectionViewAdapterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D62A8DEF340085A8B0 /* UICollectionViewAdapterData.swift */; };
+		205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */; };
 		205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D82A8DEF570085A8B0 /* StickyViewController.swift */; };
 		205850DC2A8DF0670085A8B0 /* EasyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 205850DB2A8DF0670085A8B0 /* EasyConstraints */; };
-		205850DE2A8DF0E40085A8B0 /* UICollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* UICollectionViewAdapterCellProtocol.swift */; };
+		205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */; };
 		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
-		20D7E3372CC7700B00556DCD /* UICollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* UICollctionView+Adapter.swift */; };
+		20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */; };
 		5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671D22DD564000ABC0EF /* AppDelegate.swift */; };
 		5219672022DD564000ABC0EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* ViewController.swift */; };
 		5219672322DD564000ABC0EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672122DD564000ABC0EF /* Main.storyboard */; };
@@ -29,13 +29,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		205850D62A8DEF340085A8B0 /* UICollectionViewAdapterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdapterData.swift; sourceTree = "<group>"; };
+		205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterData.swift; sourceTree = "<group>"; };
 		205850D82A8DEF570085A8B0 /* StickyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyViewController.swift; sourceTree = "<group>"; };
-		205850DD2A8DF0E40085A8B0 /* UICollectionViewAdapterCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdapterCellProtocol.swift; sourceTree = "<group>"; };
+		205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterCellProtocol.swift; sourceTree = "<group>"; };
 		20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		20D7E3362CC76FF000556DCD /* UICollctionView+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollctionView+Adapter.swift"; sourceTree = "<group>"; };
+		20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollctionView+Adapter.swift"; sourceTree = "<group>"; };
 		5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5219671D22DD564000ABC0EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5219671F22DD564000ABC0EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -76,11 +76,11 @@
 			isa = PBXGroup;
 			children = (
 				20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */,
-				20D7E3362CC76FF000556DCD /* UICollctionView+Adapter.swift */,
+				20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */,
 				20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */,
 				205850D82A8DEF570085A8B0 /* StickyViewController.swift */,
-				205850D62A8DEF340085A8B0 /* UICollectionViewAdapterData.swift */,
-				205850DD2A8DF0E40085A8B0 /* UICollectionViewAdapterCellProtocol.swift */,
+				205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */,
+				205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */,
 			);
 			path = CollectionViewAdapter;
 			sourceTree = "<group>";
@@ -151,8 +151,9 @@
 		5219671222DD564000ABC0EF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1610;
 				ORGANIZATIONNAME = pkh;
 				TargetAttributes = {
 					5219671922DD564000ABC0EF = {
@@ -205,11 +206,11 @@
 			files = (
 				20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */,
 				5219673E22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift in Sources */,
-				205850DE2A8DF0E40085A8B0 /* UICollectionViewAdapterCellProtocol.swift in Sources */,
+				205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */,
 				5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */,
 				5219674222DD684900ABC0EF /* TestFooterCollectionReusableView.swift in Sources */,
-				205850D72A8DEF340085A8B0 /* UICollectionViewAdapterData.swift in Sources */,
-				20D7E3372CC7700B00556DCD /* UICollctionView+Adapter.swift in Sources */,
+				205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */,
+				20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */,
 				5219672022DD564000ABC0EF /* ViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,
 				20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */,
@@ -265,6 +266,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -276,6 +278,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -326,6 +329,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -337,6 +341,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

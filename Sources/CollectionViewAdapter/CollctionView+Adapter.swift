@@ -72,7 +72,7 @@ extension UICollectionView {
         }
     }
 
-    public var adapterData: UICollectionViewAdapterData? {
+    public var adapterData: CollectionViewAdapterData? {
         get {
             return self.adapter.data
         }
@@ -587,14 +587,14 @@ extension UICollectionView {
 
 @available(iOS 14.0, *)
 extension UICollectionView {
-    /// Cell의 AutoSize 지원
+    /// Cell의 TableView처럼 가로가 꽉 찬 형태의 Cell AutoSize 지원
     /// - Parameter apperance: plain (header, footer 생성시 자동으로 스티기 됨),
     ///                        grouped(header, footer 생성시 스키키 안됨 수동처리해야됨)
-    public func setAutoSizeCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance = .plain) {
-        self.collectionViewLayout = createAutoSizeCellLayout(apperance: apperance)
+    public func setAutoSizeListCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance = .plain) {
+        self.collectionViewLayout = createAutoSizeListCellLayout(apperance: apperance)
     }
 
-    private func createAutoSizeCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance) -> UICollectionViewCompositionalLayout {
+    private func createAutoSizeListCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance) -> UICollectionViewCompositionalLayout {
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 
             var config = UICollectionLayoutListConfiguration(appearance: apperance)
@@ -608,5 +608,44 @@ extension UICollectionView {
             return section
         }
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+    }
+}
+
+@available(iOS 13.0, *)
+extension UICollectionView {
+    static func fixedSpacedFlowLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(70),
+            heightDimension: .estimated(32)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(100)
+        )
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        let sectionHeaderPadding: CGFloat = 32
+
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16 + sectionHeaderPadding,
+                                                        leading: 16,
+                                                        bottom: 8,
+                                                        trailing: 16)
+        section.interGroupSpacing = 12
+
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                                                                    heightDimension: .absolute(18)),
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .topLeading,
+                                                                 absoluteOffset: CGPoint(x: 0, y: sectionHeaderPadding))
+        section.boundarySupplementaryItems = [header]
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 }

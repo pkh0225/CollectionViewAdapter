@@ -41,7 +41,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     var willDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
     var didEndDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
 
-    var data: UICollectionViewAdapterData? {
+    var data: CollectionViewAdapterData? {
         didSet {
             if isAutoRolling {
                 setCollectionViewDidAppear(value: isAutoRolling)
@@ -197,9 +197,9 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         return hasNext
     }
 
-    func getCellInfo(_ indexPath: IndexPath) -> UICollectionViewAdapterData.CellInfo? {
+    func getCellInfo(_ indexPath: IndexPath) -> CollectionViewAdapterData.CellInfo? {
         guard let data = self.data else { return nil }
-        var checkCellInfo: UICollectionViewAdapterData.CellInfo?
+        var checkCellInfo: CollectionViewAdapterData.CellInfo?
         if infiniteScrollDirection != .none {
             if let sectionInfo = data.sectionList[safe: 0], let cellInfo = sectionInfo.cells[safe: (correctedIndex(indexPath.item))] {
                 checkCellInfo = cellInfo
@@ -214,7 +214,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     }
 
     // FOR YOU 그만볼래요 처럼 섹션, 셀 삭제 상황을 위해 기능 구현 by. iSunSoo.
-    private func checkCellIndexPath(_ cellInfo: UICollectionViewAdapterData.CellInfo) -> IndexPath? {
+    private func checkCellIndexPath(_ cellInfo: CollectionViewAdapterData.CellInfo) -> IndexPath? {
         guard let data = self.data else { return nil }
         for (sectionIndex, section) in data.sectionList.enumerated() {
             for (cellIndex, cell) in section.cells.enumerated() {
@@ -226,7 +226,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         return nil
     }
 
-    func removeCellInfo(in collectionView: UICollectionView, cellInfo: UICollectionViewAdapterData.CellInfo) {
+    func removeCellInfo(in collectionView: UICollectionView, cellInfo: CollectionViewAdapterData.CellInfo) {
         guard let data = self.data else { return }
         // 해당 cellInfo에 속해있는 item이 오직 1개라면 해당 section까지 지운다.
         if let indexPath = checkCellIndexPath(cellInfo) {
@@ -347,7 +347,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             cell.indexPath = IndexPath(item: indexPath.row % (maxCount / 3), section: indexPath.section)
         }
 
-        if let cell = cell as? UICollectionViewAdapterCellProtocol {
+        if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.parentCollectionView = collectionView
             cell.actionClosure = cellInfo.actionClosure
             cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo.actionClosure)
@@ -360,7 +360,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         func defaultReturn() -> UICollectionReusableView { return UICollectionReusableView() }
 
         guard let data else { return defaultReturn() }
-        let cellInfo: UICollectionViewAdapterData.CellInfo?
+        let cellInfo: CollectionViewAdapterData.CellInfo?
         if kind == UICollectionView.elementKindSectionHeader {
             cellInfo = data.sectionList[safe: indexPath.section]?.header
         }
@@ -387,7 +387,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             }
         }
 
-        if let view = view as? UICollectionViewAdapterCellProtocol {
+        if let view = view as? CollectionViewAdapterCellProtocol {
             view.configure(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo?.actionClosure)
         }
 
@@ -396,7 +396,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let data else { return .zero }
-        var checkCellInfo: UICollectionViewAdapterData.CellInfo?
+        var checkCellInfo: CollectionViewAdapterData.CellInfo?
         if infiniteScrollDirection != .none {
             if let sectionInfo = data.sectionList[safe: 0], let cellInfo = sectionInfo.cells[safe: (correctedIndex(indexPath.item))] {
                 checkCellInfo = cellInfo
@@ -408,7 +408,6 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             }
         }
         guard let cellInfo = checkCellInfo else { return .zero }
-        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
 
         if self.isUsedCacheSize, let size = self.cacheSize[indexPath.section]?[indexPath.row] {
             return size
@@ -419,8 +418,8 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
             size = sizeClosure()
         }
 
-        let width = collectionView.getSpanSizeCacheWidth(spanSize: cellType.SpanSize, indexPath: indexPath)
-        size = cellType.getSize(data: cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
+        let width = collectionView.getSpanSizeCacheWidth(spanSize: cellInfo.cellType.SpanSize, indexPath: indexPath)
+        size = cellInfo.cellType.getSize(data: cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
 
         if infiniteScrollDirection == .none, isCheckBeforeHeight == false, type(of: collectionViewLayout) === UICollectionViewFlowLayout.self {
             if let layout = collectionViewLayout as? UICollectionViewFlowLayout, layout.scrollDirection == .vertical {
@@ -473,21 +472,19 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.header else { return .zero }
-        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
+        return cellInfo.cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         guard let data else { return .zero }
         guard let cellInfo = data.sectionList[safe: section]?.footer else { return .zero }
-        guard let cellType = cellInfo.cellType as? UICollectionViewAdapterCellProtocol.Type else { return .zero }
         if let sizeClosure = cellInfo.sizeClosure {
             return sizeClosure()
         }
-        return cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
+        return cellInfo.cellType.getSize(data: cellInfo.contentObj, width: collectionView.frame.size.width, collectionView: collectionView, indexPath: IndexPath(row: 0, section: section))
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -528,7 +525,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         for callback in self.willDisplayCellCallback {
             callback(collectionView, cell, indexPath)
         }
-        if let cell = cell as? UICollectionViewAdapterCellProtocol {
+        if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.willDisplay(collectionView: collectionView, indexPath: indexPath)
         }
         addStickyView(view: cell, collectionView: collectionView, at: indexPath)
@@ -540,7 +537,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? UICollectionViewAdapterCellProtocol {
+        if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
         }
         for callback in self.didEndDisplayCellCallback {
@@ -552,7 +549,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         for callback in self.willDisplaySupplementaryViewCallback {
             callback(collectionView, view, elementKind, indexPath)
         }
-        if let cell = view as? UICollectionViewAdapterCellProtocol {
+        if let cell = view as? CollectionViewAdapterCellProtocol {
             cell.willDisplay(collectionView: collectionView, indexPath: indexPath)
         }
         addStickyView(view: view, collectionView: collectionView, at: indexPath)
@@ -564,7 +561,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        if let cell = view as? UICollectionViewAdapterCellProtocol {
+        if let cell = view as? CollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
         }
         for callback in self.didEndDisplaySupplementaryViewCallback {
@@ -573,19 +570,19 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? (UICollectionViewAdapterCellProtocol & UICollectionViewCell) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? (CollectionViewAdapterCellProtocol & UICollectionViewCell) {
             cell.didSelect(collectionView: collectionView, indexPath: indexPath)
         }
     }
 
     public func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewAdapterCellProtocol {
             cell.didHighlight(collectionView: collectionView, indexPath: indexPath)
         }
     }
 
     public func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewAdapterCellProtocol {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewAdapterCellProtocol {
             cell.didUnhighlight(collectionView: collectionView, indexPath: indexPath)
         }
     }

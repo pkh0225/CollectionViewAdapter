@@ -8,12 +8,12 @@
 
 import UIKit
 
-public typealias UICollectionAdapterSectionInfo = UICollectionViewAdapterData.SectionInfo
-public typealias UICollectionAdapterCellInfo = UICollectionViewAdapterData.CellInfo
+public typealias CollectionAdapterSectionInfo = CollectionViewAdapterData.SectionInfo
+public typealias CollectionAdapterCellInfo = CollectionViewAdapterData.CellInfo
 
 
 // MARK: - UICollectionViewAdapterData
-public class UICollectionViewAdapterData: NSObject {
+public class CollectionViewAdapterData: NSObject {
     public class CellInfo: NSObject {
         public enum CellKind {
             case header
@@ -24,11 +24,11 @@ public class UICollectionViewAdapterData: NSObject {
         public var kind: CellKind = .cell
         public var contentObj: Any?
         public var subData: [String: Any?]?
-        public var cellType: UICollectionReusableView.Type
+        public var cellType: CollectionViewAdapterCellProtocol.Type
         public var sizeClosure: (() -> CGSize)?
         public var actionClosure: ActionClosure?
 
-        public init(cellType: UICollectionReusableView.Type) {
+        public init(cellType: CollectionViewAdapterCellProtocol.Type) {
             self.cellType = cellType
         }
     }
@@ -80,7 +80,7 @@ public class UICollectionViewAdapterData: NSObject {
 }
 
 
-extension UICollectionViewAdapterData.CellInfo {
+extension CollectionViewAdapterData.CellInfo {
     public func setContentObj(_ contentObj: Any?) -> Self {
         self.contentObj = contentObj
         return self
@@ -96,7 +96,7 @@ extension UICollectionViewAdapterData.CellInfo {
         return self
     }
 
-    public func setCellType(_ cellType: UICollectionReusableView.Type) -> Self {
+    public func setCellType(_ cellType: CollectionViewAdapterCellProtocol.Type) -> Self {
         self.cellType = cellType
         return self
     }
@@ -112,18 +112,18 @@ extension UICollectionViewAdapterData.CellInfo {
     }
 }
 
-extension UICollectionViewAdapterData.SectionInfo {
-    public func setHeader(_ cellInfo: UICollectionViewAdapterData.CellInfo) -> Self {
+extension CollectionViewAdapterData.SectionInfo {
+    public func setHeader(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.header = cellInfo
         return self
     }
 
-    public func setFooter(_ cellInfo: UICollectionViewAdapterData.CellInfo) -> Self {
+    public func setFooter(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.footer = cellInfo
         return self
     }
 
-    public func setCells(_ cells: [UICollectionViewAdapterData.CellInfo]) -> Self {
+    public func setCells(_ cells: [CollectionViewAdapterData.CellInfo]) -> Self {
         self.cells = cells
         return self
     }

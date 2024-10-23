@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestHeadCollectionReusableView: UICollectionReusableView, UICollectionViewAdapterCellProtocol {
+class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1
 
     var actionClosure: ActionClosure?

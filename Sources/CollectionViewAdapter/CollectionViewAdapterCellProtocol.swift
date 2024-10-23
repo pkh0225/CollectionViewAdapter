@@ -23,7 +23,7 @@ private var isPageAnimating: Bool = false // page animation인지 검사
 
 
 
-public protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
+public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  0 : SectionInset 무시하고 width full 크기
     ///  1 : SectionInset 적용된 한개 크기
     ///  2 이상 : SectionInset 과 minimumInteritemSpacing 적용된 개수 만큼 크기
@@ -40,7 +40,7 @@ public protocol UICollectionViewAdapterCellProtocol: UICollectionReusableView {
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath)
 }
 
-public extension UICollectionViewAdapterCellProtocol {
+public extension CollectionViewAdapterCellProtocol {
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return self.fromXibSize()
     }
