@@ -56,12 +56,12 @@ extension UICollectionView {
         }
     }
 
-    public var adapter: UICollectionViewAdapter {
+    public var adapter: CollectionViewAdapter {
         get {
-            if let obj = objc_getAssociatedObject(self, &AssociatedKeys.collectionViewAdapter) as? UICollectionViewAdapter {
+            if let obj = objc_getAssociatedObject(self, &AssociatedKeys.collectionViewAdapter) as? CollectionViewAdapter {
                 return obj
             }
-            let obj = UICollectionViewAdapter()
+            let obj = CollectionViewAdapter()
             obj.cView = self
             objc_setAssociatedObject(self, &AssociatedKeys.collectionViewAdapter, obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return obj
@@ -78,7 +78,6 @@ extension UICollectionView {
         }
         set {
             self.adapter.data = newValue
-//            self.stickyViewReset()   //중간에 있는 stickyView를 날리면 다시 add가 안되어있어서 주석처리 김요석 - https://redmine.ssgadm.com/redmine/issues/381529
 
             if self.adapter.infiniteScrollDirection == .horizontal {
                 guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }

@@ -18,10 +18,6 @@ public typealias ScrollViewCallback = (_ scrollView: UIScrollView) -> Void
 public typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ cell: UICollectionViewCell,_ indexPath: IndexPath) -> Void
 public typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
 
-private var isPageAnimating: Bool = false // page animation인지 검사
-
-
-
 
 public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  0 : SectionInset 무시하고 width full 크기

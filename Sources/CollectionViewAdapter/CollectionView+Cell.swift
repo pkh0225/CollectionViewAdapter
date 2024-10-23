@@ -6,7 +6,6 @@
 //  Copyright © 2017년 leejaejin. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 private var cacheNibs = {

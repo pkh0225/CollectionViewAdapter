@@ -15,7 +15,7 @@ public enum InfiniteScrollDirection {
 }
 
 // MARK: - UICollectionViewAdapter
-public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     public var isDebugMode: Bool = false
     public static let CHECK_Y_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 4
     public static let CHECK_X_MORE_SIZE: CGFloat = UISCREEN_WIDTH * 2
@@ -180,11 +180,11 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         let position: CGFloat
 
         if let layout = collecttionView.collectionViewLayout as? UICollectionViewFlowLayout, layout.scrollDirection == .horizontal {
-            checkXY = collecttionView.contentSize.width - UICollectionViewAdapter.CHECK_X_MORE_SIZE
+            checkXY = collecttionView.contentSize.width - CollectionViewAdapter.CHECK_X_MORE_SIZE
             position = collecttionView.contentOffset.x + collecttionView.frame.size.width
         }
         else {
-            checkXY = collecttionView.contentSize.height - UICollectionViewAdapter.CHECK_Y_MORE_SIZE
+            checkXY = collecttionView.contentSize.height - CollectionViewAdapter.CHECK_Y_MORE_SIZE
             position = collecttionView.contentOffset.y + collecttionView.frame.size.height
         }
 
@@ -417,9 +417,10 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
         if let sizeClosure = cellInfo.sizeClosure {
             size = sizeClosure()
         }
-
-        let width = collectionView.getSpanSizeCacheWidth(spanSize: cellInfo.cellType.SpanSize, indexPath: indexPath)
-        size = cellInfo.cellType.getSize(data: cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
+        else {
+            let width = collectionView.getSpanSizeCacheWidth(spanSize: cellInfo.cellType.SpanSize, indexPath: indexPath)
+            size = cellInfo.cellType.getSize(data: cellInfo.contentObj, width: width, collectionView: collectionView, indexPath: indexPath)
+        }
 
         if infiniteScrollDirection == .none, isCheckBeforeHeight == false, type(of: collectionViewLayout) === UICollectionViewFlowLayout.self {
             if let layout = collectionViewLayout as? UICollectionViewFlowLayout, layout.scrollDirection == .vertical {
@@ -457,6 +458,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
 
             }
         }
+        
         if self.isUsedCacheSize {
             if var sectionDic = self.cacheSize[indexPath.section] {
                 sectionDic[indexPath.row] = size
@@ -704,7 +706,7 @@ public class UICollectionViewAdapter: NSObject, UICollectionViewDelegate, UIColl
 }
 
 // MARK: - private HorizontalInfinite
-extension UICollectionViewAdapter {
+extension CollectionViewAdapter {
     func centerIfNeeded(_ collectionView: UICollectionView) {
         var pageWidth: CGFloat = collectionView.bounds.width
         var pageHeight: CGFloat = collectionView.bounds.height
@@ -777,7 +779,7 @@ extension UICollectionViewAdapter {
 }
 
 // MARK: - ScrollView PageSize
-private extension UICollectionViewAdapter {
+private extension CollectionViewAdapter {
     func getCurrentPage(scrollView: UICollectionView) -> CGFloat {
         guard let flowLayout = scrollView.collectionViewLayout as? UICollectionViewFlowLayout else { return 0 }
         let sectionInset: UIEdgeInsets = flowLayout.sectionInset
