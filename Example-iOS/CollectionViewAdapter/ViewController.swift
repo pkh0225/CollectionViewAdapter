@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         if #available(iOS 14.0, *) {
-            // cell auto size test header footer 적용되지 않음
+            // cell auto size
             self.collectionView.setAutoSizeListCellLayout(apperance: .grouped)
         }
 

@@ -11,20 +11,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="U6b-Vx-4bR" customClass="TestHeadCollectionReusableView" customModule="CollectionViewAdapter" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b0J-QB-szK">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <rect key="frame" x="10" y="10" width="300" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0z-Bf-mea">
-                            <rect key="frame" x="20" y="14.5" width="280" height="21"/>
+                            <rect key="frame" x="20" y="14.5" width="260" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qhx-Kn-fL1">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
                             <connections>
                                 <action selector="onButton:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="XX8-4Q-7BD"/>
                             </connections>
@@ -45,10 +45,10 @@
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="b0J-QB-szK" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="4DG-WM-PRC"/>
-                <constraint firstItem="b0J-QB-szK" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="MQR-wC-jIV"/>
-                <constraint firstAttribute="bottom" secondItem="b0J-QB-szK" secondAttribute="bottom" id="aHA-o4-s6d"/>
-                <constraint firstAttribute="trailing" secondItem="b0J-QB-szK" secondAttribute="trailing" id="st4-BM-7g6"/>
+                <constraint firstItem="b0J-QB-szK" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="10" id="4DG-WM-PRC"/>
+                <constraint firstItem="b0J-QB-szK" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="10" id="MQR-wC-jIV"/>
+                <constraint firstAttribute="bottom" secondItem="b0J-QB-szK" secondAttribute="bottom" constant="10" id="aHA-o4-s6d"/>
+                <constraint firstAttribute="trailing" secondItem="b0J-QB-szK" secondAttribute="trailing" constant="10" id="st4-BM-7g6"/>
             </constraints>
             <connections>
                 <outlet property="containerView" destination="b0J-QB-szK" id="AOG-SO-UnT"/>

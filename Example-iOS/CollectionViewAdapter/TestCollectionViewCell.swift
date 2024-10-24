@@ -53,8 +53,8 @@ class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellPro
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-        print("getSize: \(indexPath)")
-        return CGSize(width: width, height: 50)
+//        print("getSize: \(indexPath)")
+        return CGSize(width: width, height: self.fromXibSize().height)
     }
 }
 

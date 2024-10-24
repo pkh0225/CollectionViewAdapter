@@ -173,33 +173,14 @@ public class StickyViewController: NSObject {
 
     private func addStickyView(collectionView: UICollectionView, addItem: StickyViewItem) {
         guard let superView = collectionView.superview, let inView = addItem.stickableView else { return }
-        let stickyView = UIView(frame:   CGRect(x: collectionView.frame.origin.x,
-                                                y: collectionView.frame.origin.y,
-                                                width: collectionView.frame.size.width,
-                                                height: inView.frame.size.height))
+        let stickyView = UIView(frame: CGRect(x: addItem.stickableViewInset.left,
+                                              y: collectionView.frame.origin.y,
+                                              width: collectionView.frame.size.width - addItem.stickableViewInset.left - addItem.stickableViewInset.right,
+                                              height: inView.frame.size.height))
         addItem.stickyView = stickyView
-        stickyView.frame = CGRect(x: addItem.stickableViewInset.left,
-                                  y: collectionView.frame.origin.y,
-                                  width: collectionView.frame.size.width - addItem.stickableViewInset.right,
-                                  height: inView.frame.size.height)
         stickyView.autoresizingMask = [.flexibleWidth]
         superView.addSubview(stickyView)
 
-//        stickyView.translatesAutoresizingMaskIntoConstraints = false
-//        let views = ["stickyView": stickyView]
-//        let metrics: Dictionary = ["y": collectionView.frame.origin.y,
-//                                   "h": inView.frame.size.height,
-//                                   "l": addItem.stickableViewInset.left,
-//                                   "r": addItem.stickableViewInset.right]
-//        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(l)-[stickyView]-(r)-|",
-//                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-//                                                                metrics: metrics,
-//                                                                views: views as [String: Any]))
-//
-//        superView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(y)-[stickyView(h)]",
-//                                                                options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-//                                                                metrics: metrics,
-//                                                                views: views as [String: Any]))
         stickyView.isHidden = true
 
     }

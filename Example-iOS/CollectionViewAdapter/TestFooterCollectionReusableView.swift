@@ -35,6 +35,6 @@ class TestFooterCollectionReusableView: UICollectionReusableView, CollectionView
     }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-        return CGSize(width: width, height: 50)
+        return CGSize(width: width, height: self.fromXibSize().height)
     }
 }
