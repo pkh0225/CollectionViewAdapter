@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */; };
 		205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D82A8DEF570085A8B0 /* StickyViewController.swift */; };
-		205850DC2A8DF0670085A8B0 /* EasyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 205850DB2A8DF0670085A8B0 /* EasyConstraints */; };
 		205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */; };
 		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
 		20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */; };
+		20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */; };
 		5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671D22DD564000ABC0EF /* AppDelegate.swift */; };
 		5219672022DD564000ABC0EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* ViewController.swift */; };
 		5219672322DD564000ABC0EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672122DD564000ABC0EF /* Main.storyboard */; };
@@ -36,6 +36,7 @@
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollctionView+Adapter.swift"; sourceTree = "<group>"; };
+		20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5219671D22DD564000ABC0EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5219671F22DD564000ABC0EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				205850DC2A8DF0670085A8B0 /* EasyConstraints in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +81,7 @@
 				205850D82A8DEF570085A8B0 /* StickyViewController.swift */,
 				205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */,
 				205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */,
+				20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */,
 			);
 			path = CollectionViewAdapter;
 			sourceTree = "<group>";
@@ -139,7 +140,6 @@
 			);
 			name = CollectionViewAdapter;
 			packageProductDependencies = (
-				205850DB2A8DF0670085A8B0 /* EasyConstraints */,
 			);
 			productName = CollectionViewAdapter;
 			productReference = 5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */;
@@ -171,7 +171,6 @@
 			);
 			mainGroup = 5219671122DD564000ABC0EF;
 			packageReferences = (
-				205850DA2A8DF0670085A8B0 /* XCRemoteSwiftPackageReference "EasyConstraints" */,
 			);
 			productRefGroup = 5219671B22DD564000ABC0EF /* Products */;
 			projectDirPath = "";
@@ -214,6 +213,7 @@
 				5219672022DD564000ABC0EF /* ViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,
 				20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */,
+				20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */,
 				205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,25 +418,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		205850DA2A8DF0670085A8B0 /* XCRemoteSwiftPackageReference "EasyConstraints" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pkh0225/EasyConstraints.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		205850DB2A8DF0670085A8B0 /* EasyConstraints */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 205850DA2A8DF0670085A8B0 /* XCRemoteSwiftPackageReference "EasyConstraints" */;
-			productName = EasyConstraints;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5219671222DD564000ABC0EF /* Project object */;
 }
