@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EasyConstraints
 
 public protocol UICollectionViewAdapterStickyProtocol: UIView {
     /// sticky 될 뷰
@@ -55,7 +56,6 @@ public class StickyViewController: NSObject {
                 guard isSticked != oldValue else { return }
                 guard let stickyView, let stickableView, let stickyProtocolView, let stickableViewSuperView else { return }
                 if isSticked {
-                    stickyView.backgroundColor = .red
                     stickyView.isHidden = false
                     stickyView.frame.size.height = stickableView.frame.height
                     stickyView.addSubViewAutoLayout(stickableView)
@@ -76,7 +76,10 @@ public class StickyViewController: NSObject {
         init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
             self.indexPath = indexPath
             self.stickyProtocolView = view
-            self.stickableViewInset = view.stickyContainerView.getMargin()
+            self.stickableViewInset = UIEdgeInsets(top: view.stickyContainerView.ec.top,
+                                                   left: view.stickyContainerView.ec.leading,
+                                                   bottom: view.stickyContainerView.ec.bottom,
+                                                   right: view.stickyContainerView.ec.trailing)
             self.stickableView = view.stickyContainerView
             self.stickableViewSuperView = view.stickyContainerView.superview
             self.onlySection = view.isOnlySection
