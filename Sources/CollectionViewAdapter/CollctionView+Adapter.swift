@@ -584,12 +584,13 @@ extension UICollectionView {
     }
 }
 
+// MARK: - UICollectionViewCompositionalLayout - AutoSize
 @available(iOS 14.0, *)
 extension UICollectionView {
     /// Cell의 TableView처럼 가로가 꽉 찬 형태의 Cell AutoSize 지원
     /// - Parameter apperance: plain (header, footer 생성시 자동으로 스티기 됨),
     ///                        grouped(header, footer 생성시 스키키 안됨 수동처리해야됨)
-    public func setAutoSizeListCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance = .plain) {
+    public func setAutoSizeListCellLayout(apperance: UICollectionLayoutListConfiguration.Appearance = .grouped) {
         self.collectionViewLayout = createAutoSizeListCellLayout(apperance: apperance)
     }
 
@@ -610,9 +611,15 @@ extension UICollectionView {
     }
 }
 
+// MARK: - UICollectionViewCompositionalLayout -
 @available(iOS 13.0, *)
 extension UICollectionView {
-    static func fixedSpacedFlowLayout() -> UICollectionViewCompositionalLayout {
+    public func setFixedSpacedFlowLayout() {
+        self.collectionViewLayout = fixedSpacedFlowLayout()
+    }
+
+
+    private func fixedSpacedFlowLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(70),
             heightDimension: .estimated(32)

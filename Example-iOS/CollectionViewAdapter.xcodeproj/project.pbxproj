@@ -10,13 +10,16 @@
 		205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */; };
 		205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D82A8DEF570085A8B0 /* StickyViewController.swift */; };
 		205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */; };
+		207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */; };
+		207B26822CD1E59700A36838 /* CompositionalLayoutTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267F2CD1E59700A36838 /* CompositionalLayoutTestViewController.swift */; };
+		207B26852CD1E70E00A36838 /* CompositionalTestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B26842CD1E6FC00A36838 /* CompositionalTestCell.swift */; };
 		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
 		20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */; };
 		20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */; };
 		5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671D22DD564000ABC0EF /* AppDelegate.swift */; };
-		5219672022DD564000ABC0EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* ViewController.swift */; };
+		5219672022DD564000ABC0EF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* MainViewController.swift */; };
 		5219672322DD564000ABC0EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672122DD564000ABC0EF /* Main.storyboard */; };
 		5219672522DD564100ABC0EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5219672422DD564100ABC0EF /* Assets.xcassets */; };
 		5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672622DD564100ABC0EF /* LaunchScreen.storyboard */; };
@@ -32,6 +35,9 @@
 		205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterData.swift; sourceTree = "<group>"; };
 		205850D82A8DEF570085A8B0 /* StickyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyViewController.swift; sourceTree = "<group>"; };
 		205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterCellProtocol.swift; sourceTree = "<group>"; };
+		207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterDataTestViewController.swift; sourceTree = "<group>"; };
+		207B267F2CD1E59700A36838 /* CompositionalLayoutTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutTestViewController.swift; sourceTree = "<group>"; };
+		207B26842CD1E6FC00A36838 /* CompositionalTestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalTestCell.swift; sourceTree = "<group>"; };
 		20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -39,8 +45,8 @@
 		20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5219671D22DD564000ABC0EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5219671F22DD564000ABC0EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5219672222DD564000ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5219671F22DD564000ABC0EF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		5219672222DD564000ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../Sources/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5219672422DD564100ABC0EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5219672722DD564100ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5219672922DD564100ABC0EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +69,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		207B267C2CD1C64100A36838 /* AdapterDataTest */ = {
+			isa = PBXGroup;
+			children = (
+				207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */,
+				5219673C22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift */,
+				5219673D22DD60BF00ABC0EF /* TestHeadCollectionReusableView.xib */,
+				5219674022DD684900ABC0EF /* TestFooterCollectionReusableView.swift */,
+				5219674122DD684900ABC0EF /* TestFooterCollectionReusableView.xib */,
+				5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */,
+				5219673922DD5F6900ABC0EF /* TestCollectionViewCell.xib */,
+			);
+			path = AdapterDataTest;
+			sourceTree = "<group>";
+		};
+		207B26812CD1E59700A36838 /* CompositionalLayoutTest */ = {
+			isa = PBXGroup;
+			children = (
+				207B267F2CD1E59700A36838 /* CompositionalLayoutTestViewController.swift */,
+				207B26842CD1E6FC00A36838 /* CompositionalTestCell.swift */,
+			);
+			path = CompositionalLayoutTest;
+			sourceTree = "<group>";
+		};
 		20AE47EF28AB85F900EFBC9A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,14 +137,10 @@
 			children = (
 				20AE47EF28AB85F900EFBC9A /* Sources */,
 				5219671D22DD564000ABC0EF /* AppDelegate.swift */,
-				5219671F22DD564000ABC0EF /* ViewController.swift */,
-				5219673C22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift */,
-				5219673D22DD60BF00ABC0EF /* TestHeadCollectionReusableView.xib */,
-				5219674022DD684900ABC0EF /* TestFooterCollectionReusableView.swift */,
-				5219674122DD684900ABC0EF /* TestFooterCollectionReusableView.xib */,
-				5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */,
-				5219673922DD5F6900ABC0EF /* TestCollectionViewCell.xib */,
+				5219671F22DD564000ABC0EF /* MainViewController.swift */,
 				5219672122DD564000ABC0EF /* Main.storyboard */,
+				207B267C2CD1C64100A36838 /* AdapterDataTest */,
+				207B26812CD1E59700A36838 /* CompositionalLayoutTest */,
 				5219672422DD564100ABC0EF /* Assets.xcassets */,
 				5219672622DD564100ABC0EF /* LaunchScreen.storyboard */,
 				5219672922DD564100ABC0EF /* Info.plist */,
@@ -204,17 +229,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */,
+				207B26852CD1E70E00A36838 /* CompositionalTestCell.swift in Sources */,
 				5219673E22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift in Sources */,
 				205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */,
+				207B26822CD1E59700A36838 /* CompositionalLayoutTestViewController.swift in Sources */,
 				5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */,
 				5219674222DD684900ABC0EF /* TestFooterCollectionReusableView.swift in Sources */,
 				205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */,
 				20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */,
-				5219672022DD564000ABC0EF /* ViewController.swift in Sources */,
+				5219672022DD564000ABC0EF /* MainViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,
 				20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */,
 				20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */,
 				205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */,
+				207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

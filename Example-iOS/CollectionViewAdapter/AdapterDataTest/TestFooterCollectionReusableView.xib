@@ -19,13 +19,24 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCh-G8-aFF">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <connections>
+                        <action selector="onButton:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="xQJ-tD-9fo"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="0.81568627449999997" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="cCh-G8-aFF" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="5yD-4c-r8w"/>
                 <constraint firstAttribute="bottom" secondItem="B0z-Bf-mea" secondAttribute="bottom" constant="14" id="Bwi-Yd-arC"/>
                 <constraint firstItem="B0z-Bf-mea" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="14" id="EG5-Cd-F9Z"/>
+                <constraint firstAttribute="trailing" secondItem="cCh-G8-aFF" secondAttribute="trailing" id="aXf-vd-MvR"/>
                 <constraint firstItem="B0z-Bf-mea" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="20" id="bV1-I8-PfQ"/>
                 <constraint firstAttribute="trailing" secondItem="B0z-Bf-mea" secondAttribute="trailing" constant="20" id="hUm-KN-yI5"/>
+                <constraint firstAttribute="bottom" secondItem="cCh-G8-aFF" secondAttribute="bottom" id="kA5-9s-zAh"/>
+                <constraint firstItem="cCh-G8-aFF" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="swI-BS-pb7"/>
             </constraints>
             <connections>
                 <outlet property="label" destination="B0z-Bf-mea" id="zRf-b5-Icm"/>

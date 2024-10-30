@@ -17,7 +17,6 @@ class TestFooterCollectionReusableView: UICollectionReusableView, CollectionView
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
@@ -25,9 +24,13 @@ class TestFooterCollectionReusableView: UICollectionReusableView, CollectionView
         label.text = data
     }
 
+    @IBAction func onButton(_ sender: UIButton) {
+        self.actionClosure?("Footer Button", self.label.text)
+    }
     // UICollectionViewAdapterCellProtocol Function
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
 //        print("footer willDisplay : \(indexPath)")
+
     }
     // UICollectionViewAdapterCellProtocol Function
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {

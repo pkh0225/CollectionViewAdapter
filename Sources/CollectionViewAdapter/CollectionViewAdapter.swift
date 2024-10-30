@@ -388,6 +388,8 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
 
         if let view = view as? CollectionViewAdapterCellProtocol {
+            view.parentCollectionView = collectionView
+            view.actionClosure = cellInfo?.actionClosure
             view.configure(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo?.actionClosure)
         }
 

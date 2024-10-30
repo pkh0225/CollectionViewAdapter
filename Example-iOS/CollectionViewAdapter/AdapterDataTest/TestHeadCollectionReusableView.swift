@@ -28,7 +28,7 @@ class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAd
     }
 
     @IBAction func onButton(_ sender: UIButton) {
-        actionClosure?("Button", label.text)
+        actionClosure?("Header Button", label.text)
     }
 
     // UICollectionViewAdapterCellProtocol Function
@@ -51,7 +51,7 @@ extension TestHeadCollectionReusableView: UICollectionViewAdapterStickyProtocol 
     }
 
     var isSticky: Bool {
-        return true
+        return false
     }
 
     var reloadData: (() -> Void)? {
