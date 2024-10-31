@@ -13,6 +13,7 @@
 		207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */; };
 		207B26822CD1E59700A36838 /* CompositionalLayoutTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267F2CD1E59700A36838 /* CompositionalLayoutTestViewController.swift */; };
 		207B26852CD1E70E00A36838 /* CompositionalTestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B26842CD1E6FC00A36838 /* CompositionalTestCell.swift */; };
+		207B268F2CD216F700A36838 /* DiffableDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B268E2CD216F500A36838 /* DiffableDataSourceViewController.swift */; };
 		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
@@ -38,6 +39,7 @@
 		207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterDataTestViewController.swift; sourceTree = "<group>"; };
 		207B267F2CD1E59700A36838 /* CompositionalLayoutTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutTestViewController.swift; sourceTree = "<group>"; };
 		207B26842CD1E6FC00A36838 /* CompositionalTestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalTestCell.swift; sourceTree = "<group>"; };
+		207B268E2CD216F500A36838 /* DiffableDataSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceViewController.swift; sourceTree = "<group>"; };
 		20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 			path = CompositionalLayoutTest;
 			sourceTree = "<group>";
 		};
+		207B268D2CD216E700A36838 /* DiffableDataSourceTest */ = {
+			isa = PBXGroup;
+			children = (
+				207B268E2CD216F500A36838 /* DiffableDataSourceViewController.swift */,
+			);
+			path = DiffableDataSourceTest;
+			sourceTree = "<group>";
+		};
 		20AE47EF28AB85F900EFBC9A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,9 +148,10 @@
 				20AE47EF28AB85F900EFBC9A /* Sources */,
 				5219671D22DD564000ABC0EF /* AppDelegate.swift */,
 				5219671F22DD564000ABC0EF /* MainViewController.swift */,
-				5219672122DD564000ABC0EF /* Main.storyboard */,
 				207B267C2CD1C64100A36838 /* AdapterDataTest */,
 				207B26812CD1E59700A36838 /* CompositionalLayoutTest */,
+				207B268D2CD216E700A36838 /* DiffableDataSourceTest */,
+				5219672122DD564000ABC0EF /* Main.storyboard */,
 				5219672422DD564100ABC0EF /* Assets.xcassets */,
 				5219672622DD564100ABC0EF /* LaunchScreen.storyboard */,
 				5219672922DD564100ABC0EF /* Info.plist */,
@@ -230,6 +241,7 @@
 			files = (
 				20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */,
 				207B26852CD1E70E00A36838 /* CompositionalTestCell.swift in Sources */,
+				207B268F2CD216F700A36838 /* DiffableDataSourceViewController.swift in Sources */,
 				5219673E22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift in Sources */,
 				205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */,
 				207B26822CD1E59700A36838 /* CompositionalLayoutTestViewController.swift in Sources */,

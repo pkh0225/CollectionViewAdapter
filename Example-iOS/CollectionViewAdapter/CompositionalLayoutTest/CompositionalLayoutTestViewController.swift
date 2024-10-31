@@ -10,15 +10,22 @@ import UIKit
 @available(iOS 13.0, *)
 class CompositionalLayoutTestViewController: UIViewController {
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.getLayout())
         collectionView.backgroundColor = .lightGray
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
+
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+        ])
         return collectionView
     }()
 
-    var dataSource: [SectionItem] = [
+    private var dataSource: [SectionItem] = [
         .init(text: "header",
               layoutType: .horizontalListAutoSize,
               subItems: [.init(text: "사과"),
@@ -41,6 +48,7 @@ class CompositionalLayoutTestViewController: UIViewController {
                          .init(text: "사과"),
                          .init(text: "사과ㅁㅇㅇ"),
                          .init(text: "사과"),
+                         .init(text: "사과ㅇㅇㅇ"),
                          .init(text: "사과ㅇㅇㅇ"),
                          .init(text: "사과")]),
         .init(text: "header",
@@ -78,23 +86,16 @@ class CompositionalLayoutTestViewController: UIViewController {
         self.title = "CompositionalLayout"
         self.view.backgroundColor = .white
 
-        NSLayoutConstraint.activate([
-            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-        ])
-
         self.collectionView.adapterData = makeAdapterData()
         self.collectionView.reloadData()
     }
 
-    func makeAdapterData() -> CollectionViewAdapterData {
-        let testData = CollectionViewAdapterData()
+    private func makeAdapterData() -> CollectionViewAdapterData {
+        let testData = CVAData()
         for (s, sectionItem) in dataSource.enumerated() {
-            let sectionInfo = CollectionAdapterSectionInfo()
+            let sectionInfo = CVASectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = CollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
+            sectionInfo.header = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
                 .setContentObj("\(sectionItem.text) \(s)")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -104,7 +105,7 @@ class CompositionalLayoutTestViewController: UIViewController {
                 })
 
             for (i, subItem) in sectionItem.subItems.enumerated() {
-                let cellInfo = CollectionAdapterCellInfo(cellType: CompositionalTestCell.self)
+                let cellInfo = CVACellInfo(cellType: CompositionalTestCell.self)
                     .setContentObj("\(subItem.text) \(i)")
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }
@@ -120,7 +121,7 @@ class CompositionalLayoutTestViewController: UIViewController {
         return testData
     }
 
-    func getLayout() -> UICollectionViewLayout {
+    private func getLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, env -> NSCollectionLayoutSection? in
             switch self.dataSource[sectionIndex].layoutType {
             case .horizontalListAutoSize:
@@ -136,7 +137,7 @@ class CompositionalLayoutTestViewController: UIViewController {
     }
 
 
-    func getGridSection() -> NSCollectionLayoutSection {
+    private func getGridSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(50),
             heightDimension: .estimated(30)
@@ -180,7 +181,7 @@ class CompositionalLayoutTestViewController: UIViewController {
         return section
     }
 
-    func getListSectionAutoSize() -> NSCollectionLayoutSection {
+    private func getListSectionAutoSize() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(50),
             heightDimension: .estimated(30)
@@ -229,7 +230,7 @@ class CompositionalLayoutTestViewController: UIViewController {
         return section
     }
 
-    func getListSection() -> NSCollectionLayoutSection {
+    private func getListSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -286,18 +287,18 @@ class CompositionalLayoutTestViewController: UIViewController {
 
 }
 
-enum layoutType {
+private enum layoutType {
     case grid
     case horizontalList
     case horizontalListAutoSize
 }
-struct SectionItem {
+private struct SectionItem {
     let text: String
     let layoutType: layoutType
     let subItems: [SubItem]
 }
 
-struct SubItem {
+private struct SubItem {
     let text: String
 }
 

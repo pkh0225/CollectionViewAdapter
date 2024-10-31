@@ -21,7 +21,7 @@ class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAd
         // Initialization code
     }
 
-    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? String else { return }
         label.text = data
 
@@ -32,7 +32,7 @@ class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAd
     }
 
     // UICollectionViewAdapterCellProtocol Function
-    func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
+     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {
 //        print("header willDisplay : \(indexPath)")
     }
     // UICollectionViewAdapterCellProtocol Function

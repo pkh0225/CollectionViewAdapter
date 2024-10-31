@@ -19,7 +19,7 @@ class TestFooterCollectionReusableView: UICollectionReusableView, CollectionView
         super.awakeFromNib()
     }
 
-    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? String else { return }
         label.text = data
     }

@@ -10,18 +10,26 @@ import UIKit
 
 class AdapterDataTestViewController: UIViewController {
 
-    lazy var layout: UICollectionViewFlowLayout = {
+    private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
         collectionView.backgroundColor = .lightGray
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
+
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+        ])
+
         return collectionView
     }()
 
@@ -29,25 +37,20 @@ class AdapterDataTestViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Adapter Data"
         self.view.backgroundColor = .white
-        NSLayoutConstraint.activate([
-            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-        ])
 
-        self.collectionView.adapterData = makeAdapterDAta()
+
+        self.collectionView.adapterData = makeAdapterData()
         self.collectionView.isUsedCacheSize = true
         self.collectionView.reloadData()
     }
 
 
-    func makeAdapterDAta() -> CollectionViewAdapterData {
-        let testData = CollectionViewAdapterData()
+    private func makeAdapterData() -> CVAData {
+        let testData = CVAData()
         for i in 0...10 {
-            let sectionInfo = CollectionAdapterSectionInfo()
+            let sectionInfo = CVASectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = CollectionAdapterCellInfo(cellType: TestHeadCollectionReusableView.self)
+            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
                 .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -57,7 +60,7 @@ class AdapterDataTestViewController: UIViewController {
                     self.collectionView.collectionViewLayout = self.layout
                 })
 
-            sectionInfo.footer = CollectionAdapterCellInfo(cellType: TestFooterCollectionReusableView.self)
+            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
                 .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -80,7 +83,7 @@ class AdapterDataTestViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = CollectionAdapterCellInfo(cellType: TestCollectionViewCell.self)
+                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
                     .setContentObj(contentObj)
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }

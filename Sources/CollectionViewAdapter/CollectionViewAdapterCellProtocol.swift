@@ -27,7 +27,9 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     var actionClosure: ActionClosure? { get set }
 
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
-    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?)
+    func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
+    func configureAfter(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath)
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath)
     // didSelect는 cell만 지원가능함
@@ -40,6 +42,8 @@ public extension CollectionViewAdapterCellProtocol {
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return self.fromXibSize()
     }
+    func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
+    func configureAfter(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didEndDisplaying(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {}

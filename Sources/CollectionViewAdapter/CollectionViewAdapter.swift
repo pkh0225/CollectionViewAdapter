@@ -41,7 +41,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     var willDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
     var didEndDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
 
-    var data: CollectionViewAdapterData? {
+    var data: CVAData? {
         didSet {
             if isAutoRolling {
                 setCollectionViewDidAppear(value: isAutoRolling)
@@ -197,9 +197,9 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         return hasNext
     }
 
-    func getCellInfo(_ indexPath: IndexPath) -> CollectionViewAdapterData.CellInfo? {
+    func getCellInfo(_ indexPath: IndexPath) -> CVACellInfo? {
         guard let data = self.data else { return nil }
-        var checkCellInfo: CollectionViewAdapterData.CellInfo?
+        var checkCellInfo: CVACellInfo?
         if infiniteScrollDirection != .none {
             if let sectionInfo = data.sectionList[safe: 0], let cellInfo = sectionInfo.cells[safe: (correctedIndex(indexPath.item))] {
                 checkCellInfo = cellInfo
@@ -214,7 +214,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     // FOR YOU 그만볼래요 처럼 섹션, 셀 삭제 상황을 위해 기능 구현 by. iSunSoo.
-    private func checkCellIndexPath(_ cellInfo: CollectionViewAdapterData.CellInfo) -> IndexPath? {
+    private func checkCellIndexPath(_ cellInfo: CVACellInfo) -> IndexPath? {
         guard let data = self.data else { return nil }
         for (sectionIndex, section) in data.sectionList.enumerated() {
             for (cellIndex, cell) in section.cells.enumerated() {
@@ -226,7 +226,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         return nil
     }
 
-    func removeCellInfo(in collectionView: UICollectionView, cellInfo: CollectionViewAdapterData.CellInfo) {
+    func removeCellInfo(in collectionView: UICollectionView, cellInfo: CVACellInfo) {
         guard let data = self.data else { return }
         // 해당 cellInfo에 속해있는 item이 오직 1개라면 해당 section까지 지운다.
         if let indexPath = checkCellIndexPath(cellInfo) {
@@ -350,7 +350,9 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.parentCollectionView = collectionView
             cell.actionClosure = cellInfo.actionClosure
-            cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo.actionClosure)
+            cell.configureBefore(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
+            cell.configure(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
+            cell.configureAfter(data: cellInfo.contentObj, subData: cellInfo.subData, collectionView: collectionView, indexPath: indexPath)
         }
 
         return cell
@@ -360,7 +362,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         func defaultReturn() -> UICollectionReusableView { return UICollectionReusableView() }
 
         guard let data else { return defaultReturn() }
-        let cellInfo: CollectionViewAdapterData.CellInfo?
+        let cellInfo: CVACellInfo?
         if kind == UICollectionView.elementKindSectionHeader {
             cellInfo = data.sectionList[safe: indexPath.section]?.header
         }
@@ -390,7 +392,9 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         if let view = view as? CollectionViewAdapterCellProtocol {
             view.parentCollectionView = collectionView
             view.actionClosure = cellInfo?.actionClosure
-            view.configure(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath, actionClosure: cellInfo?.actionClosure)
+            view.configureBefore(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath)
+            view.configure(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath)
+            view.configureAfter(data: cellInfo?.contentObj, subData: cellInfo?.subData, collectionView: collectionView, indexPath: indexPath)
         }
 
         return view
@@ -398,7 +402,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let data else { return .zero }
-        var checkCellInfo: CollectionViewAdapterData.CellInfo?
+        var checkCellInfo: CVACellInfo?
         if infiniteScrollDirection != .none {
             if let sectionInfo = data.sectionList[safe: 0], let cellInfo = sectionInfo.cells[safe: (correctedIndex(indexPath.item))] {
                 checkCellInfo = cellInfo

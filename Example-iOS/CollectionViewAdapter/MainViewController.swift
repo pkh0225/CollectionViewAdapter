@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "CollectionViewAdapter"
         if #available(iOS 14.0, *) {
             // test cell auto size
             self.collectionView.setAutoSizeListCellLayout()
@@ -27,11 +27,11 @@ class MainViewController: UIViewController {
 
 
     func makeAdapterDAta() -> CollectionViewAdapterData {
-        let adapterData = CollectionViewAdapterData()
-        let sectionInfo = CollectionAdapterSectionInfo()
+        let adapterData = CVAData()
+        let sectionInfo = CVASectionInfo()
         adapterData.sectionList.append(sectionInfo)
         do {
-            let cellInfo = CollectionAdapterCellInfo(cellType: LineCell.self)
+            let cellInfo = CVACellInfo(cellType: LineCell.self)
                 .setContentObj("Adapter Data Test")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -41,7 +41,7 @@ class MainViewController: UIViewController {
         }
         if #available(iOS 13.0, *) {
             do {
-                let cellInfo = CollectionAdapterCellInfo(cellType: LineCell.self)
+                let cellInfo = CVACellInfo(cellType: LineCell.self)
                     .setContentObj("CompositionalLayout Test")
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }
@@ -49,7 +49,19 @@ class MainViewController: UIViewController {
                     })
                 sectionInfo.cells.append(cellInfo)
             }
+
+            do {
+                let cellInfo = CVACellInfo(cellType: LineCell.self)
+                    .setContentObj("DiffableDataSource Test")
+                    .setActionClosure({ [weak self] (name, object) in
+                        guard let self else { return }
+                        self.navigationController?.pushViewController(DiffableDataSourceViewController(), animated: true)
+                    })
+                sectionInfo.cells.append(cellInfo)
+            }
         }
+
+
 
         return adapterData
     }
@@ -71,7 +83,7 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     lazy var label: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 17)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(label)
@@ -80,7 +92,7 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .cyan
+        self.backgroundColor = UIColor(red: 230 / 255, green: 247 / 255, blue: 230 / 255, alpha: 1.0)
         self.contentView.layer.borderColor = UIColor.black.cgColor
         self.contentView.layer.borderWidth = 0.5
 
@@ -97,7 +109,7 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath, actionClosure: ActionClosure?) {
+    func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? String else { return }
 
         self.label.text = data
@@ -113,10 +125,11 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
 }
 
 func randomColor() -> UIColor {
-    let r: CGFloat = CGFloat(arc4random() % 11) / 10.0
-    let g: CGFloat = CGFloat(arc4random() % 11) / 10.0
-    let b: CGFloat = CGFloat(arc4random() % 11) / 10.0
-    return UIColor(red: r, green: g, blue: b, alpha: 1.0)
+    let red = CGFloat.random(in: 0...1)
+    let green = CGFloat.random(in: 0...1)
+    let blue = CGFloat.random(in: 0...1)
+
+    return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
 }
 
 func alert(vc: UIViewController, title: String, message: String, addAction: (()->Void)? = nil) {

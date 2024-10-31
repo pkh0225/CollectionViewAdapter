@@ -8,13 +8,16 @@
 
 import UIKit
 
-public typealias CollectionAdapterSectionInfo = CollectionViewAdapterData.SectionInfo
-public typealias CollectionAdapterCellInfo = CollectionViewAdapterData.CellInfo
-
+public typealias CVAData = CollectionViewAdapterData
+public typealias CVASectionInfo = CollectionViewAdapterData.SectionInfo
+public typealias CVACellInfo = CollectionViewAdapterData.CellInfo
 
 // MARK: - UICollectionViewAdapterData
 public class CollectionViewAdapterData: NSObject {
     public class CellInfo: NSObject {
+//        private let id: UUID = UUID()
+//        public override var hash: Int { id.hashValue }
+
         public enum CellKind {
             case header
             case footer
@@ -34,6 +37,9 @@ public class CollectionViewAdapterData: NSObject {
     }
 
     public class SectionInfo: NSObject {
+//        private let id: UUID = UUID()
+//        public override var hash: Int { id.hashValue }
+        
         public var header: CellInfo? {
             didSet {
                 header?.kind = .header

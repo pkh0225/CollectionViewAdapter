@@ -16,33 +16,57 @@ CollectionView adpter
 
 ### sample data set
 ```
-        DispatchQueue.global().async {
             
-            var testData = UICollectionViewAdapterData()
-            for i in 0...10 {
-                let sectionInfo = UICollectionViewAdapterData.SectionInfo()
-                testData.sectionList.append(sectionInfo)
-                sectionInfo.header = UICollectionViewAdapterData.CellInfo(contentObj: "@@ header @@ \(i)",
-                                             sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 150) },
-                                                cellType: TestCollectionReusableView.self) { (name, object) in
-                                                    guard let object = object else { return }
-                                                    print("header btn ---- \(name) : \(object)")
-                                                }
-                sectionInfo.footer = UICollectionViewAdapterData.CellInfo(contentObj: " --- footer --- \(i)", cellType: TestFooterCollectionReusableView.self)
-                for j in 0...5 {
-                    let cellInfo = UICollectionViewAdapterData.CellInfo(contentObj: "cell \(j)",
-                                           sizeClosure: { return CGSize(width: UIScreen.main.bounds.size.width, height: 50) },
-                                              cellType: TestCollectionViewCell.self) { (name, object) in
-                                                    guard let object = object else { return }
-                                                    print("cell btn ---- \(name) : \(object)")
-                                             }
-                    sectionInfo.cells.append( cellInfo )
+        let testData = CVAData()
+        for i in 0...10 {
+            let sectionInfo = CVASectionInfo()
+            testData.sectionList.append(sectionInfo)
+            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
+                .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+
+                    alert(vc: self, title: "기본 layout으로 변경", message: "\(object) : \(name)")
+                    self.collectionView.collectionViewLayout = self.layout
+                })
+
+            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
+                .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+
+                    alert(vc: self, title: "AutoSize Layout으로 변경", message: "\(object) : \(name)")
+                    if #available(iOS 14.0, *) {
+                        self.collectionView.setAutoSizeListCellLayout()
+                    }
+                })
+            //
+            for j in 0...3 {
+                let contentObj: String
+                if #available(iOS 14.0, *) {
+                    // cell auto size test
+                    contentObj = "cell (\(i) : \(j))\n12351235\n1235512345"
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.collectoinView.adapterData = testData
-                self.collectoinView.reloadData()
+                else {
+                    // cell fix size
+                    contentObj = "cell (\(i) : \(j))"
+                }
+
+                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
+                    .setContentObj(contentObj)
+                    .setActionClosure({ [weak self] (name, object) in
+                        guard let self else { return }
+                        guard let object = object else { return }
+                        alert(vc: self, title: name, message: "\(object)")
+                    })
+
+                sectionInfo.cells.append(cellInfo)
             }
         }
+            
+        self.collectoinView.adapterData = testData
+        self.collectoinView.reloadData()
+        
 ```
