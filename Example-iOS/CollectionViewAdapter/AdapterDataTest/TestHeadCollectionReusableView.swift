@@ -9,9 +9,6 @@
 import UIKit
 
 class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int = 1
-
-    var actionClosure: ActionClosure?
     @IBOutlet weak var containerView: UIView!
 
     @IBOutlet weak var label: UILabel!

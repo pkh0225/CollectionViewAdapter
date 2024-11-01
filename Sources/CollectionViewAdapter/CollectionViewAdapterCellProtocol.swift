@@ -20,13 +20,30 @@ public typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionVi
 
 
 public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
-    ///  0 : SectionInset 무시하고 width full 크기
+    ///  Cell Auto Size
+    ///
+    ///  0 : SectionInset 무시하고 width full 크기(Deafult Value)
+    ///
     ///  1 : SectionInset 적용된 한개 크기
+    ///
     ///  2 이상 : SectionInset 과 minimumInteritemSpacing 적용된 개수 만큼 크기
     static var SpanSize: Int { get }
+
+    /// 기본 SpanSize를 사용하지 않고 커스텀 Size를 사용하고 싶을때 (안드로이드와 같은 SpapSize 개념)
+    /// - Parameters:
+    ///   - data: configure에 전달되는 동일한 data
+    ///   - width: SpanSize에서 계산된 Width( Section Inst, minimumInteritemSpacing 이 계산된 크기)
+    ///   - collectionView: collectionView
+    ///   - indexPath: 사용될 indexPath
+    /// - Returns: CGSize
+    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
+
+
+    /// 커스텀 액션을 처리하기 위한 변수
+    ///
+    /// CVACellInfo.actionClosure 에 전달된 actionClosure
     var actionClosure: ActionClosure? { get set }
 
-    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize
     func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
     func configureAfter(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
@@ -38,10 +55,25 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath)
 }
 
+private struct AssociatedKeys {
+    static var actionClosure: UInt8 = 0
+}
+
 public extension CollectionViewAdapterCellProtocol {
+    static var SpanSize: Int { return 0 }
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-        return self.fromXibSize()
+        return CGSize(width: width, height: self.fromXibSize().height)
     }
+
+    var actionClosure: ActionClosure? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.actionClosure) as? ActionClosure
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.actionClosure, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
     func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
     func configureAfter(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {}
@@ -49,6 +81,8 @@ public extension CollectionViewAdapterCellProtocol {
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didHighlight(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath) {}
+
+
 }
 
 fileprivate var CacheViewXibs = {

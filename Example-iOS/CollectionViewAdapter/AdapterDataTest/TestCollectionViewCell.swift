@@ -11,7 +11,6 @@ import UIKit
 class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1
 
-    var actionClosure: ActionClosure?
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button1: UIButton!
@@ -52,10 +51,10 @@ class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellPro
 //        print("cell didEndDisplaying : \(indexPath)")
     }
 
-    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-//        print("getSize: \(indexPath)")
-        return CGSize(width: width, height: self.fromXibSize().height)
-    }
+//    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+////        print("getSize: \(indexPath)")
+//        return CGSize(width: width, height: self.fromXibSize().height)
+//    }
 }
 
 //extension TestCollectionViewCell: UICollectionViewAdapterStickyProtocol {

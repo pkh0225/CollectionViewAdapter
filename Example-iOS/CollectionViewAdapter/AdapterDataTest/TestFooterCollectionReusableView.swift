@@ -9,10 +9,6 @@
 import UIKit
 
 class TestFooterCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int = 0
-
-    var actionClosure: ActionClosure?
-    
     @IBOutlet weak var label: UILabel!
 
     override func awakeFromNib() {

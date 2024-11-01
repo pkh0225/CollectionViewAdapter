@@ -39,29 +39,6 @@ class MainViewController: UIViewController {
                 })
             sectionInfo.cells.append(cellInfo)
         }
-        if #available(iOS 13.0, *) {
-            do {
-                let cellInfo = CVACellInfo(cellType: LineCell.self)
-                    .setContentObj("CompositionalLayout Test")
-                    .setActionClosure({ [weak self] (name, object) in
-                        guard let self else { return }
-                        self.navigationController?.pushViewController(CompositionalLayoutTestViewController(), animated: true)
-                    })
-                sectionInfo.cells.append(cellInfo)
-            }
-
-            do {
-                let cellInfo = CVACellInfo(cellType: LineCell.self)
-                    .setContentObj("DiffableDataSource Test")
-                    .setActionClosure({ [weak self] (name, object) in
-                        guard let self else { return }
-                        self.navigationController?.pushViewController(DiffableDataSourceViewController(), animated: true)
-                    })
-                sectionInfo.cells.append(cellInfo)
-            }
-        }
-
-
 
         return adapterData
     }
@@ -76,10 +53,6 @@ class MainViewController: UIViewController {
 }
 
 class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int = 0
-
-    var actionClosure: ActionClosure?
-
     lazy var label: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -87,6 +60,12 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
+            label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
+            label.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15),
+            label.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15),
+        ])
         return label
     }()
 
@@ -96,13 +75,6 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
 //        self.contentView.layer.borderColor = UIColor.lightGray.cgColor
         self.contentView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         self.contentView.layer.borderWidth = 0.5
-
-        NSLayoutConstraint.activate([
-            self.label.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            self.label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
-            self.label.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15),
-            self.label.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15),
-        ])
 
     }
 

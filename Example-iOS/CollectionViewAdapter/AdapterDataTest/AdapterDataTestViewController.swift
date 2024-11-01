@@ -19,7 +19,7 @@ class AdapterDataTestViewController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
-        collectionView.backgroundColor = .lightGray
+        collectionView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
 
@@ -49,6 +49,7 @@ class AdapterDataTestViewController: UIViewController {
         let testData = CVAData()
         for i in 0...10 {
             let sectionInfo = CVASectionInfo()
+            sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             testData.sectionList.append(sectionInfo)
             sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
                 .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
