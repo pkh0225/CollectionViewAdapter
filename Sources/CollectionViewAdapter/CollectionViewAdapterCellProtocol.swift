@@ -54,7 +54,14 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
 }
 
 private struct AssociatedKeys {
-    @Atomic static var actionClosure: UInt8 = 0
+    static var actionClosure: UInt8 = 0
+    private static let accessQueue = DispatchQueue(label: "CollectionViewAdapter.associatedKeys.queue")
+
+    static func synchronized<T>(_ closure: () -> T) -> T {
+        return accessQueue.sync {
+            return closure()
+        }
+    }
 }
 
 public extension CollectionViewAdapterCellProtocol {
@@ -65,10 +72,14 @@ public extension CollectionViewAdapterCellProtocol {
 
     var actionClosure: ActionClosure? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.actionClosure) as? ActionClosure
+            AssociatedKeys.synchronized {
+                return objc_getAssociatedObject(self, &AssociatedKeys.actionClosure) as? ActionClosure
+            }
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.actionClosure, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            AssociatedKeys.synchronized {
+                objc_setAssociatedObject(self, &AssociatedKeys.actionClosure, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
         }
     }
 
@@ -107,32 +118,5 @@ public extension UIView {
 
     class func fromXibSize() -> CGSize {
         return fromXib(cache: true).frame.size
-    }
-}
-
-@propertyWrapper
-public struct Atomic<Value> {
-    private var value: Value
-    private let lock = NSLock()
-
-    public init(wrappedValue value: Value) {
-        self.value = value
-    }
-
-    public var wrappedValue: Value {
-      get { return load() }
-      set { store(newValue: newValue) }
-    }
-
-    public func load() -> Value {
-        lock.lock()
-        defer { lock.unlock() }
-        return value
-    }
-
-    public mutating func store(newValue: Value) {
-        lock.lock()
-        defer { lock.unlock() }
-        value = newValue
     }
 }
