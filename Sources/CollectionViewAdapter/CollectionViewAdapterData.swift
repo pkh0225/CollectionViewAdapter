@@ -52,7 +52,7 @@ public class CollectionViewAdapterData: NSObject {
         }
         public var cells = [CellInfo]()
 
-        public var backgroundColor: UIColor? // UIColor.random
+        public var backgroundColor: UIColor?
         public var sectionInset: UIEdgeInsets = SectionInsetNotSupport {
             didSet {
                 guard sectionInset != oldValue else { return }

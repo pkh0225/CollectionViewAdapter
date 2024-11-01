@@ -60,7 +60,7 @@ class CompositionalTestCell: UICollectionViewCell, CollectionViewAdapterCellProt
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         if indexPath.section == 0 || indexPath.section == 1 {
             self.layer.cornerRadius = self.frame.size.height / 2.0
             self.layer.borderWidth = 1
@@ -77,7 +77,7 @@ class CompositionalTestCell: UICollectionViewCell, CollectionViewAdapterCellProt
 class BackgroundDecorationView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.red // 배경 색상 설정
+        self.backgroundColor = #colorLiteral(red: 1, green: 0.5410095453, blue: 0.7267025113, alpha: 1)
         self.layer.cornerRadius = 10 // 모서리 둥글기 설정
 
         self.backgroundColor = randomColor()

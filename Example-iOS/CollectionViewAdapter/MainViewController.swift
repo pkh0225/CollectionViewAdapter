@@ -92,8 +92,9 @@ class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor(red: 230 / 255, green: 247 / 255, blue: 230 / 255, alpha: 1.0)
-        self.contentView.layer.borderColor = UIColor.black.cgColor
+        self.backgroundColor = #colorLiteral(red: 0.8643704653, green: 1, blue: 0.8994206786, alpha: 1)
+//        self.contentView.layer.borderColor = UIColor.lightGray.cgColor
+        self.contentView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
         self.contentView.layer.borderWidth = 0.5
 
         NSLayoutConstraint.activate([

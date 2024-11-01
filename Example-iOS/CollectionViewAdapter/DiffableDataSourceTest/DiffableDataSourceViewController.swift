@@ -58,14 +58,14 @@ class DiffableDataSourceViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Search"
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor(red: 230 / 255, green: 247 / 255, blue: 230 / 255, alpha: 1.0)
+        textField.backgroundColor = #colorLiteral(red: 0.9019607843, green: 0.968627451, blue: 0.9019607843, alpha: 1)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.addTarget(self, action: #selector(onTextFieldDidChange(textField:)), for: .editingChanged)
         self.view.addSubview(textField)
         return textField
     }()
     private var dataSource: DataSource!
-    private var testItems = [Section]()
+    @Atomic private var testItems = [Section]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,15 +80,15 @@ class DiffableDataSourceViewController: UIViewController {
             guard let self else { return UICollectionViewCell() }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CompositionalTestCell
             cell.actionClosure = { _, _ in
-                print("indexPath section: \(indexPath.section), item: \(indexPath.item)")
+                print("select indexPath section: \(indexPath.section), item: \(indexPath.item)")
                 if indexPath.item == 0 {
-                    self.updateItem(item: item)
+                    self.updateItem(item: item, indexPath: indexPath)
                 }
                 else if cell.label.text == "new item" {
-                    self.deleteItem(item: item)
+                    self.deleteItem(item: item, indexPath: indexPath)
                 }
                 else {
-                    self.addNewItem(item: item)
+                    self.addNewItem(item: item, indexPath: indexPath)
                 }
             }
             cell.configure(data: item.title, subData: nil, collectionView: collectionView, indexPath: indexPath)
@@ -116,21 +116,25 @@ class DiffableDataSourceViewController: UIViewController {
         ])
     }
 
-    private func addNewItem(item: Item) {
-        var snapshot = dataSource.snapshot()
+    private func addNewItem(item: Item, indexPath: IndexPath) {
         let newItem = Item(title: "new item")
+        self.testItems[indexPath.section].subItems.insert(newItem, at: indexPath.item + 1)
+
+        var snapshot = dataSource.snapshot()
         snapshot.insertItems([newItem], afterItem: item)
-//        snapshot.appendItems([newItem], toSection: snapshot.sectionIdentifier(containingItem: item))
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 
-    private func deleteItem(item: Item) {
+    private func deleteItem(item: Item, indexPath: IndexPath) {
+        self.testItems[indexPath.section].subItems.remove(at: indexPath.item)
+
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 
-    private func updateItem(item: Item) {
+    private func updateItem(item: Item, indexPath: IndexPath) {
+//        self.testItems[indexPath.section].subItems[indexPath.item].title = "update item"
         item.title = "updated item"
         var snapshot = dataSource.snapshot()
         if #available(iOS 15.0, *) {
@@ -230,3 +234,31 @@ extension DiffableDataSourceViewController: UICollectionViewDelegate {
 //        return 100
 //    }
 //}
+
+
+@propertyWrapper
+public struct Atomic<Value> {
+    private var value: Value
+    private let lock = NSLock()
+
+    public init(wrappedValue value: Value) {
+        self.value = value
+    }
+
+    public var wrappedValue: Value {
+      get { return load() }
+      set { store(newValue: newValue) }
+    }
+
+    public func load() -> Value {
+        lock.lock()
+        defer { lock.unlock() }
+        return value
+    }
+
+    public mutating func store(newValue: Value) {
+        lock.lock()
+        defer { lock.unlock() }
+        value = newValue
+    }
+}
