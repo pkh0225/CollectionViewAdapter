@@ -9,8 +9,6 @@
 import UIKit
 
 public let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
-public let UISCREEN_WIDTH = UIScreen.main.bounds.width
-public let UISCREEN_HEIGHT = UIScreen.main.bounds.height
 
 public typealias VoidClosure = () -> Void
 public typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
@@ -56,7 +54,7 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
 }
 
 private struct AssociatedKeys {
-    static var actionClosure: UInt8 = 0
+    @Atomic static var actionClosure: UInt8 = 0
 }
 
 public extension CollectionViewAdapterCellProtocol {
@@ -81,10 +79,9 @@ public extension CollectionViewAdapterCellProtocol {
     func didSelect(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didHighlight(collectionView: UICollectionView, indexPath: IndexPath) {}
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath) {}
-
-
 }
 
+@MainActor
 fileprivate var CacheViewXibs = {
     let cache = NSCache<NSString, UIView>()
     cache.countLimit = 200
@@ -113,3 +110,29 @@ public extension UIView {
     }
 }
 
+@propertyWrapper
+public struct Atomic<Value> {
+    private var value: Value
+    private let lock = NSLock()
+
+    public init(wrappedValue value: Value) {
+        self.value = value
+    }
+
+    public var wrappedValue: Value {
+      get { return load() }
+      set { store(newValue: newValue) }
+    }
+
+    public func load() -> Value {
+        lock.lock()
+        defer { lock.unlock() }
+        return value
+    }
+
+    public mutating func store(newValue: Value) {
+        lock.lock()
+        defer { lock.unlock() }
+        value = newValue
+    }
+}

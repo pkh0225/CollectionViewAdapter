@@ -17,8 +17,8 @@ public enum InfiniteScrollDirection {
 // MARK: - UICollectionViewAdapter
 public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     public var isDebugMode: Bool = false
-    public static let CHECK_Y_MORE_SIZE: CGFloat = UISCREEN_HEIGHT * 4
-    public static let CHECK_X_MORE_SIZE: CGFloat = UISCREEN_WIDTH * 2
+    public static let CHECK_Y_MORE_SIZE: CGFloat = UIScreen.main.bounds.height * 4
+    public static let CHECK_X_MORE_SIZE: CGFloat = UIScreen.main.bounds.width * 2
 
     private var checkBeforeHeight: CGFloat = 0.0
     private var checkBeforeHeightIndex: Int = -1
@@ -838,7 +838,7 @@ private extension CollectionViewAdapter {
             var offsetX: CGFloat
             if alignCenter {
                 if targetIndex > 0 {
-                    let firstOffset = pageSize + flowLayout.sectionInset.left + flowLayout.minimumLineSpacing - ((UISCREEN_WIDTH - pageSize) / 2)
+                    let firstOffset = pageSize + flowLayout.sectionInset.left + flowLayout.minimumLineSpacing - ((UIScreen.main.bounds.width - pageSize) / 2)
                     offsetX = firstOffset + (pageSize + flowLayout.minimumLineSpacing) * (targetIndex - 1)
                 }
                 else {

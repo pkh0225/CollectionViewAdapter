@@ -15,10 +15,10 @@
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
 		20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */; };
+		20E09D872CD4B56F004BFCAA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20E09D852CD4B56F004BFCAA /* Main.storyboard */; };
 		20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */; };
 		5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671D22DD564000ABC0EF /* AppDelegate.swift */; };
 		5219672022DD564000ABC0EF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* MainViewController.swift */; };
-		5219672322DD564000ABC0EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672122DD564000ABC0EF /* Main.storyboard */; };
 		5219672522DD564100ABC0EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5219672422DD564100ABC0EF /* Assets.xcassets */; };
 		5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5219672622DD564100ABC0EF /* LaunchScreen.storyboard */; };
 		5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */; };
@@ -38,11 +38,11 @@
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollctionView+Adapter.swift"; sourceTree = "<group>"; };
+		20E09D862CD4B56F004BFCAA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5219671D22DD564000ABC0EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5219671F22DD564000ABC0EF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		5219672222DD564000ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../Sources/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5219672422DD564100ABC0EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5219672722DD564100ABC0EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5219672922DD564100ABC0EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,9 +126,9 @@
 				5219671D22DD564000ABC0EF /* AppDelegate.swift */,
 				5219671F22DD564000ABC0EF /* MainViewController.swift */,
 				207B267C2CD1C64100A36838 /* AdapterDataTest */,
-				5219672122DD564000ABC0EF /* Main.storyboard */,
 				5219672422DD564100ABC0EF /* Assets.xcassets */,
 				5219672622DD564100ABC0EF /* LaunchScreen.storyboard */,
+				20E09D852CD4B56F004BFCAA /* Main.storyboard */,
 				5219672922DD564100ABC0EF /* Info.plist */,
 			);
 			path = CollectionViewAdapter;
@@ -197,12 +197,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20E09D872CD4B56F004BFCAA /* Main.storyboard in Resources */,
 				5219674322DD684900ABC0EF /* TestFooterCollectionReusableView.xib in Resources */,
 				5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */,
 				5219672522DD564100ABC0EF /* Assets.xcassets in Resources */,
 				20AE47F628AB86EA00EFBC9A /* README.md in Resources */,
 				5219673B22DD5F6900ABC0EF /* TestCollectionViewCell.xib in Resources */,
-				5219672322DD564000ABC0EF /* Main.storyboard in Resources */,
 				5219673F22DD60BF00ABC0EF /* TestHeadCollectionReusableView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,10 +233,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5219672122DD564000ABC0EF /* Main.storyboard */ = {
+		20E09D852CD4B56F004BFCAA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5219672222DD564000ABC0EF /* Base */,
+				20E09D862CD4B56F004BFCAA /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
