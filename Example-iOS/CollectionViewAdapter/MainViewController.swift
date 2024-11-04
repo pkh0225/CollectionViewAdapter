@@ -53,6 +53,10 @@ class MainViewController: UIViewController {
 }
 
 class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
+    static var SpanSize: Int = 0
+    
+    var actionClosure: ActionClosure?
+    
     lazy var label: UILabel = {
         let label = UILabel()
         label.textColor = .black

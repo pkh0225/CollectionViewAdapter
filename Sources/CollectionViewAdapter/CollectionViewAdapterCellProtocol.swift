@@ -20,7 +20,7 @@ public typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionVi
 public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  Cell Auto Size
     ///
-    ///  0 : SectionInset 무시하고 width full 크기(Deafult Value)
+    ///  0 : SectionInset 무시하고 CollectionView width full 크기
     ///
     ///  1 : SectionInset 적용된 한개 크기
     ///
@@ -53,34 +53,9 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     func didUnhighlight(collectionView: UICollectionView, indexPath: IndexPath)
 }
 
-private struct AssociatedKeys {
-    static var actionClosure: UInt8 = 0
-    private static let accessQueue = DispatchQueue(label: "CollectionViewAdapter.associatedKeys.queue")
-
-    static func synchronized<T>(_ closure: () -> T) -> T {
-        return accessQueue.sync {
-            return closure()
-        }
-    }
-}
-
 public extension CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int { return 0 }
     static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         return CGSize(width: width, height: self.fromXibSize().height)
-    }
-
-    var actionClosure: ActionClosure? {
-        get {
-            AssociatedKeys.synchronized {
-                return objc_getAssociatedObject(self, &AssociatedKeys.actionClosure) as? ActionClosure
-            }
-        }
-        set {
-            AssociatedKeys.synchronized {
-                objc_setAssociatedObject(self, &AssociatedKeys.actionClosure, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
-        }
     }
 
     func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
