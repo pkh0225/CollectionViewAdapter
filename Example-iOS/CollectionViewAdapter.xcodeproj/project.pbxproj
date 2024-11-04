@@ -11,6 +11,8 @@
 		205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D82A8DEF570085A8B0 /* StickyViewController.swift */; };
 		205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */; };
 		207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */; };
+		207DA9C32CD8B69D0001BFF5 /* CountCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 207DA9C22CD8B69D0001BFF5 /* CountCollectionViewCell.xib */; };
+		207DA9C42CD8B69D0001BFF5 /* CountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207DA9C12CD8B69D0001BFF5 /* CountCollectionViewCell.swift */; };
 		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
 		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
@@ -34,6 +36,8 @@
 		205850D82A8DEF570085A8B0 /* StickyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyViewController.swift; sourceTree = "<group>"; };
 		205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterCellProtocol.swift; sourceTree = "<group>"; };
 		207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterDataTestViewController.swift; sourceTree = "<group>"; };
+		207DA9C12CD8B69D0001BFF5 /* CountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCollectionViewCell.swift; sourceTree = "<group>"; };
+		207DA9C22CD8B69D0001BFF5 /* CountCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountCollectionViewCell.xib; sourceTree = "<group>"; };
 		20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
 		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 				5219674122DD684900ABC0EF /* TestFooterCollectionReusableView.xib */,
 				5219673822DD5F6900ABC0EF /* TestCollectionViewCell.swift */,
 				5219673922DD5F6900ABC0EF /* TestCollectionViewCell.xib */,
+				207DA9C12CD8B69D0001BFF5 /* CountCollectionViewCell.swift */,
+				207DA9C22CD8B69D0001BFF5 /* CountCollectionViewCell.xib */,
 			);
 			path = AdapterDataTest;
 			sourceTree = "<group>";
@@ -201,6 +207,7 @@
 				5219674322DD684900ABC0EF /* TestFooterCollectionReusableView.xib in Resources */,
 				5219672822DD564100ABC0EF /* LaunchScreen.storyboard in Resources */,
 				5219672522DD564100ABC0EF /* Assets.xcassets in Resources */,
+				207DA9C32CD8B69D0001BFF5 /* CountCollectionViewCell.xib in Resources */,
 				20AE47F628AB86EA00EFBC9A /* README.md in Resources */,
 				5219673B22DD5F6900ABC0EF /* TestCollectionViewCell.xib in Resources */,
 				5219673F22DD60BF00ABC0EF /* TestHeadCollectionReusableView.xib in Resources */,
@@ -224,6 +231,7 @@
 				5219672022DD564000ABC0EF /* MainViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,
 				20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */,
+				207DA9C42CD8B69D0001BFF5 /* CountCollectionViewCell.swift in Sources */,
 				20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */,
 				205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */,
 				207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */,

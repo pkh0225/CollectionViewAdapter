@@ -47,9 +47,60 @@ class AdapterDataTestViewController: UIViewController {
 
     private func makeAdapterData() -> CVAData {
         let testData = CVAData()
-        for i in 0...10 {
+        for i in 0...5 {
             let sectionInfo = CVASectionInfo()
             sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            testData.sectionList.append(sectionInfo)
+            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
+                .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+
+                    alert(vc: self, title: "기본 layout으로 변경", message: "\(object) : \(name)")
+                    self.collectionView.collectionViewLayout = self.layout
+                })
+
+            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
+                .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
+                .setActionClosure({ [weak self] (name, object) in
+                    guard let self else { return }
+                    guard let object = object else { return }
+
+                    alert(vc: self, title: "Line Mode AutoSize Layout으로 변경", message: "\(object) : \(name)")
+                    if #available(iOS 14.0, *) {
+                        self.collectionView.setAutoSizeListCellLayout()
+                    }
+                })
+            //
+            for j in 0...3 {
+                let contentObj: String
+                if #available(iOS 14.0, *) {
+                    // cell auto size test
+                    contentObj = "cell (\(i) : \(j))\n12351235\n1235512345"
+                }
+                else {
+                    // cell fix size
+                    contentObj = "cell (\(i) : \(j))"
+                }
+
+                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
+                    .setContentObj(contentObj)
+                    .setActionClosure({ [weak self] (name, object) in
+                        guard let self else { return }
+                        guard let object = object else { return }
+                        alert(vc: self, title: name, message: "\(object)")
+                    })
+
+                sectionInfo.cells.append(cellInfo)
+            }
+        }
+
+        for i in 0...5 {
+            let sectionInfo = CVASectionInfo()
+            sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            sectionInfo.minimumInteritemSpacing = 10
+            sectionInfo.minimumLineSpacing = 5
             testData.sectionList.append(sectionInfo)
             sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
                 .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
@@ -84,7 +135,7 @@ class AdapterDataTestViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
+                let cellInfo = CVACellInfo(cellType: CountCollectionViewCell.self)
                     .setContentObj(contentObj)
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }
