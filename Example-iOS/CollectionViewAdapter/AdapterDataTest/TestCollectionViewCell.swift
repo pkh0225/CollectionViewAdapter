@@ -22,6 +22,10 @@ class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellPro
         super.awakeFromNib()
     }
 
+    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+        return CGSize(width: width, height: self.fromXibSize().height)
+    }
+
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let data = data as? String else { return }
         label.text = data

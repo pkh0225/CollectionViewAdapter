@@ -54,10 +54,6 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
 }
 
 public extension CollectionViewAdapterCellProtocol {
-    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-        return CGSize(width: width, height: self.fromXibSize().height)
-    }
-
     func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
     func configureAfter(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {}
     func willDisplay(collectionView: UICollectionView, indexPath: IndexPath) {}

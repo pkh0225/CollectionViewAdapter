@@ -10,6 +10,7 @@ import UIKit
 
 class CountCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 2
+    var actionClosure: ActionClosure?
 
     @IBOutlet weak var label: UILabel!
 
@@ -18,7 +19,9 @@ class CountCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellPr
         // Initialization code
     }
 
-    var actionClosure: ActionClosure?
+    static func getSize(data: Any?, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+        return CGSize(width: width, height: self.fromXibSize().height)
+    }
 
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath) {
         guard let text = data as? String else { return }
