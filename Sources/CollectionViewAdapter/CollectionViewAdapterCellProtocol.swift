@@ -9,13 +9,7 @@
 import UIKit
 
 public let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
-
-public typealias VoidClosure = () -> Void
-public typealias ActionClosure = (_ name: String, _ object: Any?) -> Void
-public typealias ScrollViewCallback = (_ scrollView: UIScrollView) -> Void
-public typealias CollectionViewDisplayClosure = (_ collectionView: UICollectionView,_ cell: UICollectionViewCell,_ indexPath: IndexPath) -> Void
-public typealias CollectionViewDisplaySupplementaryViewClosure = (_ collectionView: UICollectionView, _ view: UICollectionReusableView, _ elementKind: String, _ indexPath: IndexPath) -> Void
-
+public typealias CVACellProtocol = CollectionViewAdapterCellProtocol
 
 public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  Cell Auto Size
@@ -40,7 +34,7 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     /// 커스텀 액션을 처리하기 위한 변수
     ///
     /// CVACellInfo.actionClosure 에 전달된 actionClosure
-    var actionClosure: ActionClosure? { get set }
+    var actionClosure: ((_ name: String, _ object: Any?) -> Void)? { get set }
 
     func configureBefore(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)
     func configure(data: Any?, subData: Any?, collectionView: UICollectionView, indexPath: IndexPath)

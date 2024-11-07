@@ -7,8 +7,6 @@
 //
 import UIKit
 
-public typealias BoolClosure = (_ value: Bool) -> Void
-
 extension UIView {
     private struct ViewDidAppearCADisplayLinkKeys {
         static var viewDidAppearIsVisible: UInt8 = 0
@@ -24,9 +22,9 @@ extension UIView {
         }
     }
 
-    public var viewDidAppear: BoolClosure? {
+    public var viewDidAppear: ((_ value: Bool) -> Void)? {
         get {
-            return objc_getAssociatedObject(self, &ViewDidAppearCADisplayLinkKeys.viewDidAppear) as? BoolClosure
+            return objc_getAssociatedObject(self, &ViewDidAppearCADisplayLinkKeys.viewDidAppear) as? ((_ value: Bool) -> Void)
         }
         set {
             objc_setAssociatedObject( self, &ViewDidAppearCADisplayLinkKeys.viewDidAppear, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

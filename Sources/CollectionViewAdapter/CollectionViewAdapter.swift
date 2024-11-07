@@ -31,15 +31,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     public var stickyVC: StickyViewController?
-    var didScrollCallback: [ScrollViewCallback] = []
-    var willDisplayCellCallback: [CollectionViewDisplayClosure] = []
-    var didEndDisplayCellCallback: [CollectionViewDisplayClosure] = []
-    var willEndDraggingCallback: ((UIScrollView, CGPoint, UnsafeMutablePointer<CGPoint>) -> Void)?
-    var willBeginDraggingCallback: ((UIScrollView) -> Void)?
-    var autoRollingCallback: ((CGPoint) -> Void)?
-    var didEndDeceleratingCallback: [ScrollViewCallback] = []
-    var willDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
-    var didEndDisplaySupplementaryViewCallback: [CollectionViewDisplaySupplementaryViewClosure] = []
+    weak var scrollViewDelegate: UIScrollViewDelegate?
 
     var data: CVAData? {
         didSet {
@@ -157,7 +149,6 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         let pageWidth: CGFloat = (pageSize > 0) ? pageSize : cView.frame.size.width
         let nextIndex = floor(cView.contentOffset.x / pageWidth) + 1
         cView.setContentOffset(CGPoint(x: nextIndex * pageWidth, y: 0), animated: true)
-        self.autoRollingCallback?(CGPoint(x: nextIndex * pageWidth, y: 0))
         perform(#selector(self.horizontalAutoRolling), with: nil, afterDelay: 3)
     }
 
@@ -167,7 +158,6 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         let pageHeight: CGFloat = (pageSize > 0) ? pageSize : cView.frame.size.height
         let nextIndex = floor(cView.contentOffset.y / pageHeight) + 1
         cView.setContentOffset(CGPoint(x: 0, y: nextIndex * pageHeight), animated: true)
-        self.autoRollingCallback?(CGPoint(x: 0, y: nextIndex * pageHeight))
         perform(#selector(self.verticalAutoRolling), with: nil, afterDelay: 3)
     }
 
@@ -530,9 +520,6 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        for callback in self.willDisplayCellCallback {
-            callback(collectionView, cell, indexPath)
-        }
         if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.willDisplay(collectionView: collectionView, indexPath: indexPath)
         }
@@ -548,15 +535,9 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         if let cell = cell as? CollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
         }
-        for callback in self.didEndDisplayCellCallback {
-            callback(collectionView, cell, indexPath)
-        }
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        for callback in self.willDisplaySupplementaryViewCallback {
-            callback(collectionView, view, elementKind, indexPath)
-        }
         if let cell = view as? CollectionViewAdapterCellProtocol {
             cell.willDisplay(collectionView: collectionView, indexPath: indexPath)
         }
@@ -571,9 +552,6 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if let cell = view as? CollectionViewAdapterCellProtocol {
             cell.didEndDisplaying(collectionView: collectionView, indexPath: indexPath)
-        }
-        for callback in self.didEndDisplaySupplementaryViewCallback {
-            callback(collectionView, view, elementKind, indexPath)
         }
     }
 
@@ -595,13 +573,25 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
     }
 
+    func addStickyView(view: UIView, collectionView: UICollectionView, at indexPath: IndexPath ) {
+        guard let casp = view as? UICollectionViewAdapterStickyProtocol, casp.isSticky else { return }
+        let item = StickyViewController.StickyViewItem(indexPath: indexPath, view: casp)
+        if stickyVC == nil {
+            stickyVC = StickyViewController(collectionView: collectionView, item: item)
+        }
+        else {
+            stickyVC?.addStickyItem(collectionView: collectionView, addItem: item)
+        }
+    }
+}
+
+//MARK: - UIScrollViewDelegate
+extension CollectionViewAdapter: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print("scrollView.contentOffset.x = \(scrollView.contentOffset.x)")
+        self.scrollViewDelegate?.scrollViewDidScroll?(scrollView)
         guard scrollView.contentSize != .zero else { return }
         guard let scrollView = scrollView as? UICollectionView else { return }
-        for callback in self.didScrollCallback {
-            callback(scrollView)
-        }
+
         if let stickyVC, stickyVC.stickyItems.count > 0 {
             stickyVC.scrollViewDidScroll(scrollView)
         }
@@ -637,8 +627,12 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
     }
 
+    public func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        self.scrollViewDelegate?.scrollViewDidZoom?(scrollView)
+    }
+
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.willBeginDraggingCallback?(scrollView)
+        self.scrollViewDelegate?.scrollViewWillBeginDragging?(scrollView)
         if isAutoRolling {
 //            print("scrollViewWillBeginDragging")
             if infiniteScrollDirection != .none {
@@ -647,18 +641,29 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
     }
 
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        self.scrollViewDelegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+        guard let scrollView = scrollView as? UICollectionView else { return }
+        guard pageSize > 0 else { return }
+        if let flowLayout = scrollView.collectionViewLayout as? UICollectionViewFlowLayout {
+            if flowLayout.scrollDirection == .horizontal {
+                targetContentOffset.pointee.x = getTargetContentOffset(scrollView: scrollView, velocity: velocity)
+            }
+            else {
+                targetContentOffset.pointee.y = getTargetContentOffset(scrollView: scrollView, velocity: velocity)
+            }
+        }
+    }
+
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        print("scrollViewDidEndDragging willDecelerate = \(decelerate)")
+        self.scrollViewDelegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
         if !decelerate {
             scrollViewDidEndDecelerating(scrollView)
         }
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        print("scrollViewDidEndDecelerating")
-        for callback in self.didEndDeceleratingCallback {
-            callback(scrollView)
-        }
+        self.scrollViewDelegate?.scrollViewDidEndDecelerating?(scrollView)
         if isAutoRolling {
             if infiniteScrollDirection == .horizontal {
                 perform(#selector(self.horizontalAutoRolling), with: nil, afterDelay: 3)
@@ -674,7 +679,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-//        print("scrollViewDidEndScrollingAnimation")
+        self.scrollViewDelegate?.scrollViewDidEndScrollingAnimation?(scrollView)
         DispatchQueue.main.async {
             self.isPageAnimating = false
         }
@@ -683,32 +688,29 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
     }
 
-    // pageSize
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        self.willEndDraggingCallback?(scrollView, velocity, targetContentOffset)
-        guard let scrollView = scrollView as? UICollectionView else { return }
-        guard pageSize > 0 else { return }
-        if let flowLayout = scrollView.collectionViewLayout as? UICollectionViewFlowLayout {
-            if flowLayout.scrollDirection == .horizontal {
-                targetContentOffset.pointee.x = getTargetContentOffset(scrollView: scrollView, velocity: velocity)
-            }
-            else {
-                targetContentOffset.pointee.y = getTargetContentOffset(scrollView: scrollView, velocity: velocity)
-            }
-        }
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.scrollViewDelegate?.viewForZooming?(in: scrollView)
     }
 
-    func addStickyView(view: UIView, collectionView: UICollectionView, at indexPath: IndexPath ) {
-        guard let casp = view as? UICollectionViewAdapterStickyProtocol, casp.isSticky else { return }
-        let item = StickyViewController.StickyViewItem(indexPath: indexPath, view: casp)
-        if stickyVC == nil {
-            stickyVC = StickyViewController(collectionView: collectionView, item: item)
-        }
-        else {
-            stickyVC?.addStickyItem(collectionView: collectionView, addItem: item)
-        }
+    public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        self.scrollViewDelegate?.scrollViewWillBeginZooming?(scrollView, with: view)
     }
 
+    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        self.scrollViewDelegate?.scrollViewDidEndZooming?(scrollView, with: view, atScale: scale)
+    }
+
+    public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return self.scrollViewDelegate?.scrollViewShouldScrollToTop?(scrollView) ?? true
+    }
+
+    public func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        self.scrollViewDelegate?.scrollViewDidScrollToTop?(scrollView)
+    }
+
+    public func scrollViewDidChangeAdjustedContentInset(_ scrollView: UIScrollView) {
+        self.scrollViewDelegate?.scrollViewDidChangeAdjustedContentInset?(scrollView)
+    }
 }
 
 // MARK: - private HorizontalInfinite

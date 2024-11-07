@@ -29,7 +29,7 @@ public class CollectionViewAdapterData: NSObject {
         public var subData: [String: Any?]?
         public var cellType: CollectionViewAdapterCellProtocol.Type
         public var sizeClosure: (() -> CGSize)?
-        public var actionClosure: ActionClosure?
+        public var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
 
         public init(cellType: CollectionViewAdapterCellProtocol.Type) {
             self.cellType = cellType
@@ -112,7 +112,7 @@ extension CollectionViewAdapterData.CellInfo {
         return self
     }
 
-    public func setActionClosure(_ actionClosure: ActionClosure? = nil) -> Self {
+    public func setActionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)? = nil) -> Self {
         self.actionClosure = actionClosure
         return self
     }

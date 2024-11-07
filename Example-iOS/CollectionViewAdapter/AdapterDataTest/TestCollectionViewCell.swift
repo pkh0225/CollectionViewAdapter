@@ -10,7 +10,7 @@ import UIKit
 
 class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1
-    var actionClosure: ActionClosure?
+    var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var label: UILabel!

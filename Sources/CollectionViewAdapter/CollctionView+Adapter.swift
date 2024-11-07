@@ -12,7 +12,7 @@ public class DisplayLinkInfo {
     var postion: CGPoint = .zero
     var duration: TimeInterval = 0
     var delay: TimeInterval = 0
-    var completion: VoidClosure?
+    var completion: (() -> Void)?
     var d_x: CGFloat = 0
     var d_y: CGFloat = 0
 
@@ -112,6 +112,15 @@ extension UICollectionView {
         }
     }
 
+    public var scrollViewDelegate: UIScrollViewDelegate? {
+        get {
+            return self.adapter.scrollViewDelegate
+        }
+        set {
+            self.adapter.scrollViewDelegate = newValue
+        }
+    }
+
     public var unitWidthDic: [Int: CGFloat] {
         get {
             if let obj = objc_getAssociatedObject(self, &AssociatedKeys.unitWidthDIc) as? [Int: CGFloat] {
@@ -193,34 +202,6 @@ extension UICollectionView {
             return delegate?.collectionView?(self, layout: self.collectionViewLayout, insetForSectionAt: section) ?? layout.sectionInset
         }
         return .zero
-    }
-
-    public func didScrollCallback(_ callback: @escaping ScrollViewCallback) {
-        adapter.didScrollCallback.append(callback)
-    }
-    public func didEndDeceleratingCallback(_ callback: @escaping ScrollViewCallback) {
-        adapter.didEndDeceleratingCallback.append(callback)
-    }
-    public func willEndDraggingCallback(_ callback: @escaping (UIScrollView, CGPoint, UnsafeMutablePointer<CGPoint>) -> Void) {
-        adapter.willEndDraggingCallback = callback
-    }
-    public func willBeginDraggingCallback(_ callback: @escaping ScrollViewCallback) {
-        adapter.willBeginDraggingCallback = callback
-    }
-    public func willDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
-        adapter.willDisplayCellCallback.append(callback)
-    }
-    public func didEndDisplayCellCallback(_ callback: @escaping CollectionViewDisplayClosure) {
-        adapter.didEndDisplayCellCallback.append(callback)
-    }
-    public func willDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
-        adapter.willDisplaySupplementaryViewCallback.append(callback)
-    }
-    public func didEndDisplaySupplementaryViewCallback(_ callback: @escaping CollectionViewDisplaySupplementaryViewClosure) {
-        adapter.didEndDisplaySupplementaryViewCallback.append(callback)
-    }
-    public func autoRollingCallback(_ callback: @escaping (CGPoint) -> Void) {
-        adapter.autoRollingCallback = callback
     }
 
     public var adapterHasNext: Bool {
@@ -502,7 +483,7 @@ extension UICollectionView {
     ///   - duration: duration
     ///   - delay: delay
     ///   - completion: completion
-    public func scrollToPostion(position: CGPoint, duration: TimeInterval, delay: TimeInterval, completion: VoidClosure? = nil) {
+    public func scrollToPostion(position: CGPoint, duration: TimeInterval, delay: TimeInterval, completion: (() -> Void)? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             guard self.contentSize.width > self.frame.size.width else { return }
             guard duration > 0, self.contentOffset != position else {

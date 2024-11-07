@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
 class LineCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 0
     
-    var actionClosure: ActionClosure?
+    var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
     
     lazy var label: UILabel = {
         let label = UILabel()

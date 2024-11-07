@@ -11,7 +11,7 @@ import UIKit
 class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 0
     
-    var actionClosure: ActionClosure?
+    var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
     
     @IBOutlet weak var containerView: UIView!
 

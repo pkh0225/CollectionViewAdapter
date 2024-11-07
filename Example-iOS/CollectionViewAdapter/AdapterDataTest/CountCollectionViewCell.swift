@@ -10,7 +10,7 @@ import UIKit
 
 class CountCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 2
-    var actionClosure: ActionClosure?
+    var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
 
     @IBOutlet weak var label: UILabel!
 
