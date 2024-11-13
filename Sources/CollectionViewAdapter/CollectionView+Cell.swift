@@ -8,17 +8,33 @@
 
 import UIKit
 
-private var cacheNibs = {
-    let cache = NSCache<NSString, UINib>()
-    cache.countLimit = 300
-    return cache
-}()
+final class CacheManager {
+    nonisolated(unsafe) static let shared = CacheManager()
+    private var cache = NSCache<NSString, UINib>()
+    private let queue = DispatchQueue(label: "com.cacheManager.queue")
+
+    init() {
+        cache.countLimit = 500
+    }
+
+    func setObject(_ obj: UINib, forKey key: String) {
+        queue.sync {
+            cache.setObject(obj, forKey: key as NSString)
+        }
+    }
+
+    func object(forKey key: String) -> UINib? {
+        return queue.sync {
+            cache.object(forKey: key as NSString)
+        }
+    }
+}
 
 extension UICollectionView {
     private struct AssociatedKeys {
-        static var registerCellName: UInt8 = 0
-        static var registerHeaderName: UInt8 = 0
-        static var registerFooterName: UInt8 = 0
+        nonisolated(unsafe) static var registerCellName: UInt8 = 0
+        nonisolated(unsafe) static var registerHeaderName: UInt8 = 0
+        nonisolated(unsafe) static var registerFooterName: UInt8 = 0
     }
 
     public var registerCellNames: Set<String> {
@@ -190,12 +206,12 @@ extension UICollectionView {
     }
 
     private func getNib(className: String, bundle: Bundle? = nil) -> UINib {
-        if let nib = cacheNibs.object(forKey: className as NSString) {
+        if let nib = CacheManager.shared.object(forKey: className) {
             return nib
         }
 
         let nib = UINib(nibName: className, bundle: bundle)
-        cacheNibs.setObject(nib, forKey: className as NSString)
+        CacheManager.shared.setObject(nib, forKey: className)
         return nib
     }
 
@@ -317,8 +333,8 @@ extension UICollectionView {
 
 extension UICollectionReusableView {
     private struct AssociatedKeys {
-        static var indexPath: UInt8 = 0
-        static var collectionView: UInt8 = 0
+        nonisolated(unsafe) static var indexPath: UInt8 = 0
+        nonisolated(unsafe) static var collectionView: UInt8 = 0
     }
     public var indexPath: IndexPath {
         get {
@@ -341,8 +357,8 @@ extension UICollectionReusableView {
 
 extension NSObject {
     private struct AssociatedKeys {
-        static var className: UInt8 = 0
-        static var observerAble: UInt8 = 0
+        nonisolated(unsafe) static var className: UInt8 = 0
+        nonisolated(unsafe) static var observerAble: UInt8 = 0
     }
 
     var className: String {

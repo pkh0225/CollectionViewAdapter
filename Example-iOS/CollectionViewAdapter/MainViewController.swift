@@ -109,6 +109,7 @@ func randomColor() -> UIColor {
     return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
 }
 
+@MainActor
 func alert(vc: UIViewController, title: String, message: String, addAction: (()->Void)? = nil) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "확인", style: .default) { action in

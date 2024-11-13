@@ -9,8 +9,8 @@ import UIKit
 
 extension UIView {
     private struct ViewDidAppearCADisplayLinkKeys {
-        static var viewDidAppearIsVisible: UInt8 = 0
-        static var viewDidAppear: UInt8 = 0
+        nonisolated(unsafe) static var viewDidAppearIsVisible: UInt8 = 0
+        nonisolated(unsafe) static var viewDidAppear: UInt8 = 0
     }
 
     public var viewDidAppearIsVisible: Bool? {
@@ -131,6 +131,7 @@ extension UIView {
 }
 
 // MARK: -
+@MainActor
 private class ViewDidAppearCADisplayLink {
     static let shared = ViewDidAppearCADisplayLink()
     private init() {

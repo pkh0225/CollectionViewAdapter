@@ -23,9 +23,9 @@ public class DisplayLinkInfo {
 // MARK: - UICollectionView Extension
 extension UICollectionView {
     private struct AssociatedKeys {
-        static var collectionViewAdapter: UInt8 = 0
-        static var unitWidthDIc: UInt8 = 0
-        static var displayLinkInfo: UInt8 = 0
+        nonisolated(unsafe) static var collectionViewAdapter: UInt8 = 0
+        nonisolated(unsafe) static var unitWidthDIc: UInt8 = 0
+        nonisolated(unsafe) static var displayLinkInfo: UInt8 = 0
     }
 
     public var flowLayout: UICollectionViewFlowLayout? {

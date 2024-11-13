@@ -24,7 +24,9 @@ public protocol UICollectionViewAdapterStickyProtocol: UIView {
 }
 
 // MARK: - StickyViewController
+@MainActor
 public class StickyViewController: NSObject {
+    @MainActor
     public class StickyViewItem: NSObject {
         static func == (lhs: StickyViewController.StickyViewItem, rhs: StickyViewController.StickyViewItem) -> Bool {
             return (lhs.indexPath.section == rhs.indexPath.section) && (lhs.indexPath.row == rhs.indexPath.row)
