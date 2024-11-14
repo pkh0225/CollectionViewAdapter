@@ -8,9 +8,9 @@
 
 import UIKit
 
-final class CacheManager {
-    nonisolated(unsafe) static let shared = CacheManager()
-    private var cache = NSCache<NSString, UINib>()
+final class CacheManager: Sendable {
+    static let shared = CacheManager()
+    nonisolated(unsafe) private var cache = NSCache<NSString, UINib>()
     private let queue = DispatchQueue(label: "com.cacheManager.queue")
 
     init() {
@@ -18,8 +18,8 @@ final class CacheManager {
     }
 
     func setObject(_ obj: UINib, forKey key: String) {
-        queue.sync {
-            cache.setObject(obj, forKey: key as NSString)
+        self.queue.async(flags: .barrier) {
+            self.cache.setObject(obj, forKey: key as NSString)
         }
     }
 
