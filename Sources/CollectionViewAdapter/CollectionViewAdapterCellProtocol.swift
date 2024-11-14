@@ -11,6 +11,7 @@ import UIKit
 public let SectionInsetNotSupport = UIEdgeInsets(top: -9999, left: -9999, bottom: -9999, right: -9999)
 public typealias CVACellProtocol = CollectionViewAdapterCellProtocol
 
+@MainActor
 public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  Cell Auto Size
     ///
@@ -65,7 +66,6 @@ fileprivate var CacheViewXibs = {
 }()
 
 public extension UIView {
-
     class func fromXib(cache: Bool = false) -> Self {
         return fromXib(cache: cache, as: self)
     }
