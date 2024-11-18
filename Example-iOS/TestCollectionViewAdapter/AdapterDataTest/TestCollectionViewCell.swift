@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CollectionViewAdapter
 
 class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 1

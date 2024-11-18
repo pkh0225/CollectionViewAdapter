@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CollectionViewAdapter
 
 class TestFooterCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 0

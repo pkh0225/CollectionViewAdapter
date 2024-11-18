@@ -3,22 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */; };
-		205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850D82A8DEF570085A8B0 /* StickyViewController.swift */; };
-		205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */; };
 		207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */; };
 		207DA9C32CD8B69D0001BFF5 /* CountCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 207DA9C22CD8B69D0001BFF5 /* CountCollectionViewCell.xib */; };
 		207DA9C42CD8B69D0001BFF5 /* CountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207DA9C12CD8B69D0001BFF5 /* CountCollectionViewCell.swift */; };
-		20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */; };
-		20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */; };
+		209229602CEAFF6700E4B140 /* CollectionViewAdapter in Frameworks */ = {isa = PBXBuildFile; productRef = 2092295F2CEAFF6700E4B140 /* CollectionViewAdapter */; };
 		20AE47F628AB86EA00EFBC9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 20AE47F528AB86EA00EFBC9A /* README.md */; };
-		20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */; };
 		20E09D872CD4B56F004BFCAA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20E09D852CD4B56F004BFCAA /* Main.storyboard */; };
-		20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */; };
 		5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671D22DD564000ABC0EF /* AppDelegate.swift */; };
 		5219672022DD564000ABC0EF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219671F22DD564000ABC0EF /* MainViewController.swift */; };
 		5219672522DD564100ABC0EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5219672422DD564100ABC0EF /* Assets.xcassets */; };
@@ -32,19 +26,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterData.swift; sourceTree = "<group>"; };
-		205850D82A8DEF570085A8B0 /* StickyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyViewController.swift; sourceTree = "<group>"; };
-		205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapterCellProtocol.swift; sourceTree = "<group>"; };
 		207B267D2CD1C65600A36838 /* AdapterDataTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterDataTestViewController.swift; sourceTree = "<group>"; };
 		207DA9C12CD8B69D0001BFF5 /* CountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCollectionViewCell.swift; sourceTree = "<group>"; };
 		207DA9C22CD8B69D0001BFF5 /* CountCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountCollectionViewCell.xib; sourceTree = "<group>"; };
-		20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewAdapter.swift; sourceTree = "<group>"; };
-		20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+Cell.swift"; sourceTree = "<group>"; };
 		20AE47F528AB86EA00EFBC9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollctionView+Adapter.swift"; sourceTree = "<group>"; };
 		20E09D862CD4B56F004BFCAA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5219671A22DD564000ABC0EF /* TestCollectionViewAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCollectionViewAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5219671D22DD564000ABC0EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5219671F22DD564000ABC0EF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5219672422DD564100ABC0EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -63,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				209229602CEAFF6700E4B140 /* CollectionViewAdapter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,34 +73,19 @@
 			path = AdapterDataTest;
 			sourceTree = "<group>";
 		};
-		20AE47EF28AB85F900EFBC9A /* Sources */ = {
+		2092295B2CEAFEA000E4B140 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				20AE47F028AB85F900EFBC9A /* CollectionViewAdapter */,
 			);
-			name = Sources;
-			path = ../../Sources;
-			sourceTree = "<group>";
-		};
-		20AE47F028AB85F900EFBC9A /* CollectionViewAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				20AE47F128AB85F900EFBC9A /* CollectionViewAdapter.swift */,
-				20D7E3362CC76FF000556DCD /* CollctionView+Adapter.swift */,
-				20AE47F228AB85F900EFBC9A /* CollectionView+Cell.swift */,
-				205850D82A8DEF570085A8B0 /* StickyViewController.swift */,
-				205850D62A8DEF340085A8B0 /* CollectionViewAdapterData.swift */,
-				205850DD2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift */,
-				20F1B22F2CCA10E100D3F71D /* UIViewExtension.swift */,
-			);
-			path = CollectionViewAdapter;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5219671122DD564000ABC0EF = {
 			isa = PBXGroup;
 			children = (
 				20AE47F528AB86EA00EFBC9A /* README.md */,
-				5219671C22DD564000ABC0EF /* CollectionViewAdapter */,
+				5219671C22DD564000ABC0EF /* TestCollectionViewAdapter */,
+				2092295B2CEAFEA000E4B140 /* Frameworks */,
 				5219671B22DD564000ABC0EF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,15 +93,14 @@
 		5219671B22DD564000ABC0EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */,
+				5219671A22DD564000ABC0EF /* TestCollectionViewAdapter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5219671C22DD564000ABC0EF /* CollectionViewAdapter */ = {
+		5219671C22DD564000ABC0EF /* TestCollectionViewAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				20AE47EF28AB85F900EFBC9A /* Sources */,
 				5219671D22DD564000ABC0EF /* AppDelegate.swift */,
 				5219671F22DD564000ABC0EF /* MainViewController.swift */,
 				207B267C2CD1C64100A36838 /* AdapterDataTest */,
@@ -137,15 +109,15 @@
 				20E09D852CD4B56F004BFCAA /* Main.storyboard */,
 				5219672922DD564100ABC0EF /* Info.plist */,
 			);
-			path = CollectionViewAdapter;
+			path = TestCollectionViewAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5219671922DD564000ABC0EF /* CollectionViewAdapter */ = {
+		5219671922DD564000ABC0EF /* TestCollectionViewAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5219672C22DD564100ABC0EF /* Build configuration list for PBXNativeTarget "CollectionViewAdapter" */;
+			buildConfigurationList = 5219672C22DD564100ABC0EF /* Build configuration list for PBXNativeTarget "TestCollectionViewAdapter" */;
 			buildPhases = (
 				5219671622DD564000ABC0EF /* Sources */,
 				5219671722DD564000ABC0EF /* Frameworks */,
@@ -155,11 +127,12 @@
 			);
 			dependencies = (
 			);
-			name = CollectionViewAdapter;
+			name = TestCollectionViewAdapter;
 			packageProductDependencies = (
+				2092295F2CEAFF6700E4B140 /* CollectionViewAdapter */,
 			);
 			productName = CollectionViewAdapter;
-			productReference = 5219671A22DD564000ABC0EF /* CollectionViewAdapter.app */;
+			productReference = 5219671A22DD564000ABC0EF /* TestCollectionViewAdapter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -178,7 +151,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5219671522DD564000ABC0EF /* Build configuration list for PBXProject "CollectionViewAdapter" */;
+			buildConfigurationList = 5219671522DD564000ABC0EF /* Build configuration list for PBXProject "TestCollectionViewAdapter" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -188,12 +161,13 @@
 			);
 			mainGroup = 5219671122DD564000ABC0EF;
 			packageReferences = (
+				2092295E2CEAFF6700E4B140 /* XCLocalSwiftPackageReference "../../CollectionViewAdapter" */,
 			);
 			productRefGroup = 5219671B22DD564000ABC0EF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5219671922DD564000ABC0EF /* CollectionViewAdapter */,
+				5219671922DD564000ABC0EF /* TestCollectionViewAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -221,19 +195,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20AE47F328AB85F900EFBC9A /* CollectionViewAdapter.swift in Sources */,
 				5219673E22DD60BF00ABC0EF /* TestHeadCollectionReusableView.swift in Sources */,
-				205850DE2A8DF0E40085A8B0 /* CollectionViewAdapterCellProtocol.swift in Sources */,
 				5219673A22DD5F6900ABC0EF /* TestCollectionViewCell.swift in Sources */,
 				5219674222DD684900ABC0EF /* TestFooterCollectionReusableView.swift in Sources */,
-				205850D72A8DEF340085A8B0 /* CollectionViewAdapterData.swift in Sources */,
-				20D7E3372CC7700B00556DCD /* CollctionView+Adapter.swift in Sources */,
 				5219672022DD564000ABC0EF /* MainViewController.swift in Sources */,
 				5219671E22DD564000ABC0EF /* AppDelegate.swift in Sources */,
-				20AE47F428AB85F900EFBC9A /* CollectionView+Cell.swift in Sources */,
 				207DA9C42CD8B69D0001BFF5 /* CountCollectionViewCell.swift in Sources */,
-				20F1B2302CCA10E700D3F71D /* UIViewExtension.swift in Sources */,
-				205850D92A8DEF570085A8B0 /* StickyViewController.swift in Sources */,
 				207B267E2CD1C65A00A36838 /* AdapterDataTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,13 +353,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7CMNW8US5Y;
-				INFOPLIST_FILE = CollectionViewAdapter/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				INFOPLIST_FILE = TestCollectionViewAdapter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beta.CollectionViewAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beta.TestCollectionViewAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -405,13 +372,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7CMNW8US5Y;
-				INFOPLIST_FILE = CollectionViewAdapter/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				INFOPLIST_FILE = TestCollectionViewAdapter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beta.CollectionViewAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beta.TestCollectionViewAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -421,7 +388,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5219671522DD564000ABC0EF /* Build configuration list for PBXProject "CollectionViewAdapter" */ = {
+		5219671522DD564000ABC0EF /* Build configuration list for PBXProject "TestCollectionViewAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5219672A22DD564100ABC0EF /* Debug */,
@@ -430,7 +397,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5219672C22DD564100ABC0EF /* Build configuration list for PBXNativeTarget "CollectionViewAdapter" */ = {
+		5219672C22DD564100ABC0EF /* Build configuration list for PBXNativeTarget "TestCollectionViewAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5219672D22DD564100ABC0EF /* Debug */,
@@ -440,6 +407,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2092295E2CEAFF6700E4B140 /* XCLocalSwiftPackageReference "../../CollectionViewAdapter" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../CollectionViewAdapter;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2092295F2CEAFF6700E4B140 /* CollectionViewAdapter */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CollectionViewAdapter;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5219671222DD564000ABC0EF /* Project object */;
 }

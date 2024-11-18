@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CollectionViewAdapter
 
 class CountCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
     static var SpanSize: Int = 2
