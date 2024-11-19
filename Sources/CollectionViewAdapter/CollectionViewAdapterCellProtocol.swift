@@ -59,29 +59,53 @@ public extension CollectionViewAdapterCellProtocol {
 }
 
 @MainActor
-fileprivate var CacheViewXibs = {
-    let cache = NSCache<NSString, UIView>()
-    cache.countLimit = 200
-    return cache
-}()
+public class ViewCacheManager {
+    static var cacheViewNibs: NSCache<NSString, UIView> = {
+        var c = NSCache<NSString, UIView>()
+        c.countLimit = 500
+        return c
+    }()
+    static var cacheNibs: NSCache<NSString, UINib> = {
+        var c = NSCache<NSString, UINib>()
+        c.countLimit = 500
+        return c
+    }()
 
-public extension UIView {
+    public static func cacheRemoveAll() {
+        self.cacheViewNibs.removeAllObjects()
+        self.cacheNibs.removeAllObjects()
+    }
+}
+
+extension UIView {
     class func fromXib(cache: Bool = false) -> Self {
         return fromXib(cache: cache, as: self)
     }
 
     private class func fromXib<T>(cache: Bool = false, as type: T.Type) -> T {
-        if cache, let view = CacheViewXibs.object(forKey: self.className as NSString) {
+        if cache, let view = ViewCacheManager.cacheViewNibs.object(forKey: self.className as NSString) {
             return view as! T
         }
-        let view: UIView = Bundle.main.loadNibNamed(self.className, owner: nil, options: nil)!.first as! UIView
-        if cache {
-            CacheViewXibs.setObject(view, forKey: self.className as NSString)
+        else if let nib = ViewCacheManager.cacheNibs.object(forKey: self.className as NSString) {
+            return nib.instantiate(withOwner: nil, options: nil).first as! T
         }
-        return view as! T
+        else if let path: String = Bundle.main.path(forResource: className, ofType: "nib") {
+            if FileManager.default.fileExists(atPath: path) {
+                let nib = UINib(nibName: self.className, bundle: nil)
+                let view = nib.instantiate(withOwner: nil, options: nil).first as! T
+
+                ViewCacheManager.cacheNibs.setObject(nib, forKey: self.className as NSString)
+//                let view: UIView = Bundle.main.loadNibNamed(self.className, owner: nil, options: nil)!.first as! UIView
+                if cache {
+                    ViewCacheManager.cacheViewNibs.setObject(view as! UIView, forKey: self.className as NSString)
+                }
+                return view
+            }
+        }
+        fatalError("\(className) XIB File Not Exist")
     }
 
-    class func fromXibSize() -> CGSize {
+    public class func fromXibSize() -> CGSize {
         return fromXib(cache: true).frame.size
     }
 }
