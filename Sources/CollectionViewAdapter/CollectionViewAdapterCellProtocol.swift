@@ -78,7 +78,7 @@ public class ViewCacheManager {
 }
 
 extension CollectionViewAdapterCellProtocol where Self: UIView {
-    static func fromXib(cache: Bool = false) -> Self {
+    public static func fromXib(cache: Bool = false) -> Self {
         return fromXib(cache: cache, as: self)
     }
 
