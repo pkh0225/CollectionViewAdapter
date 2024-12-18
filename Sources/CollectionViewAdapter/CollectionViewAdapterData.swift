@@ -31,7 +31,7 @@ public class CollectionViewAdapterData: NSObject {
         public var sizeClosure: (() -> CGSize)?
         public var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
 
-        public init(cellType: CollectionViewAdapterCellProtocol.Type) {
+        public init(_ cellType: CollectionViewAdapterCellProtocol.Type) {
             self.cellType = cellType
         }
     }
@@ -87,79 +87,79 @@ public class CollectionViewAdapterData: NSObject {
 
 
 extension CollectionViewAdapterData.CellInfo {
-    public func setContentObj(_ contentObj: Any?) -> Self {
+    public func contentObj(_ contentObj: Any?) -> Self {
         self.contentObj = contentObj
         return self
     }
 
-    public func setKind(_ kind: CellKind) -> Self {
+    public func kind(_ kind: CellKind) -> Self {
         self.kind = kind
         return self
     }
 
-    public func setSubData(_ subData: [String: Any?]?) -> Self {
+    public func subData(_ subData: [String: Any?]?) -> Self {
         self.subData = subData
         return self
     }
 
-    public func setCellType(_ cellType: CollectionViewAdapterCellProtocol.Type) -> Self {
+    public func cellType(_ cellType: CollectionViewAdapterCellProtocol.Type) -> Self {
         self.cellType = cellType
         return self
     }
 
-    public func setSizeClosure(_ sizeClosure: (() -> CGSize)? = nil) -> Self {
+    public func sizeClosure(_ sizeClosure: (() -> CGSize)? = nil) -> Self {
         self.sizeClosure = sizeClosure
         return self
     }
 
-    public func setActionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)? = nil) -> Self {
+    public func actionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)? = nil) -> Self {
         self.actionClosure = actionClosure
         return self
     }
 }
 
 extension CollectionViewAdapterData.SectionInfo {
-    public func setHeader(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
+    public func header(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.header = cellInfo
         return self
     }
 
-    public func setFooter(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
+    public func footer(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.footer = cellInfo
         return self
     }
 
-    public func setCells(_ cells: [CollectionViewAdapterData.CellInfo]) -> Self {
+    public func cells(_ cells: [CollectionViewAdapterData.CellInfo]) -> Self {
         self.cells = cells
         return self
     }
 
-    public func setBackgroundColor(_ color: UIColor) -> Self {
+    public func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
 
-    public func setSectionInset(_ inset: UIEdgeInsets) -> Self {
+    public func sectionInset(_ inset: UIEdgeInsets) -> Self {
         self.sectionInset = inset
         return self
     }
 
-    public func setMinimumLineSpacing(_ spacing: CGFloat) -> Self {
+    public func minimumLineSpacing(_ spacing: CGFloat) -> Self {
         self.minimumLineSpacing = spacing
         return self
     }
 
-    public func setMinimumInteritemSpacing(_ spacing: CGFloat) -> Self {
+    public func minimumInteritemSpacing(_ spacing: CGFloat) -> Self {
         self.minimumInteritemSpacing = spacing
         return self
     }
 
-    public func setDataType(_ type: String) -> Self {
+    public func dataType(_ type: String) -> Self {
         self.dataType = type
         return self
     }
 
-    public func setIndexPath(_ indexPath: IndexPath) -> Self {
+    public func indexPath(_ indexPath: IndexPath) -> Self {
         self.indexPath = indexPath
         return self
     }

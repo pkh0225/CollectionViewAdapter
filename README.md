@@ -21,7 +21,7 @@ CollectionView adpter
         for i in 0...10 {
             let sectionInfo = CVASectionInfo()
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
+            sectionInfo.header = CVACellInfo(TestHeadCollectionReusableView.self)
                 .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -31,7 +31,7 @@ CollectionView adpter
                     self.collectionView.collectionViewLayout = self.layout
                 })
 
-            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
+            sectionInfo.footer = CVACellInfo(TestFooterCollectionReusableView.self)
                 .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
                 .setActionClosure({ [weak self] (name, object) in
                     guard let self else { return }
@@ -54,7 +54,7 @@ CollectionView adpter
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
+                let cellInfo = CVACellInfo(TestCollectionViewCell.self)
                     .setContentObj(contentObj)
                     .setActionClosure({ [weak self] (name, object) in
                         guard let self else { return }

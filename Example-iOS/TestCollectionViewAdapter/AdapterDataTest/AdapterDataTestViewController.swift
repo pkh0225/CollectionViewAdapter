@@ -52,9 +52,9 @@ class AdapterDataTestViewController: UIViewController {
             let sectionInfo = CVASectionInfo()
             sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
-                .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
-                .setActionClosure({ [weak self] (name, object) in
+            sectionInfo.header = CVACellInfo(TestHeadCollectionReusableView.self)
+                .contentObj("@@ header @@ \(i)\n1247\nasdighj")
+                .actionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
 
@@ -62,9 +62,9 @@ class AdapterDataTestViewController: UIViewController {
                     self.collectionView.collectionViewLayout = self.layout
                 })
 
-            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
-                .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
-                .setActionClosure({ [weak self] (name, object) in
+            sectionInfo.footer = CVACellInfo(TestFooterCollectionReusableView.self)
+                .contentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
+                .actionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
 
@@ -85,9 +85,9 @@ class AdapterDataTestViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = CVACellInfo(cellType: TestCollectionViewCell.self)
-                    .setContentObj(contentObj)
-                    .setActionClosure({ [weak self] (name, object) in
+                let cellInfo = CVACellInfo(TestCollectionViewCell.self)
+                    .contentObj(contentObj)
+                    .actionClosure({ [weak self] (name, object) in
                         guard let self else { return }
                         guard let object = object else { return }
                         alert(vc: self, title: name, message: "\(object)")
@@ -103,9 +103,9 @@ class AdapterDataTestViewController: UIViewController {
             sectionInfo.minimumInteritemSpacing = 10
             sectionInfo.minimumLineSpacing = 5
             testData.sectionList.append(sectionInfo)
-            sectionInfo.header = CVACellInfo(cellType: TestHeadCollectionReusableView.self)
-                .setContentObj("@@ header @@ \(i)\n1247\nasdighj")
-                .setActionClosure({ [weak self] (name, object) in
+            sectionInfo.header = CVACellInfo(TestHeadCollectionReusableView.self)
+                .contentObj("@@ header @@ \(i)\n1247\nasdighj")
+                .actionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
 
@@ -113,9 +113,9 @@ class AdapterDataTestViewController: UIViewController {
                     self.collectionView.collectionViewLayout = self.layout
                 })
 
-            sectionInfo.footer = CVACellInfo(cellType: TestFooterCollectionReusableView.self)
-                .setContentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
-                .setActionClosure({ [weak self] (name, object) in
+            sectionInfo.footer = CVACellInfo(TestFooterCollectionReusableView.self)
+                .contentObj(" --- footer --- \(i)\nasdlk;fj\n213p4987")
+                .actionClosure({ [weak self] (name, object) in
                     guard let self else { return }
                     guard let object = object else { return }
 
@@ -136,9 +136,9 @@ class AdapterDataTestViewController: UIViewController {
                     contentObj = "cell (\(i) : \(j))"
                 }
 
-                let cellInfo = CVACellInfo(cellType: CountCollectionViewCell.self)
-                    .setContentObj(contentObj)
-                    .setActionClosure({ [weak self] (name, object) in
+                let cellInfo = CVACellInfo(CountCollectionViewCell.self)
+                    .contentObj(contentObj)
+                    .actionClosure({ [weak self] (name, object) in
                         guard let self else { return }
                         guard let object = object else { return }
                         alert(vc: self, title: name, message: "\(object)")

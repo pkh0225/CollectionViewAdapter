@@ -32,12 +32,13 @@ class MainViewController: UIViewController {
         let sectionInfo = CVASectionInfo()
         adapterData.sectionList.append(sectionInfo)
         do {
-            let cellInfo = CVACellInfo(cellType: LineCell.self)
-                .setContentObj("Adapter Data Test")
-                .setActionClosure({ [weak self] (name, object) in
+            let cellInfo = CVACellInfo(LineCell.self)
+                .contentObj("Adapter Data Test")
+                .actionClosure { [weak self] (name, object) in
                     guard let self else { return }
                     self.navigationController?.pushViewController(AdapterDataTestViewController(), animated: true)
-                })
+                }
+            
             sectionInfo.cells.append(cellInfo)
         }
 
