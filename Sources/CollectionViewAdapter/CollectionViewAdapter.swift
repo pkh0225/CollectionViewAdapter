@@ -187,7 +187,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         return hasNext
     }
 
-    func getCellInfo(_ indexPath: IndexPath) -> CVACellInfo? {
+    public func getCellInfo(_ indexPath: IndexPath) -> CVACellInfo? {
         guard let data = self.data else { return nil }
         var checkCellInfo: CVACellInfo?
         if infiniteScrollDirection != .none {
@@ -196,7 +196,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
             }
         }
         else {
-            if let cellInfo = data.sectionList[safe: indexPath.section]?.cells[safe: indexPath.row] {
+            if let cellInfo = data.getCellInfo(indexPath) {
                 checkCellInfo = cellInfo
             }
         }

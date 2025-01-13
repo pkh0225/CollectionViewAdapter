@@ -83,6 +83,13 @@ public class CollectionViewAdapterData: NSObject {
     }
 
     public var sectionList = [SectionInfo]()
+
+    public func getCellInfo(_ indexPath: IndexPath) -> CellInfo? {
+        guard indexPath.section < sectionList.count else { return nil }
+        let section = sectionList[indexPath.section]
+        guard indexPath.row < section.cells.count else { return nil }
+        return section.cells[indexPath.row]
+    }
 }
 
 

@@ -135,6 +135,10 @@ extension UICollectionView {
         }
     }
 
+    public func getCellInfo(indexPath: IndexPath) -> CVACellInfo? {
+        return self.adapter.getCellInfo(indexPath)
+    }
+
     public func getCacheWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
         if let width = unitWidthDic[spanSize] {
             return width
