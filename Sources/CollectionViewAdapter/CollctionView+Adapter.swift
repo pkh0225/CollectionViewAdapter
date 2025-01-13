@@ -636,3 +636,11 @@ extension UICollectionView {
         return layout
     }
 }
+
+extension UICollectionView {
+    @discardableResult
+    public func adapterData(_ adapterData: CollectionViewAdapterData) -> Self {
+        self.adapterData = adapterData
+        return self
+    }
+}

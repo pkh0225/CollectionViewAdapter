@@ -30,7 +30,6 @@ class MainViewController: UIViewController {
     func makeAdapterDAta() -> CollectionViewAdapterData {
         let adapterData = CVAData()
         let sectionInfo = CVASectionInfo()
-        adapterData.sectionList.append(sectionInfo)
         do {
             let cellInfo = CVACellInfo(LineCell.self)
                 .contentObj("Adapter Data Test")
@@ -39,9 +38,9 @@ class MainViewController: UIViewController {
                     self.navigationController?.pushViewController(AdapterDataTestViewController(), animated: true)
                 }
             
-            sectionInfo.cells.append(cellInfo)
+            sectionInfo.addCell(cellInfo)
         }
-
+        adapterData.addSection(sectionInfo)
         return adapterData
     }
 

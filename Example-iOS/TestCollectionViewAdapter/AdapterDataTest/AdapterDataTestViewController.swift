@@ -51,7 +51,6 @@ class AdapterDataTestViewController: UIViewController {
         for i in 0...5 {
             let sectionInfo = CVASectionInfo()
             sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            testData.sectionList.append(sectionInfo)
             sectionInfo.header = CVACellInfo(TestHeadCollectionReusableView.self)
                 .contentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .actionClosure({ [weak self] (name, object) in
@@ -93,8 +92,9 @@ class AdapterDataTestViewController: UIViewController {
                         alert(vc: self, title: name, message: "\(object)")
                     })
 
-                sectionInfo.cells.append(cellInfo)
+                sectionInfo.addCell(cellInfo)
             }
+            testData.addSection(sectionInfo)
         }
 
         for i in 0...5 {
@@ -102,7 +102,6 @@ class AdapterDataTestViewController: UIViewController {
             sectionInfo.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             sectionInfo.minimumInteritemSpacing = 10
             sectionInfo.minimumLineSpacing = 5
-            testData.sectionList.append(sectionInfo)
             sectionInfo.header = CVACellInfo(TestHeadCollectionReusableView.self)
                 .contentObj("@@ header @@ \(i)\n1247\nasdighj")
                 .actionClosure({ [weak self] (name, object) in
@@ -144,8 +143,9 @@ class AdapterDataTestViewController: UIViewController {
                         alert(vc: self, title: name, message: "\(object)")
                     })
 
-                sectionInfo.cells.append(cellInfo)
+                sectionInfo.addCell(cellInfo)
             }
+            testData.addSection(sectionInfo)
         }
 
         return testData

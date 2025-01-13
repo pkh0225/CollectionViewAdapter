@@ -87,80 +87,115 @@ public class CollectionViewAdapterData: NSObject {
 
 
 extension CollectionViewAdapterData.CellInfo {
+    @discardableResult
     public func contentObj(_ contentObj: Any?) -> Self {
         self.contentObj = contentObj
         return self
     }
 
+    @discardableResult
     public func kind(_ kind: CellKind) -> Self {
         self.kind = kind
         return self
     }
 
+    @discardableResult
     public func subData(_ subData: [String: Any?]?) -> Self {
         self.subData = subData
         return self
     }
 
+    @discardableResult
     public func cellType(_ cellType: CollectionViewAdapterCellProtocol.Type) -> Self {
         self.cellType = cellType
         return self
     }
 
-    public func sizeClosure(_ sizeClosure: (() -> CGSize)? = nil) -> Self {
+    @discardableResult
+    public func sizeClosure(_ sizeClosure: (() -> CGSize)?) -> Self {
         self.sizeClosure = sizeClosure
         return self
     }
 
-    public func actionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)? = nil) -> Self {
+    @discardableResult
+    public func actionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)?) -> Self {
         self.actionClosure = actionClosure
         return self
     }
 }
 
 extension CollectionViewAdapterData.SectionInfo {
+    @discardableResult
     public func header(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.header = cellInfo
         return self
     }
 
+    @discardableResult
     public func footer(_ cellInfo: CollectionViewAdapterData.CellInfo) -> Self {
         self.footer = cellInfo
         return self
     }
 
+    @discardableResult
     public func cells(_ cells: [CollectionViewAdapterData.CellInfo]) -> Self {
         self.cells = cells
         return self
     }
 
+    @discardableResult
+    public func addCell(_ cells: CollectionViewAdapterData.CellInfo) -> Self {
+        self.cells.append(cells)
+        return self
+    }
+
+    @discardableResult
     public func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
 
+    @discardableResult
     public func sectionInset(_ inset: UIEdgeInsets) -> Self {
         self.sectionInset = inset
         return self
     }
 
+    @discardableResult
     public func minimumLineSpacing(_ spacing: CGFloat) -> Self {
         self.minimumLineSpacing = spacing
         return self
     }
 
+    @discardableResult
     public func minimumInteritemSpacing(_ spacing: CGFloat) -> Self {
         self.minimumInteritemSpacing = spacing
         return self
     }
 
+    @discardableResult
     public func dataType(_ type: String) -> Self {
         self.dataType = type
         return self
     }
 
+    @discardableResult
     public func indexPath(_ indexPath: IndexPath) -> Self {
         self.indexPath = indexPath
+        return self
+    }
+}
+
+extension CollectionViewAdapterData {
+    @discardableResult
+    public func addSection(_ sectionInfo: SectionInfo) -> Self {
+        self.sectionList.append(sectionInfo)
+        return self
+    }
+
+    @discardableResult
+    public func section(_ sectionInfo: [SectionInfo]) -> Self {
+        self.sectionList = sectionInfo
         return self
     }
 }
