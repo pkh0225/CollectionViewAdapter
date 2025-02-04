@@ -82,7 +82,13 @@ public class CollectionViewAdapterData: NSObject {
         }
     }
 
-    public var sectionList = [SectionInfo]()
+    public var sectionList = [SectionInfo]() {
+        didSet {
+            sectionList.enumerated().forEach { index, section in
+                section.indexPath = IndexPath(row: 0, section: index)
+            }
+        }
+    }
 
     public func getCellInfo(_ indexPath: IndexPath) -> CellInfo? {
         guard indexPath.section < sectionList.count else { return nil }
@@ -183,12 +189,6 @@ extension CollectionViewAdapterData.SectionInfo {
     @discardableResult
     public func dataType(_ type: String) -> Self {
         self.dataType = type
-        return self
-    }
-
-    @discardableResult
-    public func indexPath(_ indexPath: IndexPath) -> Self {
-        self.indexPath = indexPath
         return self
     }
 }
