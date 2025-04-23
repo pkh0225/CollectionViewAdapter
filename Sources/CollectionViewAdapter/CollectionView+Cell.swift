@@ -8,15 +8,6 @@
 
 import UIKit
 
-@MainActor
-public class CacheManager {
-    static var cache: NSCache<NSString, UINib> = {
-        var c = NSCache<NSString, UINib>()
-        c.countLimit = 500
-        return c
-    }()
-}
-
 extension UICollectionView {
     private struct AssociatedKeys {
         nonisolated(unsafe) static var registerCellName: UInt8 = 0
@@ -94,7 +85,7 @@ extension UICollectionView {
             }
             else {
                 if let bundle {
-                    register(getNib(className: Class.className, bundle: bundle), forCellWithReuseIdentifier: Class.className)
+                    register(UINib(nibName: Class.className, bundle: bundle), forCellWithReuseIdentifier: Class.className)
                 }
                 else {
                     register(Class, forCellWithReuseIdentifier: Class.className)
@@ -112,7 +103,7 @@ extension UICollectionView {
         }
         else {
             if let bundle {
-                register(getNib(className: Class.className, bundle: bundle), forCellWithReuseIdentifier: withReuseIdentifier)
+                register(UINib(nibName: Class.className, bundle: bundle), forCellWithReuseIdentifier: withReuseIdentifier)
             }
             else {
                 register(Class, forCellWithReuseIdentifier: withReuseIdentifier)
@@ -130,7 +121,7 @@ extension UICollectionView {
             }
             else {
                 if let bundle {
-                    register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Class.className)
+                    register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Class.className)
                 }
                 else {
                     register(Class, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Class.className)
@@ -148,7 +139,7 @@ extension UICollectionView {
         }
         else {
             if let bundle {
-                register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: withReuseIdentifier)
+                register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: withReuseIdentifier)
             }
             else {
                 register(Class, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: withReuseIdentifier)
@@ -166,7 +157,7 @@ extension UICollectionView {
             }
             else {
                 if let bundle {
-                    register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: Class.className)
+                    register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: Class.className)
                 }
                 else {
                     register(Class, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: Class.className)
@@ -184,7 +175,7 @@ extension UICollectionView {
         }
         else {
             if let bundle {
-                register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: withReuseIdentifier)
+                register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: withReuseIdentifier)
             }
             else {
                 register(Class, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: withReuseIdentifier)
@@ -192,48 +183,38 @@ extension UICollectionView {
         }
     }
 
-    private func getNib(className: String, bundle: Bundle? = nil) -> UINib {
-        if let nib = CacheManager.cache.object(forKey: className as NSString) {
-            return nib
-        }
-
-        let nib = UINib(nibName: className, bundle: bundle)
-        CacheManager.cache.setObject(nib, forKey: className as NSString)
-        return nib
-    }
-
     public func registerNibCell(_ Classs: UICollectionViewCell.Type..., bundle: Bundle? = nil) {
         Classs.forEach { (Class: UICollectionViewCell.Type) in
-            register(getNib(className: Class.className, bundle: bundle), forCellWithReuseIdentifier: Class.className)
+            register(UINib(nibName: Class.className, bundle: bundle), forCellWithReuseIdentifier: Class.className)
         }
     }
 
     public func registerNibCell(Class: UICollectionViewCell.Type, withReuseIdentifier: String, bundle: Bundle? = nil) {
-        register(getNib(className: Class.className, bundle: bundle), forCellWithReuseIdentifier: withReuseIdentifier)
+        register(UINib(nibName: Class.className, bundle: bundle), forCellWithReuseIdentifier: withReuseIdentifier)
     }
 
     public func registerNibCellHeader(_ Classs: UICollectionReusableView.Type..., bundle: Bundle? = nil) {
         Classs.forEach { (Class: UICollectionReusableView.Type) in
-            register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Class.className)
+            register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Class.className)
         }
     }
 
     public func registerNibCellHeader(Class: UICollectionReusableView.Type, withReuseIdentifier: String, bundle: Bundle? = nil) {
-        register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: withReuseIdentifier)
+        register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: withReuseIdentifier)
     }
 
     public func registerNibCellFooter(_ Classs: UICollectionReusableView.Type..., bundle: Bundle? = nil) {
         Classs.forEach { (Class: UICollectionReusableView.Type) in
-            register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: Class.className)
+            register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: Class.className)
         }
     }
 
     public func registerNibCellFooter(Class: UICollectionReusableView.Type, withReuseIdentifier: String, bundle: Bundle? = nil) {
-        register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: withReuseIdentifier)
+        register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: withReuseIdentifier)
     }
 
     public func registerCustomKindReusableView(_ Class: UICollectionReusableView.Type, _ Kind: String, _ identifier: String, bundle: Bundle? = nil) {
-        register(getNib(className: Class.className, bundle: bundle), forSupplementaryViewOfKind: Kind, withReuseIdentifier: identifier)
+        register(UINib(nibName: Class.className, bundle: bundle), forSupplementaryViewOfKind: Kind, withReuseIdentifier: identifier)
     }
 
     public func dequeueReusableCell<T: UICollectionViewCell>(_ Class: T.Type, for indexPath: IndexPath) -> T {
