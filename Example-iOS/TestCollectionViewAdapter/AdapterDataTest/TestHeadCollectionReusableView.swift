@@ -14,7 +14,7 @@ class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAd
     
     var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
     
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var stickyView: UIView!
 
     @IBOutlet weak var label: UILabel!
 
@@ -47,28 +47,28 @@ class TestHeadCollectionReusableView: UICollectionReusableView, CollectionViewAd
     }
 }
 
-extension TestHeadCollectionReusableView: UICollectionViewAdapterStickyProtocol {
-    var stickyContainerView: UIView {
-        return containerView
-    }
-
-    var isSticky: Bool {
-        return false
-    }
-
-    var reloadData: (() -> Void)? {
-        return nil
-    }
-
-    var isOnlySection: Bool {
-        return false
-    }
-
-    func onSticky(state: Bool) {
-
-    }
-
-    func setData(data: Any?) {
-
-    }
-}
+//extension TestHeadCollectionReusableView: UICollectionViewAdapterStickyProtocol {
+//    var stickyAbleView: UIView {
+//        return stickyView
+//    }
+//
+//    var isSticky: Bool {
+//        return true
+//    }
+//
+//    var reloadData: (() -> Void)? {
+//        return nil
+//    }
+//
+//    var isOnlySection: Bool {
+//        return false
+//    }
+//
+//    func onSticky(state: Bool) {
+//
+//    }
+//
+//    func setData(data: Any?) {
+//
+//    }
+//}

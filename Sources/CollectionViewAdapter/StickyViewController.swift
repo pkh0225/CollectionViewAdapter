@@ -10,7 +10,7 @@ import UIKit
 
 public protocol UICollectionViewAdapterStickyProtocol: UIView {
     /// sticky 될 뷰
-    var stickyContainerView: UIView { get }
+    var stickyAbleView: UIView { get }
     /// stick 여부
     var isSticky: Bool { get }
     /// 데이타 리로드
@@ -39,7 +39,7 @@ public class StickyViewController: NSObject {
         /// 스티키 될 뷰가 붙어있는 stickyProtocolView 내의 뷰
         weak var stickableViewSuperView: UIView?
         /// CollectionView 위에 붙은 스티키 되어있는 뷰
-        weak var stickyView: UIView?
+        weak var collectionViewInSickyView: UIView?
         /// 스티키 될 뷰의 inset
         var stickableViewInset: UIEdgeInsets = .zero
         private var reloadDataClosure: (() -> Void)?
@@ -48,6 +48,9 @@ public class StickyViewController: NSObject {
         var stickyStartY: CGFloat {
             get {
                 var y = stickyProtocolView?.frame.origin.y ?? 0
+                if stickyProtocolView !== stickableViewSuperView {
+                    y += stickableViewSuperView?.frame.origin.y ?? 0
+                }
                 y += stickableViewInset.top
                 return y
             }
@@ -55,18 +58,17 @@ public class StickyViewController: NSObject {
         var isSticked: Bool = false {
             didSet {
                 guard isSticked != oldValue else { return }
-                guard let stickyView, let stickableView, let stickyProtocolView, let stickableViewSuperView else { return }
+                guard let collectionViewInSickyView, let stickableView, let stickyProtocolView, let stickableViewSuperView else { return }
                 if isSticked {
-                    stickyView.backgroundColor = .red
-                    stickyView.isHidden = false
-                    stickyView.frame.size.height = stickableView.frame.height
-                    stickyView.addSubViewAutoLayout(stickableView)
-                    stickyView.sendSubviewToBack(stickableView)
-                    stickyView.setNeedsLayout()
+                    collectionViewInSickyView.isHidden = false
+                    collectionViewInSickyView.frame.size.height = stickableView.frame.height
+                    collectionViewInSickyView.addSubViewAutoLayout(stickableView)
+                    collectionViewInSickyView.sendSubviewToBack(stickableView)
+                    collectionViewInSickyView.setNeedsLayout()
                     stickyProtocolView.onSticky(state: true)
                 }
                 else {
-                    stickyView.isHidden = true
+                    collectionViewInSickyView.isHidden = true
                     stickableViewSuperView.addSubViewAutoLayout(stickableView, edgeInsets: stickableViewInset)
                     stickableViewSuperView.sendSubviewToBack(stickableView)
                     stickableViewSuperView.setNeedsLayout()
@@ -78,9 +80,9 @@ public class StickyViewController: NSObject {
         init(indexPath: IndexPath, view: UICollectionViewAdapterStickyProtocol) {
             self.indexPath = indexPath
             self.stickyProtocolView = view
-            self.stickableViewInset = view.stickyContainerView.getMargin()
-            self.stickableView = view.stickyContainerView
-            self.stickableViewSuperView = view.stickyContainerView.superview
+            self.stickableViewInset = view.stickyAbleView.getMargin()
+            self.stickableView = view.stickyAbleView
+            self.stickableViewSuperView = view.stickyAbleView.superview
             self.onlySection = view.isOnlySection
             self.reloadDataClosure = view.reloadData
         }
@@ -127,18 +129,16 @@ public class StickyViewController: NSObject {
             sectionYDic.removeAll()
         }
 
-
         for item in stickyItems.reversed() {
             let section: Int = afterIndexPath?.section ?? -1
-            guard let stickyView = item.stickyView, let originalContainerView = item.stickableView, item.indexPath.section > section else { continue }
-            stickyView.isHidden = true
+            guard let collectionViewInSickyView = item.collectionViewInSickyView, let originalContainerView = item.stickableView, item.indexPath.section > section else { continue }
+            collectionViewInSickyView.isHidden = true
             item.stickableViewSuperView?.addSubViewAutoLayout(originalContainerView, edgeInsets: item.stickableViewInset)
             item.stickableViewSuperView?.sendSubviewToBack(originalContainerView)
-            stickyView.removeFromSuperview()
+            collectionViewInSickyView.removeFromSuperview()
             stickyItems.remove(object: item)
         }
     }
-
 
     func getStickItem(section: Int) -> StickyViewItem? {
         if stickyItems.count == 1 {
@@ -172,15 +172,21 @@ public class StickyViewController: NSObject {
 
     private func addStickyView(collectionView: UICollectionView, addItem: StickyViewItem) {
         guard let superView = collectionView.superview, let inView = addItem.stickableView else { return }
-        let stickyView = UIView(frame: CGRect(x: addItem.stickableViewInset.left,
-                                              y: collectionView.frame.origin.y,
-                                              width: collectionView.frame.size.width - addItem.stickableViewInset.left - addItem.stickableViewInset.right,
-                                              height: inView.frame.size.height))
-        addItem.stickyView = stickyView
-        stickyView.autoresizingMask = [.flexibleWidth]
-        superView.addSubview(stickyView)
 
-        stickyView.isHidden = true
+        var layoutInset = UIEdgeInsets.zero
+        if addItem.stickyProtocolView is UICollectionViewCell {
+            layoutInset = collectionView.adapter.collectionView(collectionView, layout: collectionView.collectionViewLayout, insetForSectionAt: addItem.indexPath.section)
+        }
+
+        let collectionViewInSickyView = UIView(frame: CGRect(x: addItem.stickableViewInset.left + layoutInset.left,
+                                                             y: collectionView.frame.origin.y,
+                                                             width: collectionView.frame.size.width - addItem.stickableViewInset.left - addItem.stickableViewInset.right - layoutInset.left - layoutInset.right,
+                                                             height: inView.frame.size.height))
+        addItem.collectionViewInSickyView = collectionViewInSickyView
+        collectionViewInSickyView.autoresizingMask = [.flexibleWidth]
+        collectionViewInSickyView.backgroundColor = .clear
+        superView.addSubview(collectionViewInSickyView)
+        collectionViewInSickyView.isHidden = true
 
     }
 
@@ -195,7 +201,7 @@ public class StickyViewController: NSObject {
         let contentOffsetY = collectionView.contentOffset.y + paddingValue
 
         for (idx, item) in stickyItems.enumerated() {
-            guard let stickyView = item.stickyView else { continue }
+            guard let stickyView = item.collectionViewInSickyView else { continue }
             var endY: CGFloat = CGFloat.greatestFiniteMagnitude
             if item.onlySection {
                 if let y = sectionYDic[item.indexPath.section + 1] {
@@ -207,16 +213,13 @@ public class StickyViewController: NSObject {
                     endY = nextItem.stickyStartY - stickyView.frame.size.height
                 }
             }
-
             if contentOffsetY >= item.stickyStartY, contentOffsetY <= endY {
-//                stickyView.ec.top = paddingValue + collectionView.frame.origin.y
                 stickyView.frame.origin.y = paddingValue + collectionView.frame.origin.y
                 item.isSticked = true
             }
             else {
                 let checkY = endY + stickyView.frame.size.height
                 if contentOffsetY > endY, contentOffsetY < checkY {
-//                    stickyView.ec.top = endY - contentOffsetY + collectionView.frame.origin.y + paddingValue
                     stickyView.frame.origin.y = endY - contentOffsetY + collectionView.frame.origin.y + paddingValue
                     item.isSticked = true
                 }
