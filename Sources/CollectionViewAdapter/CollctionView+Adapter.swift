@@ -121,41 +121,6 @@ extension UICollectionView {
         }
     }
 
-    public var unitWidthDic: [Int: CGFloat] {
-        get {
-            if let obj = objc_getAssociatedObject(self, &AssociatedKeys.unitWidthDIc) as? [Int: CGFloat] {
-                return obj
-            }
-            let obj = [Int: CGFloat]()
-            objc_setAssociatedObject(self, &AssociatedKeys.unitWidthDIc, obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return obj
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.unitWidthDIc, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-
-    public func getCellInfo(indexPath: IndexPath) -> CVACellInfo? {
-        return self.adapter.getCellInfo(indexPath)
-    }
-
-    public func getCacheWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
-        if let width = unitWidthDic[spanSize] {
-            return width
-        }
-        else {
-            let width = getSpanSizeWidth(spanSize: spanSize, sectionInset: sectionInset, minimumColumnSpacing: minimumColumnSpacing)
-            unitWidthDic[spanSize] = width
-            if UIDevice.current.userInterfaceIdiom == .pad, self.observerAble == nil {
-                self.observerAble = (UIDevice.orientationDidChangeNotification.rawValue, { [weak self] _ in
-                    guard let self else { return }
-                    self.unitWidthDic.removeAll()
-                })
-            }
-            return width
-        }
-    }
-
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidthhttps://app.zeplin.io/project/5ed063ed0c643ab302fdadad/dashboard?seid=5fc74865abb9b5078f438cec
@@ -167,7 +132,7 @@ extension UICollectionView {
 
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             if sectionInset == layout.sectionInset, minimumColumnSpacing == layout.minimumInteritemSpacing {
-                return getCacheWidth(spanSize: spanSize, sectionInset: sectionInset, minimumColumnSpacing: minimumColumnSpacing)
+                return getSpanSizeWidth(spanSize: spanSize, sectionInset: sectionInset, minimumColumnSpacing: minimumColumnSpacing)
             }
         }
 
@@ -177,7 +142,7 @@ extension UICollectionView {
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidth
-    public func getSpanSizeWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
+    private func getSpanSizeWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
         let spanSizef: CGFloat = CGFloat(spanSize)
         let full: CGFloat = self.frame.size.width - sectionInset.left - sectionInset.right
         let space: CGFloat = minimumColumnSpacing * (spanSizef - 1)
