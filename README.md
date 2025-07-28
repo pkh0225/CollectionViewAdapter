@@ -15,7 +15,7 @@ CollectionView adpter
 <br>
 
 ### sample data set
-```
+```swift
             
         let testData = CVAData()
         for i in 0...10 {
