@@ -124,7 +124,7 @@ extension UICollectionView {
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidthhttps://app.zeplin.io/project/5ed063ed0c643ab302fdadad/dashboard?seid=5fc74865abb9b5078f438cec
-    public func getSpanSizeCacheWidth(spanSize: Int, indexPath: IndexPath) -> CGFloat {
+    public func getSpanSizeCacheWidth(spanSize: CGFloat, indexPath: IndexPath) -> CGFloat {
         guard spanSize > 0 else { return self.frame.size.width }
 
         let sectionInset: UIEdgeInsets = getSectionInset(section: indexPath.section)
@@ -142,11 +142,10 @@ extension UICollectionView {
     /// 유닛 SpanSize로 Widht 계산
     /// - Parameter spanSize: spansize
     /// - Returns: unitWidth
-    private func getSpanSizeWidth(spanSize: Int, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
-        let spanSizef: CGFloat = CGFloat(spanSize)
+    private func getSpanSizeWidth(spanSize: CGFloat, sectionInset: UIEdgeInsets, minimumColumnSpacing: CGFloat) -> CGFloat {
         let full: CGFloat = self.frame.size.width - sectionInset.left - sectionInset.right
-        let space: CGFloat = minimumColumnSpacing * (spanSizef - 1)
-        return (full - space) / spanSizef
+        let space: CGFloat = minimumColumnSpacing * (spanSize - 1)
+        return (full - space) / spanSize
     }
 
     public func getMinimumInteritemSpacing(section: Int) -> CGFloat {

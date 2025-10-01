@@ -10,7 +10,7 @@ import UIKit
 import CollectionViewAdapter
 
 class TestCollectionViewCell: UICollectionViewCell, CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int = 1
+    static var SpanSize: CGFloat = 1
     var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
 
     @IBOutlet weak var stickyView: UIView!

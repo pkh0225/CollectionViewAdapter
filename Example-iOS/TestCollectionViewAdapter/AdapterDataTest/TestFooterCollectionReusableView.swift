@@ -10,7 +10,7 @@ import UIKit
 import CollectionViewAdapter
 
 class TestFooterCollectionReusableView: UICollectionReusableView, CollectionViewAdapterCellProtocol {
-    static var SpanSize: Int = 0
+    static var SpanSize: CGFloat = 0
 
     var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
     

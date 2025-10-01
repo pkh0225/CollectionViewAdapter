@@ -20,7 +20,7 @@ public protocol CollectionViewAdapterCellProtocol: UICollectionReusableView {
     ///  1 : SectionInset 적용된 한개 크기
     ///
     ///  2 이상 : SectionInset 과 minimumInteritemSpacing 적용된 개수 만큼 크기
-    static var SpanSize: Int { get }
+    static var SpanSize: CGFloat { get }
 
     /// 기본 SpanSize를 사용하지 않고 커스텀 Size를 사용하고 싶을때 (안드로이드와 같은 SpapSize 개념)
     /// - Parameters:
