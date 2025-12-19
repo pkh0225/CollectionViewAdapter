@@ -27,6 +27,20 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         didSet {
             cView?.delegate = self
             cView?.dataSource = self
+
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                NotificationCenter.default.removeObserver(
+                    self,
+                    name: UIDevice.orientationDidChangeNotification,
+                    object: nil
+                )
+                NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(handleDeviceRotation),
+                    name: UIDevice.orientationDidChangeNotification,
+                    object: nil
+                )
+            }
         }
     }
 
@@ -79,16 +93,24 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
 //            print("isAutoRolling : \(isAutoRolling)")
             delayAutoRolling(start: isAutoRolling)
             setCollectionViewDidAppear(value: isAutoRolling)
+        }
+    }
 
-            if UIDevice.current.userInterfaceIdiom == .pad, self.observerAble == nil {
-                self.observerAble = (UIDevice.orientationDidChangeNotification.rawValue, { [weak self] _ in
-                    guard let self else { return }
-                    self.delayAutoRolling(start: false)
-                    if self.isAutoRolling {
-                        self.delayAutoRolling(start: true)
-                    }
-                })
-            }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    public override init() {
+        
+    }
+
+    @objc func handleDeviceRotation() {
+//        let orientation = UIDevice.current.orientation
+        self.cView?.reloadData()
+
+        self.delayAutoRolling(start: false)
+        if self.isAutoRolling {
+            self.delayAutoRolling(start: true)
         }
     }
 

@@ -109,7 +109,15 @@ extension UICollectionView {
             if let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout, flowLayout.estimatedItemSize == UICollectionViewFlowLayout.automaticSize {
                 flowLayout.estimatedItemSize = .zero
             }
+
+            NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+            NotificationCenter.default.addObserver(self,selector: #selector(handleDeviceRotation),name: UIDevice.orientationDidChangeNotification, object: nil)
         }
+    }
+
+    @objc func handleDeviceRotation() {
+        //            let orientation = UIDevice.current.orientation
+        self.reloadData()
     }
 
     public var scrollViewDelegate: UIScrollViewDelegate? {
@@ -301,14 +309,14 @@ extension UICollectionView {
     }
     /// StickyView Function
     public func scrollTopStickyView(section: Int, animated: Bool) {
-            guard let stickyItem = self.adapter.stickyVC?.getStickItem(section: section) else { return }
-            var gapY: CGFloat = 0
-            if let gapClousure = self.adapter.stickyVC?.gapClosure {
-                gapY = gapClousure()
-            }
-            let y = stickyItem.stickyStartY - gapY
-                // base header footer가 움직이는걸 막기위해
-            self.setTabTouchContentOffset(CGPoint(x: 0, y: y), animated: animated)
+        guard let stickyItem = self.adapter.stickyVC?.getStickItem(section: section) else { return }
+        var gapY: CGFloat = 0
+        if let gapClousure = self.adapter.stickyVC?.gapClosure {
+            gapY = gapClousure()
+        }
+        let y = stickyItem.stickyStartY - gapY
+        // base header footer가 움직이는걸 막기위해
+        self.setTabTouchContentOffset(CGPoint(x: 0, y: y), animated: animated)
     }
 
     /// StickyView Function
@@ -361,7 +369,7 @@ extension UICollectionView {
 
     public func getIndexPathOfScrollY(_ x: CGFloat, _ y: CGFloat) -> IndexPath? {
         if let indexPath = indexPathForItem(at: CGPoint(x: x, y: y)) {
-           return indexPath
+            return indexPath
         }
         else if let view = visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)[safe: 0] {
             if view.frame.origin.y <= y {
@@ -469,7 +477,7 @@ extension UICollectionView {
             displayLinkInfo.d_x = (displayLinkInfo.postion.x - self.contentOffset.x) / d
             displayLinkInfo.d_y = (displayLinkInfo.postion.y - self.contentOffset.y) / d
             self.displayLinkInfo?.displayLink?.isPaused = false
-//            print("d: \(d), displayLinkInfo.d_x: \(displayLinkInfo.d_x)")
+            //            print("d: \(d), displayLinkInfo.d_x: \(displayLinkInfo.d_x)")
         }
     }
 
@@ -524,7 +532,7 @@ extension UICollectionView {
             completion?()
         }
 
-//        print(displayLink.timestamp)
+        //        print(displayLink.timestamp)
     }
 
     /// infinite 일때 첫 로딩시 센터가 틀어질때 width가 결정이 된 후 호출 하면 센터를 맞춰줌

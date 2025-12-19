@@ -326,7 +326,6 @@ extension UICollectionReusableView {
 extension NSObject {
     private struct AssociatedKeys {
         nonisolated(unsafe) static var className: UInt8 = 0
-        nonisolated(unsafe) static var observerAble: UInt8 = 0
     }
 
     var className: String {
@@ -349,21 +348,5 @@ extension NSObject {
             objc_setAssociatedObject(self, &AssociatedKeys.className, name, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return name
         }
-    }
-
-    var observerAble: (key: String, closure: (_ value: String) -> Void)? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.observerAble) as? (key: String, closure: (String) -> Void)
-        }
-        set {
-            if objc_getAssociatedObject(self, &AssociatedKeys.observerAble) == nil {
-                NotificationCenter.default.addObserver(self, selector: #selector(onObserver), name: Notification.Name(rawValue: newValue?.key ?? "observerAble"), object: nil)
-            }
-            objc_setAssociatedObject(self, &AssociatedKeys.observerAble, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-
-    @objc private func onObserver() {
-        observerAble?.closure(observerAble?.key ?? "observerAble")
     }
 }
