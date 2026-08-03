@@ -109,15 +109,7 @@ extension UICollectionView {
             if let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout, flowLayout.estimatedItemSize == UICollectionViewFlowLayout.automaticSize {
                 flowLayout.estimatedItemSize = .zero
             }
-
-            NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-            NotificationCenter.default.addObserver(self,selector: #selector(handleDeviceRotation),name: UIDevice.orientationDidChangeNotification, object: nil)
         }
-    }
-
-    @objc func handleDeviceRotation() {
-        //            let orientation = UIDevice.current.orientation
-        self.reloadData()
     }
 
     public var scrollViewDelegate: UIScrollViewDelegate? {
