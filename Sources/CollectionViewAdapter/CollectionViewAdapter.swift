@@ -27,6 +27,14 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         didSet {
             cView?.delegate = self
             cView?.dataSource = self
+            observe?.invalidate()
+            observe = cView?.observe(\.contentSize, options: [.old, .new]) { [weak self] (cv: UICollectionView, change: NSKeyValueObservedChange<CGSize>) in
+                guard let self else { return }
+                guard let newValue = change.newValue, let oldValue = change.oldValue else { return }
+                if oldValue != newValue || self.hasNext {
+                    _ = self.checkMoreData(cv)
+                }
+            }
 
             if UIDevice.current.userInterfaceIdiom == .pad {
                 NotificationCenter.default.removeObserver(
@@ -43,6 +51,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
             }
         }
     }
+    private var observe: NSKeyValueObservation?
 
     public var stickyVC: StickyViewController?
     weak var scrollViewDelegate: UIScrollViewDelegate?
@@ -97,6 +106,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     deinit {
+        observe?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -240,19 +250,37 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
 
     func removeCellInfo(in collectionView: UICollectionView, cellInfo: CVACellInfo) {
         guard let data = self.data else { return }
+        guard let indexPath = checkCellIndexPath(cellInfo) else { return }
+        guard let sectionInfo = data.sectionList[safe: indexPath.section] else { return }
+
         // 해당 cellInfo에 속해있는 item이 오직 1개라면 해당 section까지 지운다.
-        if let indexPath = checkCellIndexPath(cellInfo) {
-            if data.sectionList[indexPath.section].cells.count <= 1 {
+        if sectionInfo.cells.count <= 1 {
+            let canDelete = indexPath.section < collectionView.numberOfSections
+                && data.sectionList.count == collectionView.numberOfSections
+            if canDelete {
                 collectionView.performBatchUpdates {
                     data.sectionList.remove(at: indexPath.section)
                     collectionView.deleteSections(IndexSet(integer: indexPath.section))
                 }
             }
             else {
+                data.sectionList.remove(at: indexPath.section)
+                collectionView.reloadData()
+            }
+        }
+        else {
+            guard indexPath.row < sectionInfo.cells.count else { return }
+            let canDelete = indexPath.section < collectionView.numberOfSections
+                && collectionView.numberOfItems(inSection: indexPath.section) == sectionInfo.cells.count
+            if canDelete {
                 collectionView.performBatchUpdates {
-                    data.sectionList[safe: indexPath.section]?.cells.remove(at: indexPath.row)
+                    sectionInfo.cells.remove(at: indexPath.row)
                     collectionView.deleteItems(at: [indexPath])
                 }
+            }
+            else {
+                sectionInfo.cells.remove(at: indexPath.row)
+                collectionView.reloadData()
             }
         }
     }
@@ -283,7 +311,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
             if sectionInfo.cells.count > 0 {
                 for (ci, cell) in sectionInfo.cells.enumerated() {
                     if let cellType = cell.cellType as? UICollectionViewCell.Type {
-                        if let _ = cell.cellType as? UICollectionViewAdapterStickyProtocol.Type {
+                        if cell.isReusable == false || cell.cellType as? UICollectionViewAdapterStickyProtocol.Type != nil {
                             collectionView.register(Class: cellType, withReuseIdentifier: "Cell_\(cell.cellType)_\(si)_\(ci)")
                         }
                         else {
@@ -346,7 +374,7 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
         }
 
         var cell: UICollectionViewCell!
-        if let _ = cellType as? UICollectionViewAdapterStickyProtocol.Type {
+        if cellInfo.isReusable == false || cellType as? UICollectionViewAdapterStickyProtocol.Type != nil {
             cell = collectionView.dequeueReusableCell(cellType, for: indexPath, withReuseIdentifier: "Cell_\(cellType)_\(indexPath.section)_\(indexPath.row)")
         }
         else {
@@ -371,7 +399,12 @@ public class CollectionViewAdapter: NSObject, UICollectionViewDelegate, UICollec
     }
 
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        func defaultReturn() -> UICollectionReusableView { return UICollectionReusableView() }
+        func defaultReturn() -> UICollectionReusableView {
+            if kind == UICollectionView.elementKindSectionHeader {
+                return collectionView.dequeueReusableHeader(UICollectionReusableView.self, for: indexPath)
+            }
+            return collectionView.dequeueReusableFooter(UICollectionReusableView.self, for: indexPath)
+        }
 
         guard let data else { return defaultReturn() }
         let cellInfo: CVACellInfo?
@@ -738,64 +771,64 @@ extension CollectionViewAdapter: UIScrollViewDelegate {
 // MARK: - private HorizontalInfinite
 extension CollectionViewAdapter {
     func centerIfNeeded(_ collectionView: UICollectionView) {
-        var pageWidth: CGFloat = collectionView.bounds.width
-        var pageHeight: CGFloat = collectionView.bounds.height
-        var sectionInset: UIEdgeInsets = .zero
-
+        var boundsSize: CGFloat
         let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        let sectionInset: UIEdgeInsets = flowLayout?.sectionInset ?? .zero
         let minimumLineSpacing = flowLayout?.minimumLineSpacing ?? 0
-        if let flowLayout {
-            sectionInset = flowLayout.sectionInset
-
-            if pageSize > 0 {
-                if flowLayout.scrollDirection == .horizontal {
-                    pageWidth = pageSize
-                }
-                else {
-                    pageHeight = pageSize
-                }
-            }
-        }
-
-        let currentOffset = collectionView.contentOffset
+        let contentOffset: CGFloat
+        let sectionInsetPrevGap: CGFloat
+        let sectionInsetPostGap: CGFloat
+        let collectionViewContentSize: CGFloat
         if infiniteScrollDirection == .horizontal {
-            let maxWidth = ceil((collectionView.contentSize.width - sectionInset.left - sectionInset.right - (minimumLineSpacing * 2)) / 3)
-            if currentOffset.x < maxWidth + sectionInset.left {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x + maxWidth + minimumLineSpacing, y: currentOffset.y)
-                collectionView.reloadData()
-            }
-            else if currentOffset.x >= (maxWidth * 2) + sectionInset.left + minimumLineSpacing {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x - maxWidth - minimumLineSpacing, y: currentOffset.y)
-                collectionView.reloadData()
-            }
-            let index: CGFloat = (currentOffset.x + (pageWidth / 2.0) ) / pageWidth
-            if infinitePageIndex != Int(index) {
-                infinitePageIndex = Int(index)
-            }
-            let pageIndex = correctedIndex(Int(index))
-            if nowPage != pageIndex {
-                nowPage = pageIndex
-                pageIndexClosure?(collectionView, nowPage)
-            }
+            boundsSize = collectionView.bounds.width
+            contentOffset = collectionView.contentOffset.x
+            sectionInsetPrevGap = sectionInset.left
+            sectionInsetPostGap = sectionInset.right
+            collectionViewContentSize = collectionView.contentSize.width
         }
-        else if infiniteScrollDirection == .vertical {
-            let maxHeight = ceil((collectionView.contentSize.height - sectionInset.top - sectionInset.bottom - (minimumLineSpacing * 2)) / 3)
-            if currentOffset.y < maxHeight + sectionInset.top {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y + maxHeight + minimumLineSpacing)
+        else {
+            boundsSize = collectionView.bounds.height
+            contentOffset = collectionView.contentOffset.y
+            sectionInsetPrevGap = sectionInset.top
+            sectionInsetPostGap = sectionInset.bottom
+            collectionViewContentSize = collectionView.contentSize.height
+        }
+        if pageSize > 0 {
+            boundsSize = pageSize
+        }
+
+        // 레이아웃 전(contentSize·bounds 미확정) 또는 maxOffset 비정상일 때 reloadData 루프 방지
+        guard collectionViewContentSize > 0, boundsSize > 0 else { return }
+
+        let maxOffset = ceil((collectionViewContentSize - sectionInsetPrevGap - sectionInsetPostGap - (minimumLineSpacing * 2)) / 3)
+        guard maxOffset > 0 else { return }
+
+        if contentOffset < maxOffset + sectionInsetPrevGap {
+            if infiniteScrollDirection == .horizontal {
+                collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x + maxOffset + minimumLineSpacing, y: collectionView.contentOffset.y)
             }
-            else if currentOffset.y > (maxHeight * 2) + sectionInset.top + minimumLineSpacing {
-                collectionView.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y - maxHeight - minimumLineSpacing)
-                collectionView.reloadData()
+            else {
+                collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: collectionView.contentOffset.y + maxOffset + minimumLineSpacing)
             }
-            let index: CGFloat = (currentOffset.y + (pageHeight / 2.0) ) / pageHeight
-            if infinitePageIndex != Int(index) {
-                infinitePageIndex = Int(index)
+            collectionView.reloadData()
+        }
+        else if contentOffset >= (maxOffset * 2) + sectionInsetPrevGap + minimumLineSpacing {
+            if infiniteScrollDirection == .horizontal {
+                collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x - maxOffset - minimumLineSpacing, y: collectionView.contentOffset.y)
             }
-            let pageIndex = correctedIndex(Int(index))
-            if nowPage != pageIndex {
-                nowPage = pageIndex
-                pageIndexClosure?(collectionView, nowPage)
+            else {
+                collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: collectionView.contentOffset.y - maxOffset - minimumLineSpacing)
             }
+            collectionView.reloadData()
+        }
+        let index: CGFloat = (contentOffset + (boundsSize / 2.0)) / boundsSize
+        if infinitePageIndex != Int(index) {
+            infinitePageIndex = Int(index)
+        }
+        let pageIndex = correctedIndex(Int(index))
+        if nowPage != pageIndex {
+            nowPage = pageIndex
+            pageIndexClosure?(collectionView, nowPage)
         }
     }
 

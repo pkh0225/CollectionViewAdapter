@@ -229,7 +229,12 @@ extension UICollectionView {
             return self.adapter.isAutoRolling
         }
         set {
-            self.adapter.isAutoRolling = newValue
+            if UIAccessibility.isVoiceOverRunning == false {
+                self.adapter.isAutoRolling = newValue
+            }
+            else {
+                self.adapter.isAutoRolling = false
+            }
         }
     }
     public var nowPage: Int {
@@ -362,9 +367,9 @@ extension UICollectionView {
     }
 
     // StickyView Function
-    public func stickyViewReset() {
+    public func stickyViewReset(afterIndexPath: IndexPath? = nil) {
         guard let stickyVC = adapter.stickyVC else { return }
-        stickyVC.reset()
+        stickyVC.reset(afterIndexPath: afterIndexPath)
     }
 
     public func getIndexPathOfScrollY(_ x: CGFloat, _ y: CGFloat) -> IndexPath? {

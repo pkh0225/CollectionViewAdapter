@@ -21,6 +21,12 @@ public protocol UICollectionViewAdapterStickyProtocol: UIView {
     func onSticky(state: Bool)
     /// data  변경을 수종으로 처리 하고 싶을때
     func setData(data: Any?)
+    /// sticky reset 시 정리 작업 (observation 등)
+    func cleanupForStickyReset()
+}
+
+public extension UICollectionViewAdapterStickyProtocol {
+    func cleanupForStickyReset() {}
 }
 
 // MARK: - StickyViewController
@@ -132,6 +138,8 @@ public class StickyViewController: NSObject {
         for item in stickyItems.reversed() {
             let section: Int = afterIndexPath?.section ?? -1
             guard let collectionViewInSickyView = item.collectionViewInSickyView, let originalContainerView = item.stickableView, item.indexPath.section > section else { continue }
+            // 이전 스티키 뷰의 observation 등 정리
+            item.stickyProtocolView?.cleanupForStickyReset()
             collectionViewInSickyView.isHidden = true
             item.stickableViewSuperView?.addSubViewAutoLayout(originalContainerView, edgeInsets: item.stickableViewInset)
             item.stickableViewSuperView?.sendSubviewToBack(originalContainerView)
@@ -157,15 +165,12 @@ public class StickyViewController: NSObject {
         }
         if chekc {
             self.stickyItems.append(addItem)
-            self.stickyItems = self.stickyItems.sorted(by: {
-                if $0.indexPath.section < $1.indexPath.section {
-                    return true
+            self.stickyItems.sort {
+                if $0.indexPath.section != $1.indexPath.section {
+                    return $0.indexPath.section < $1.indexPath.section
                 }
-                else if $0.indexPath.row < $1.indexPath.row {
-                    return true
-                }
-                return false
-            })
+                return $0.indexPath.row < $1.indexPath.row
+            }
             self.addStickyView(collectionView: collectionView, addItem: addItem)
         }
     }

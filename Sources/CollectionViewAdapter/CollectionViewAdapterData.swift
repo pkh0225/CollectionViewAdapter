@@ -30,6 +30,7 @@ public class CollectionViewAdapterData: NSObject {
         public var cellType: CollectionViewAdapterCellProtocol.Type
         public var sizeClosure: (() -> CGSize)?
         public var actionClosure: ((_ name: String, _ object: Any?) -> Void)?
+        public var isReusable: Bool = true // 셀 재활용 여부
 
         public init(_ cellType: CollectionViewAdapterCellProtocol.Type) {
             self.cellType = cellType
@@ -133,6 +134,12 @@ extension CollectionViewAdapterData.CellInfo {
     @discardableResult
     public func actionClosure(_ actionClosure: ((_ name: String, _ object: Any?) -> Void)?) -> Self {
         self.actionClosure = actionClosure
+        return self
+    }
+
+    @discardableResult
+    public func isReusable(_ isReusable: Bool) -> Self {
+        self.isReusable = isReusable
         return self
     }
 }
