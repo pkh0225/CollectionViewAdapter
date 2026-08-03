@@ -1,0 +1,31 @@
+---
+description: iOS App Icon은 항상 Single Size(1024)로 적용
+alwaysApply: true
+---
+
+# iOS App Icon: Single Size
+
+앱 아이콘 이미지를 적용할 때는 **All Sizes가 아니라 Single Size**를 사용한다.
+
+## 규칙
+
+- `AppIcon.appiconset`에는 **1024x1024 이미지 1장만** 둔다
+- 개별 해상도(20/29/40/60/76 등) PNG를 생성·등록하지 않는다
+- `Contents.json`은 universal single-size 형식을 사용한다
+
+```json
+{
+  "images" : [
+    {
+      "filename" : "AppIcon.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+```
